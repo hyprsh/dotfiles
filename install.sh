@@ -1,0 +1,47 @@
+#!/usr/bin/env sh
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# brew
+rm -rf $HOME/.Brewfile
+cp $DOTFILES/brew/Brewfile $HOME/.Brewfile
+
+# git
+rm -rf $HOME/.gitconfig
+ln -s $DOTFILES/git/gitconfig $HOME/.gitconfig
+
+# hyperkey
+rm -rf $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
+cp $DOTFILES/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
+
+# nvim
+rm -rf $HOME/.config/nvim
+ln -s $DOTFILES/nvim $HOME/.config/nvim
+
+# scripts
+mkdir -p $HOME/.local/bin
+ln -sf $DOTFILES/scripts/t.sh $HOME/.local/bin/t
+
+# tmux
+rm -rf $HOME/.config/tmux
+ln -s $DOTFILES/tmux/ $HOME/.config/tmux
+
+# wezterm
+rm -rf $HOME/.config/wezterm
+ln -s $DOTFILES/wezterm $HOME/.config/wezterm
+
+# zsh
+rm -rf $HOME/.zshrc
+ln -s $DOTFILES/zsh/zshrc $HOME/.zshrc
+
+# amethyst
+rm ~/Library/Preferences/com.amethyst.Amethyst.plist
+cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
+
+# install brew if not installed
+if type brew &>/dev/null; then
+ NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# install software from bundlefile
+brew bundle --global --no-lock

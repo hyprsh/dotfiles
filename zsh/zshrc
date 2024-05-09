@@ -1,0 +1,30 @@
+# homebrew autocompletion
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+autoload -Uz compinit
+compinit
+
+# prompt style
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+setopt PROMPT_SUBST
+PROMPT='%9c%{%F{green}%}$(parse_git_branch)%{%F{none}%} $ '
+
+# addons
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source $(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+# fzf
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+--color=fg:#c0caf5,bg:#24283b,hl:#ff9e64 \
+--color=fg+:#c0caf5,bg+:#292e42,hl+:#ff9e64 \
+--color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
+--color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
+eval "$(fzf --zsh)"
+
+# alias
+alias vim="nvim"
+alias ls="ls --color"
+alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+alias rmhosts="rm ~/.ssh/known_hosts"
