@@ -3,6 +3,9 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 autoload -Uz compinit
 compinit
 
+# add paths
+PATH="$HOME/.local/bin:$PATH"
+
 # prompt style
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
