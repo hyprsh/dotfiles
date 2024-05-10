@@ -2,12 +2,20 @@
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# amethyst
+rm ~/Library/Preferences/com.amethyst.Amethyst.plist
+cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
+
 # brew
 rm -rf $HOME/.Brewfile
 cp $DOTFILES/brew/Brewfile $HOME/.Brewfile
+rm -rf $HOME/.config/homebrew/brew.env
+mkdir -p $HOME/.config/homebrew
+ln -s $DOTFILES/brew/brew.env $HOME/.config/homebrew/brew.env
 
 # git
 rm -rf $HOME/.gitconfig
+mkdir -p $HOME/.config/git
 ln -s $DOTFILES/git/gitconfig $HOME/.gitconfig
 
 # hyperkey
@@ -33,10 +41,6 @@ ln -s $DOTFILES/wezterm $HOME/.config/wezterm
 # zsh
 rm -rf $HOME/.zshrc
 ln -s $DOTFILES/zsh/zshrc $HOME/.zshrc
-
-# amethyst
-rm ~/Library/Preferences/com.amethyst.Amethyst.plist
-cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 
 # install brew if not installed
 if type brew &>/dev/null; then
