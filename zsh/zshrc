@@ -3,6 +3,35 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 autoload -Uz compinit
 compinit
 
+# autcomplete
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+if [[ ${COMPLETION_WAITING_DOTS:-false} != false ]]; then
+  expand-or-complete-with-dots() {
+    # use $COMPLETION_WAITING_DOTS either as toggle or as the sequence to show
+    [[ $COMPLETION_WAITING_DOTS = true ]] && COMPLETION_WAITING_DOTS="%F{red}…%f"
+    # turn off line wrapping and print prompt-expanded "dot" sequence
+    printf '\e[?7l%s\e[?7h' "${(%)COMPLETION_WAITING_DOTS}"
+    zle expand-or-complete
+    zle redisplay
+  }
+  zle -N expand-or-complete-with-dots
+  # Set the function as the default tab completion widget
+  bindkey -M emacs "^I" expand-or-complete-with-dots
+  bindkey -M viins "^I" expand-or-complete-with-dots
+  bindkey -M vicmd "^I" expand-or-complete-with-dots
+fi
+
+# automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+
 # add paths
 PATH="$HOME/.local/bin:$PATH"
 
@@ -11,7 +40,7 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 setopt PROMPT_SUBST
-PROMPT='%9c%{%F{green}%}$(parse_git_branch)%{%F{none}%} $ '
+PROMPT='%9c%{%F{green}%}$(parse_git_branch)%{%F{none}%} > '
 
 # addons
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -28,6 +57,9 @@ eval "$(fzf --zsh)"
 
 # alias
 alias vim="nvim"
+alias n="nvim"
+alias lg="lazygit"
+alias g="git"
 alias ls="ls --color"
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias rmhosts="rm ~/.ssh/known_hosts"
