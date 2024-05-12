@@ -794,7 +794,7 @@ require('lazy').setup({
     -- Optional dependencies
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     keys = {
-      { '<leader>-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+      { '\\', '<cmd>Oil<cr>', desc = 'Open parent directory' },
     },
   },
 
