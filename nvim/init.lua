@@ -444,10 +444,11 @@ require('lazy').setup({
         gopls = {},
         cssls = {},
         tsserver = {},
+        emmet_ls = {},
 
-        emmet_ls = {
-          filetypes = { 'html', 'css', 'heex', 'eelixir', 'elixir' },
-        },
+        -- emmet_ls = {
+        --   filetypes = { 'html', 'css', 'heex', 'eelixir', 'elixir' },
+        -- },
         tailwindcss = {
           filetypes = { 'css', 'html', 'elixir', 'eelixir', 'heex' },
           init_options = {
@@ -637,10 +638,10 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
-
+          -- ['<CR>'] = cmp.mapping.confirm { select = true },
+          -- ['<Tab>'] = cmp.mapping.select_next_item(),
+          -- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          --
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
