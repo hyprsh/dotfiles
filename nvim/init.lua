@@ -284,10 +284,10 @@ require('lazy').setup({
 
       vim.keymap.set('n', '<leader>a', function()
         harpoon:list():add()
-      end)
+      end, { desc = '[A]dd buffer to harpoon' })
       vim.keymap.set('n', '<C-e>', function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
-      end)
+      end, { desc = 'open harpoon buffer picker' })
 
       vim.keymap.set('n', '<C-h>', function()
         harpoon:list():select(1)
