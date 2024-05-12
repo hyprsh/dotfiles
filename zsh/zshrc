@@ -40,7 +40,7 @@ parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 setopt PROMPT_SUBST
-PROMPT='%9c%{%F{green}%}$(parse_git_branch)%{%F{none}%} > '
+PROMPT='%1d%{%F{green}%}$(parse_git_branch)%{%F{none}%} > '
 
 # addons
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
