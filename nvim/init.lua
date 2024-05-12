@@ -68,7 +68,7 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
 -- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
+--  See `:help  -- file browservim.keymap.set()`
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -750,6 +750,9 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      -- mini filebrowser
+      -- require('mini.files').setup()
+
       -- Simple and easy statusline.
       local statusline = require 'mini.statusline'
       statusline.setup { use_icons = vim.g.have_nerd_font }
@@ -766,6 +769,32 @@ require('lazy').setup({
         return ''
       end
     end,
+  },
+
+  { -- file browser
+    'stevearc/oil.nvim',
+    lazy = false,
+    opts = {
+      delete_to_trash = true,
+      preview = {
+        border = 'none',
+        win_options = {
+          winblend = 10,
+        },
+      },
+      float = {
+        border = 'none',
+        win_options = {
+          winblend = 10,
+        },
+      },
+      skip_confirm_for_simple_edits = true,
+    },
+    -- Optional dependencies
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    keys = {
+      { '<leader>-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+    },
   },
 
   { -- Highlight, edit, and navigate code
@@ -804,7 +833,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
