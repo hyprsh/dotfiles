@@ -22,6 +22,7 @@ cask "amethyst"
 cask "arc"
 cask "discord"
 cask "firefox"
+cask "font-caskaydia-cove-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "git-credential-manager"
 cask "google-chrome"
@@ -31,6 +32,7 @@ cask "microsoft-remote-desktop"
 cask "synology-drive"
 cask "visual-studio-code"
 cask "wezterm"
+mas "Bitwarden", id: 1352778147
 mas "RunCat", id: 1429033973
 mas "WireGuard", id: 1451685025
 vscode "bradlc.vscode-tailwindcss"

@@ -28,8 +28,9 @@ config.adjust_window_size_when_changing_font_size = false
 config.color_scheme = scheme_for_appearance(get_appearance())
 
 -- font
-config.font = wezterm.font("FiraCode Nerd Font")
-config.font_size = 16.0
+-- config.font = wezterm.font("FiraCode Nerd Font")
+config.font = wezterm.font("CaskaydiaCove Nerd Font")
+config.font_size = 17.0
 config.line_height = 1.4
 
 -- window
