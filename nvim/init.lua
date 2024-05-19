@@ -1,4 +1,3 @@
--- Set <space> as the leader key
 -- See `:help mapleader`
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -803,23 +802,23 @@ require('lazy').setup({
       auto_install = true,
       auto_tag = {
         enable = true,
-        filetypes = {
-          'heex',
-          'eelixir',
-          'elixir',
-          'html',
-          'javascript',
-          'typescript',
-          'javascriptreact',
-          'typescriptreact',
-          'svelte',
-          'vue',
-          'tsx',
-          'jsx',
-          'xml',
-          'php',
-          'markdown',
-        },
+        -- filetypes = {
+        --   'heex',
+        --   'eelixir',
+        --   'elixir',
+        --   'html',
+        --   'javascript',
+        --   'typescript',
+        --   'javascriptreact',
+        --   'typescriptreact',
+        --   'svelte',
+        --   'vue',
+        --   'tsx',
+        --   'jsx',
+        --   'xml',
+        --   'php',
+        --   'markdown',
+        -- },
       },
       endwise = {
         enable = true,
