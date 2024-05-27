@@ -437,8 +437,8 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        elixirls = {},
-        -- lexical = {},
+        -- elixirls = {},
+        lexical = {},
         html = {},
         gopls = {},
         cssls = {},
@@ -553,7 +553,7 @@ require('lazy').setup({
     -- optionally, override the default options:
     config = function()
       require('tailwindcss-colorizer-cmp').setup {
-        color_square_width = 2,
+        color_square_width = 1,
       }
     end,
   },
