@@ -10,22 +10,6 @@ setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt always_to_end
 
-if [[ ${COMPLETION_WAITING_DOTS:-false} != false ]]; then
-  expand-or-complete-with-dots() {
-    # use $COMPLETION_WAITING_DOTS either as toggle or as the sequence to show
-    [[ $COMPLETION_WAITING_DOTS = true ]] && COMPLETION_WAITING_DOTS="%F{red}…%f"
-    # turn off line wrapping and print prompt-expanded "dot" sequence
-    printf '\e[?7l%s\e[?7h' "${(%)COMPLETION_WAITING_DOTS}"
-    zle expand-or-complete
-    zle redisplay
-  }
-  zle -N expand-or-complete-with-dots
-  # Set the function as the default tab completion widget
-  bindkey -M emacs "^I" expand-or-complete-with-dots
-  bindkey -M viins "^I" expand-or-complete-with-dots
-  bindkey -M vicmd "^I" expand-or-complete-with-dots
-fi
-
 # automatically load bash completion functions
 autoload -U +X bashcompinit && bashcompinit
 
@@ -45,7 +29,6 @@ PROMPT='%1d%{%F{green}%}$(parse_git_branch)%{%F{none}%} > '
 # addons
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source $(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # fzf
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
@@ -63,3 +46,9 @@ alias g="git"
 alias ls="ls --color"
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias rmhosts="rm ~/.ssh/known_hosts"
+alias bat="bat --style=numbers,changes --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo tokyonight_storm || echo tokyonight_day)"
+alias cat="bat --style=plain --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo tokyonight_storm || echo tokyonight_day)"
+
+
+# zoxide
+eval "$(zoxide init zsh)"

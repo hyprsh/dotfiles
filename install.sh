@@ -6,6 +6,14 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 rm ~/Library/Preferences/com.amethyst.Amethyst.plist
 cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 
+# bat
+mkdir -p $HOME/.config/bat/themes
+curl https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_storm.tmTheme -o $HOME/.config/bat/themes/tokyonight_storm.tmTheme
+curl https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_day.tmTheme -o $HOME/.config/bat/themes/tokyonight_day.tmTheme
+bat cache --build
+bat --list-themes | grep tokyo # should output "tokyonight_night"
+echo '--theme="tokyonight_storm"' >> "$HOME/.config/bat/config"
+
 # brew
 rm -rf $HOME/.Brewfile
 cp $DOTFILES/brew/Brewfile $HOME/.Brewfile
