@@ -51,4 +51,4 @@ alias cat="bat --style=plain --theme=\$(defaults read -globalDomain AppleInterfa
 alias ls="eza --group-directories-first"
 
 # zoxide
-eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh --cmd cd)"
