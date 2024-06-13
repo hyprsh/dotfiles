@@ -33,7 +33,6 @@ ln -s $DOTFILES/brew/brew.env $HOME/.config/homebrew/brew.env
 
 # git
 rm -rf $HOME/.gitconfig
-mkdir -p $HOME/.config/git
 ln -s $DOTFILES/git/gitconfig $HOME/.gitconfig
 
 # hyperkey
