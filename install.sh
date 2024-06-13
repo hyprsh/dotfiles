@@ -9,7 +9,7 @@ ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Code" "$HOME/Code"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
 # amethyst
-rm ~/Library/Preferences/com.amethyst.Amethyst.plist
+rm $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 
 # aerospace
