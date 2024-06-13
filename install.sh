@@ -6,6 +6,11 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 rm ~/Library/Preferences/com.amethyst.Amethyst.plist
 cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 
+# aerospace
+rm -rf $HOME/.config/aerospace
+mkdir -p $HOME/.config/aerospace
+ln -s $DOTFILES/aerospace/aerospace.toml $HOME/.config/aerospace/aerospace.toml
+
 # bat
 mkdir -p $HOME/.config/bat/themes
 curl https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_storm.tmTheme -o $HOME/.config/bat/themes/tokyonight_storm.tmTheme
