@@ -14,8 +14,7 @@ cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.
 
 # aerospace
 rm -rf $HOME/.config/aerospace
-mkdir -p $HOME/.config/aerospace
-ln -s $DOTFILES/aerospace/aerospace.toml $HOME/.config/aerospace/aerospace.toml
+ln -s $DOTFILES/aerospace $HOME/.config/aerospace
 
 # bat
 mkdir -p $HOME/.config/bat/themes
