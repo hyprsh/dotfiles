@@ -40,7 +40,7 @@ config.show_new_tab_button_in_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
 -- styling
-config.inactive_pane_hsb = { brightness = 0.9 }
+config.inactive_pane_hsb = { brightness = 0.95 }
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
@@ -48,8 +48,8 @@ config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = {
 	left = "1px",
 	right = "1px",
-	top = "60px",
-	bottom = "1px",
+	top = "10px",
+	bottom = "10px",
 }
 config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
