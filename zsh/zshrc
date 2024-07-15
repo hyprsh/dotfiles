@@ -38,6 +38,9 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 eval "$(fzf --zsh)"
 
+# zoxide
+eval "$(zoxide init zsh --cmd cd)"
+
 # alias
 alias vim="nvim"
 alias n="nvim"
@@ -50,5 +53,4 @@ alias bat="bat --style=numbers,changes --theme=\$(defaults read -globalDomain Ap
 alias cat="bat --style=plain --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo tokyonight_storm || echo tokyonight_day)"
 alias ls="eza --group-directories-first"
 
-# zoxide
-eval "$(zoxide init zsh --cmd cd)"
+
