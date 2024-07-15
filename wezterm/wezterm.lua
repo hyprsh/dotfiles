@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
+local act = wezterm.action
 
--- init config
-local config = {}
+local config = wezterm.config_builder()
 
 -- automatic dark/light mode
 local function get_appearance()
@@ -36,6 +36,7 @@ config.line_height = 1.4
 -- tabbar
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = true
 config.show_new_tab_button_in_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
@@ -48,8 +49,8 @@ config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = {
 	left = "1px",
 	right = "1px",
-	top = "10px",
-	bottom = "10px",
+	top = "60px",
+	bottom = "1px",
 }
 config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
@@ -57,31 +58,43 @@ config.enable_scroll_bar = false
 -- keys
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1003 }
 config.keys = {
-	{ key = "\\", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "|", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "%", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "-", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = '"', mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
-	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-	{ key = "w", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
-	{ key = "h", mods = "LEADER", action = wezterm.action.AdjustPaneSize({ "Left", 5 }) },
-	{ key = "j", mods = "LEADER", action = wezterm.action.AdjustPaneSize({ "Down", 6 }) },
-	{ key = "k", mods = "LEADER", action = wezterm.action.AdjustPaneSize({ "Up", 5 }) },
-	{ key = "l", mods = "LEADER", action = wezterm.action.AdjustPaneSize({ "Right", 5 }) },
-	{ key = "LeftArrow", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Left") },
-	{ key = "RightArrow", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Right") },
-	{ key = "UpArrow", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Up") },
-	{ key = "DownArrow", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Down") },
+	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "|", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "%", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = '"', mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "x", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
+	{ key = "w", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "h", mods = "LEADER", action = act.AdjustPaneSize({ "Left", 5 }) },
+	{ key = "j", mods = "LEADER", action = act.AdjustPaneSize({ "Down", 6 }) },
+	{ key = "k", mods = "LEADER", action = act.AdjustPaneSize({ "Up", 5 }) },
+	{ key = "l", mods = "LEADER", action = act.AdjustPaneSize({ "Right", 5 }) },
+	{ key = "LeftArrow", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+	{ key = "RightArrow", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+	{ key = "UpArrow", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+	{ key = "DownArrow", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
 	-- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
-	{ key = "a", mods = "LEADER", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
+	{ key = "a", mods = "LEADER", action = act.SendKey({ key = "a", mods = "CTRL" }) },
+	{
+		key = ",",
+		mods = "LEADER",
+		action = act.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
 }
 for i = 1, 8 do
 	-- LEADER + number to activate that tab
 	table.insert(config.keys, {
 		key = tostring(i),
 		mods = "LEADER",
-		action = wezterm.action.ActivateTab(i - 1),
+		action = act.ActivateTab(i - 1),
 	})
 end
 
