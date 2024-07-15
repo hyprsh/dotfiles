@@ -13,7 +13,7 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "tokyonight_storm"
+		return "tokyonight_night"
 	else
 		return "tokyonight_day"
 	end
