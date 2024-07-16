@@ -25,9 +25,9 @@ bat --list-themes | grep tokyo # should output "tokyonight_night"
 echo '--theme="tokyonight_storm"' >> "$HOME/.config/bat/config"
 
 # brew
-rm -rf $HOME/.Brewfile
+rm $HOME/.Brewfile
 cp $DOTFILES/brew/Brewfile $HOME/.Brewfile
-rm -rf $HOME/.config/homebrew/brew.env
+rm $HOME/.config/homebrew/brew.env
 mkdir -p $HOME/.config/homebrew
 ln -s $DOTFILES/brew/brew.env $HOME/.config/homebrew/brew.env
 
@@ -36,7 +36,7 @@ rm -rf $HOME/.gitconfig
 ln -s $DOTFILES/git/gitconfig $HOME/.gitconfig
 
 # hyperkey
-rm -rf $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
+rm $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
 cp $DOTFILES/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
 
 # nvim
@@ -54,6 +54,10 @@ ln -s $DOTFILES/tmux/ $HOME/.config/tmux
 # wezterm
 rm -rf $HOME/.config/wezterm
 ln -s $DOTFILES/wezterm $HOME/.config/wezterm
+
+# wezterm
+rm -rf $HOME/.config/yt-dlp
+ln -s $DOTFILES/yt-dlp $HOME/.config/yt-dlp
 
 # zsh
 rm -rf $HOME/.zshrc
