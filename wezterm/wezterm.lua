@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local theme = wezterm.plugin.require("https://github.com/neapsix/wezterm")
 local act = wezterm.action
 
 local config = wezterm.config_builder()
@@ -13,9 +14,9 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "tokyonight_night"
+		return theme.main.colors()
 	else
-		return "tokyonight_day"
+		return theme.dawn.colors()
 	end
 end
 
@@ -25,7 +26,7 @@ config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
 
 -- set color_scheme
-config.color_scheme = scheme_for_appearance(get_appearance())
+config.colors = scheme_for_appearance(get_appearance())
 
 -- font
 -- config.font = wezterm.font("FiraCode Nerd Font")
@@ -65,6 +66,7 @@ config.keys = {
 	{ key = '"', mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
 	{ key = "x", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
+	{ key = "f", mods = "LEADER", action = act.TogglePaneZoomState },
 	{ key = "w", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
 	{ key = "h", mods = "LEADER", action = act.AdjustPaneSize({ "Left", 5 }) },
 	{ key = "j", mods = "LEADER", action = act.AdjustPaneSize({ "Down", 6 }) },
