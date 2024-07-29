@@ -1,5 +1,6 @@
 return {
   'folke/tokyonight.nvim',
+  enable = false,
   priority = 1000,
   opts = {
     transparent = true,
