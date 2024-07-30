@@ -3,14 +3,8 @@
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # links to iCloudDrive
-rm -r $HOME/Code
 rm -r $HOME/iCloud
-ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Code" "$HOME/Code"
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
-
-# amethyst
-rm $HOME/Library/Preferences/com.amethyst.Amethyst.plist
-cp $DOTFILES/amethyst/com.amethyst.Amethyst.plist $HOME/Library/Preferences/com.amethyst.Amethyst.plist
 
 # aerospace
 rm -rf $HOME/.config/aerospace
@@ -21,7 +15,6 @@ mkdir -p $HOME/.config/bat/themes
 curl https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_storm.tmTheme -o $HOME/.config/bat/themes/tokyonight_storm.tmTheme
 curl https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_day.tmTheme -o $HOME/.config/bat/themes/tokyonight_day.tmTheme
 bat cache --build
-bat --list-themes | grep tokyo # should output "tokyonight_night"
 echo '--theme="tokyonight_storm"' >> "$HOME/.config/bat/config"
 
 # brew
@@ -55,13 +48,16 @@ ln -s $DOTFILES/tmux/ $HOME/.config/tmux
 rm -rf $HOME/.config/wezterm
 ln -s $DOTFILES/wezterm $HOME/.config/wezterm
 
-# wezterm
+# yt-dlp
 rm -rf $HOME/.config/yt-dlp
 ln -s $DOTFILES/yt-dlp $HOME/.config/yt-dlp
 
 # zsh
 rm -rf $HOME/.zshrc
 ln -s $DOTFILES/zsh/zshrc $HOME/.zshrc
+
+# monolisa font
+cp $DOTFILES/fonts/monolisa/* $HOME/Library/Fonts
 
 # install brew if not installed
 if type brew &>/dev/null; then
