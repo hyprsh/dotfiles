@@ -36,12 +36,15 @@ systemctl enable nvidia-suspend.service
 
 # snapper
 sudo sed -i 's/subvolid=.*,//' /etc/fstab
-yay -S --noconfirm snapper-support btrfs-assistant
+yay -S --noconfirm snapper-support
 sudo umount /.snapshots
 sudo rm -r /.snapshots
+sudo btrfs subvolume delete /.snapshots
+sudo mkdir /.snapshots
+sudo mount -a
 sudo snapper -c root create-config /
-sudo snapper -c home create-config /home
 sudo snapper -c root set-config TIMELINE_CREATE=no
+sudo snapper -c home create-config /home
 
 # bash
 mv $HOME/.bashrc $HOME/.bashrc.bak
