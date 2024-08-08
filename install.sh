@@ -39,11 +39,11 @@ sudo sed -i 's/subvolid=.*,//' /etc/fstab
 yay -S --noconfirm snapper-support
 sudo umount /.snapshots
 sudo rm -r /.snapshots
+sudo snapper -c root create-config /
+sudo snapper -c root set-config TIMELINE_CREATE=no
 sudo btrfs subvolume delete /.snapshots
 sudo mkdir /.snapshots
 sudo mount -a
-sudo snapper -c root create-config /
-sudo snapper -c root set-config TIMELINE_CREATE=no
 sudo snapper -c home create-config /home
 
 # bash
@@ -87,5 +87,5 @@ fc-cache
 
 # install thunar remove dolphin
 sudo pacman -S --noconfirm thunar
-sudo pacman -Ru dolphin
+sudo pacman -Ru --noconfirm dolphin
 
