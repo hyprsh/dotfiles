@@ -1,0 +1,12 @@
+--merge-output-format mp4
+--no-overwrites
+--no-post-overwrites
+--format-sort res:720,fps,vcodec:h264,acodec:m4a
+--embed-thumbnail
+--add-metadata
+--embed-metadata
+--embed-chapters
+--windows-filenames
+--abort-on-error
+--output "%(title)+.100s - %(id)s.%(ext)s"
+
