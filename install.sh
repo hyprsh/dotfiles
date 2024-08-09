@@ -20,7 +20,7 @@ sudo sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /etc/pacman.conf
 sudo pacman -S --noconfirm --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
 
 # install essentials
-sudo pacman -S --noconfirm fish neovim reflector hyprpaper nodejs npm ripgrep duf zoxide tree bat eza fd jq procs gopls lazygit fzf github-cli
+sudo pacman -S --noconfirm fish neovim reflector hyprpaper nodejs npm ripgrep duf zoxide tree bat eza fd jq procs gopls lazygit fzf github-cli yt-dlp
 
 # configure nvidia driver
 sudo pacman -S --noconfirm libva-nvidia-driver
