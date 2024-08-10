@@ -14,7 +14,7 @@ dot() {
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/nd
 
 # install essentials
-sudo pacman -S --noconfirm --needed fish neovim reflector hyprpaper nodejs npm ripgrep duf zoxide tree bat eza fd jq procs gopls lazygit fzf github-cli yt-dlp btop man-db
+sudo pacman -S --noconfirm --needed fish neovim hyprpaper nodejs npm ripgrep duf zoxide tree bat eza fd jq procs gopls lazygit fzf github-cli yt-dlp btop man-db
 
 # install fonts
 mkdir -p ~/.local/share/fonts
