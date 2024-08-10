@@ -234,6 +234,11 @@ arch-chroot /mnt /bin/bash -e <<EOF
     mkdir /.snapshots
     mount -a
     chmod 750 /.snapshots
+
+    # install yay
+    git clone https://aur.archlinux.org/yay-bin.git
+    cd yay-bin
+    makepkg -si
 EOF
 
 ## Set user password.
