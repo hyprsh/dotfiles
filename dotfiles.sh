@@ -10,8 +10,10 @@ install() {
 }
 
 link() {
-  mv $DEST/"$1" $DEST/"$1".bak
-  ln -s $SOURCE/"$1" $DEST/"$1"
+  if ! [[ -L "$DEST"/"$1" ]]; then
+    mv $DEST/"$1" $DEST/"$1".bak
+    ln -s $SOURCE/"$1" $DEST/"$1"
+  fi
 }
 
 # sudo without pw
@@ -34,8 +36,7 @@ install btop
 link btop
 
 # chromium
-mv $DEST/chromium-flags.conf $DEST/chromium-flags.conf.bak
-ln -s $SOURCE/chromium-flags.conf $DEST/chromium-flags.conf
+link chromium-flags.conf
 
 # dunst
 install dunst libnotify
@@ -67,7 +68,7 @@ install lazygit
 link lazygit
 
 # neovim
-install neovim nodejs npm gopls
+install neovim nodejs-lts-iron npm gopls
 link nvim
 
 # qutebrowser
@@ -81,3 +82,7 @@ link wofi
 # yt-dlp
 install yt-dlp
 link yt-dlp
+
+# bitwarden-cli
+install bitwarden-cli
+bw config server https://vault.hypr.sh > /dev/null 2>&1
