@@ -5,7 +5,11 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE="$REPO/config"
 DEST="$HOME/.config"
 
-dot() {
+install() {
+  sudo pacman -S --noconfirm --needed "$1"
+}
+
+link() {
   mv $DEST/"$1" $DEST/"$1".bak
   ln -s $SOURCE/"$1" $DEST/"$1"
 }
@@ -14,7 +18,7 @@ dot() {
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/nd
 
 # install essentials
-sudo pacman -S --noconfirm --needed fish neovim hyprpaper nodejs npm ripgrep duf zoxide tree bat eza fd jq procs gopls lazygit fzf github-cli yt-dlp btop man-db
+install ripgrep duf zoxide tree bat eza fd jq procs fzf github-cli man-db
 
 # install fonts
 mkdir -p ~/.local/share/fonts
@@ -26,46 +30,54 @@ mv $HOME/.bashrc $HOME/.bashrc.bak
 ln -s $SOURCE/bash/bashrc $HOME/.bashrc
 
 # btop
-dot btop
+install btop
+link btop
 
 # chromium
 mv $DEST/chromium-flags.conf $DEST/chromium-flags.conf.bak
 ln -s $SOURCE/chromium-flags.conf $DEST/chromium-flags.conf
 
 # dunst
-sudo pacman -S --noconfirm --needed libnotify
-dot dunst
+install dunst libnotify
+link dunst
 
 # fish
-dot fish
+install fish
+link fish
 
 # gtk3/4
 yay -S --noconfirm --needed rose-pine-gtk-theme-full
 gsettings set org.gnome.desktop.interface gtk-theme \'rose-pine-gtk\'
-dot gtk-3.0
+link gtk-3.0
 
 # hyprland
-sudo pacman -S --noconfirm --needed egl-wayland polkit-gnome
-dot hypr
+install egl-wayland polkit-gnome hyprpaper
+link hypr
 
 # kitty
-dot kitty
+install kitty
+link kitty
 
 # waybar
-sudo pacman -S --noconfirm --needed waybar
-dot waybar
+install waybar
+link waybar
 
 # lazygit
-dot lazygit
+install lazygit
+link lazygit
 
 # neovim
-dot nvim
+install neovim nodejs npm gopls
+link nvim
 
 # qutebrowser
-dot qutebrowser
+install qutebrowser
+link qutebrowser
 
 # wofi
-dot wofi
+install wofi
+link wofi
 
 # yt-dlp
-dot yt-dlp
+install yt-dlp
+link yt-dlp
