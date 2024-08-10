@@ -16,7 +16,7 @@ passwd
 
 ```bash
 # download setup.sh
-curl -O https://gist.githubusercontent.com/hyprsh/c91791ee3992ad3ada648efd09858d56/raw/2ec47f984b6b038f08a0f86a8f0fa332e62e4601/setup.sh
+curl -O https://raw.githubusercontent.com/hyprsh/dotfiles-arch/main/setup.sh
 
 # edit setup vars
 nano setup.sh
