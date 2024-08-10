@@ -1,21 +1,5 @@
 # arch setup WIP
 
-Todo:
-
-- nvim
-- yt-dlp
-- git
-- bat
-- eza
-- fd
-- jq
-- fzf
-- procs
-- ripgrep
-- tree
-- zoxide
-- duf
-
 ## 1. Boot from usb
 
 > If system has nvidia gpu edit boot entry with `e` add `nomodeset` to the end of the line and hit `CTRL+X` to boot the installer.
@@ -28,42 +12,32 @@ Set a root password to ssh into the host from a remote host (control machine)
 passwd
 ```
 
-## 3. Prepare installer
-
-Run this step on the `control machine`
+## 3. Run the setup script
 
 ```bash
-# First copy the user_configuration.json to /root of the installer
-scp user_configuration.json root@10.0.0.88:
+# download setup.sh
+curl -O https://gist.githubusercontent.com/hyprsh/c91791ee3992ad3ada648efd09858d56/raw/2ec47f984b6b038f08a0f86a8f0fa332e62e4601/setup.sh
 
-# ssh into the machine
-ssh root@10.0.0.88
+# edit setup vars
+nano setup.sh
+
+# run setup
+./setup.sh
+
 ```
 
-## 4. Run archinstall
-
-Run archinstall with premade config. It will install arch onto `nvme0n1`
+## 4. reboot
 
 ```bash
-archinstall --config user_configuration.json
+reboot
 ```
 
-You need to create a user with `sudo` on your own, afterwards hit `install`.
-
-## 5. Clone dotfiles in chrooted environment
-
-After the installation is complete, `chroot` into the new system, clone the repo and run `./setup.sh`
+## 5. dotfiles
 
 ```sh
 sudo -u nd
 git clone https://github.com/hyprsh/dotfiles-arch /home/nd/.dotfiles
 cd /home/nd/.dotfiles
-./setup.sh
-```
-
-## 6. reboot
-
-```bash
-reboot
+./dotfiles.sh
 ```
 
