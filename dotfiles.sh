@@ -81,6 +81,7 @@ install yt-dlp
 link yt-dlp
 
 # zsh
+install zsh-syntax-highlighting zsh-autosuggestions
 mv $HOME/.zshrc $HOME/.zshrc.bak
 ln -s $SOURCE/zsh/zshrc $HOME/.zshrc
 sudo chsh nd -s /bin/zsh
