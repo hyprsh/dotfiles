@@ -43,8 +43,8 @@ link chromium-flags.conf
 link dunst
 
 # fish
-install fish
-link fish
+# install fish
+# link fish
 
 # gtk3/4
 yay -S --noconfirm --needed rose-pine-gtk-theme-full
@@ -79,6 +79,11 @@ link wofi
 # yt-dlp
 install yt-dlp
 link yt-dlp
+
+# zsh
+mv $HOME/.zshrc $HOME/.zshrc.bak
+ln -s $SOURCE/zsh/zshrc $HOME/.zshrc
+sudo chsh nd -s /bin/zsh
 
 # bitwarden-cli
 install bitwarden-cli

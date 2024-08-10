@@ -1,0 +1,60 @@
+# zsh completions
+autoload -Uz compinit
+compinit
+
+# autcomplete
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+# automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+
+# add paths
+PATH="$HOME/.local/bin:$PATH"
+
+# prompt style
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+setopt PROMPT_SUBST
+PROMPT='%1d%{%F{green}%}$(parse_git_branch)%{%F{none}%} » '
+
+# addons
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# fzf
+export FZF_DEFAULT_OPTS="
+	--color=fg:#908caa,bg:#191724,hl:#ebbcba
+	--color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+	--color=border:#403d52,header:#31748f,gutter:#191724
+	--color=spinner:#f6c177,info:#9ccfd8
+	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+eval "$(fzf --zsh)"
+
+# zoxide
+eval "$(zoxide init zsh --cmd cd)"
+
+# iex history
+export ELIXIR_ERL_OPTIONS="-kernel shell_history enabled"
+
+# alias
+alias vim="nvim"
+alias n="nvim"
+alias lg="lazygit"
+alias g="git"
+alias ls="ls --color"
+alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+alias rmhosts="rm ~/.ssh/known_hosts"
+alias bat="bat --style=numbers,changes --theme=base16"
+alias cat="bat --style=plain --pager=never --theme=base16"
+alias ls="eza --group-directories-first"
+alias rt="wezterm cli set-tab-title"
+
+
