@@ -5,7 +5,6 @@ set -u
 disk=/dev/nvme0n1
 username=nd
 password=Welcome0
-kernel=linux
 hostname=arch
 locale=en_GB # instead of en_US for metric units
 gpu=amd # or nvidia
