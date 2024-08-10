@@ -17,10 +17,11 @@ link() {
 }
 
 # sudo without pw
-echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/nd
+echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/"$USER"
 
 # install essentials
-install ripgrep duf zoxide tree bat eza fd jq procs fzf github-cli man-db
+install ripgrep duf zoxide tree bat eza fd jq procs fzf github-cli
+yay -S --noconfirm firefox-tridactyl firefox-tridactyl-native
 
 # install fonts
 mkdir -p ~/.local/share/fonts
@@ -39,7 +40,6 @@ link btop
 link chromium-flags.conf
 
 # dunst
-install dunst libnotify
 link dunst
 
 # fish
@@ -52,11 +52,9 @@ gsettings set org.gnome.desktop.interface gtk-theme \'rose-pine-gtk\'
 link gtk-3.0
 
 # hyprland
-install egl-wayland polkit-gnome hyprpaper
 link hypr
 
 # kitty
-install kitty
 link kitty
 
 # waybar
@@ -68,7 +66,7 @@ install lazygit
 link lazygit
 
 # neovim
-install neovim nodejs-lts-iron npm gopls
+install nodejs-lts-iron npm gopls
 link nvim
 
 # qutebrowser
@@ -76,7 +74,6 @@ install qutebrowser
 link qutebrowser
 
 # wofi
-install wofi
 link wofi
 
 # yt-dlp
