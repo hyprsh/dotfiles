@@ -52,13 +52,13 @@ You need to create a user with `sudo` on your own, afterwards hit `install`.
 
 ## 5. Clone dotfiles in chrooted environment
 
-After the installation is complete, `chroot` into the new system, clone the repo and run `./install.sh`
+After the installation is complete, `chroot` into the new system, clone the repo and run `./setup.sh`
 
 ```sh
 sudo -u nd
 git clone https://github.com/hyprsh/dotfiles-arch /home/nd/.dotfiles
 cd /home/nd/.dotfiles
-./install.sh
+./setup.sh
 ```
 
 ## 6. reboot
