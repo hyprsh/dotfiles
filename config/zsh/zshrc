@@ -18,6 +18,30 @@ zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 # add paths
 PATH="$HOME/.local/bin:$PATH"
 
+# rose-pine
+if [ "$TERM" = "linux" ]; then
+	/bin/echo -e "
+	\e]P0#191724
+	\e]P1#eb6f92
+	\e]P2#9ccfd8
+	\e]P3#f6c177
+	\e]P4#31748f
+	\e]P5#c4a7e7
+	\e]P6#ebbcba
+	\e]P7#e0def4
+	\e]P8#26233a
+	\e]P9#eb6f92
+	\e]PA#9ccfd8
+	\e]PB#f6c177
+	\e]PC#31748f
+	\e]PD#c4a7e7
+	\e]PE#ebbcba
+	\e]PF#e0def4
+	"
+	# get rid of artifacts
+	clear
+fi
+
 # prompt style
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -43,6 +67,9 @@ eval "$(zoxide init zsh --cmd cd)"
 
 # iex history
 export ELIXIR_ERL_OPTIONS="-kernel shell_history enabled"
+
+# rose-pine manpages
+source ~/.config/zsh/rose-pine-man.zsh
 
 # alias
 alias vim="nvim"
