@@ -1,4 +1,7 @@
 return {
-  -- Detect tabstop and shiftwidth automatically
-  { 'tpope/vim-fugitive' },
+  'tpope/vim-fugitive',
+  keys = {
+    { '<leader>gg', '<cmd>Git<cr>', desc = 'Open Git fugitive' },
+    { '<leader>gp', '<cmd>Git<cr>', desc = 'Run git push' },
+  },
 }
