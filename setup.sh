@@ -123,7 +123,7 @@ else
 fi
 
 # base
-pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber fwupd wget curl zsh zsh-completions git openssh unzip
+pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo
 
 echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
 sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
