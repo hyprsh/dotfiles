@@ -140,7 +140,7 @@ sed -i 's/kms //g' /mnt/etc/mkinitcpio.conf
 fi
 
 # hyprland
-pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils egl-wayland polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-panel dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland firefox ly
+pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils egl-wayland polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland firefox ly
 
 ## Generate /etc/fstab.
 output 'Generating a new fstab.'
