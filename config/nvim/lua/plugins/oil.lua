@@ -29,7 +29,8 @@ return {
       },
     },
   },
-  dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+  -- Optional dependencies
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   keys = {
     { '\\', '<cmd>Oil<cr>', desc = 'Open parent directory' },
     { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
