@@ -20,7 +20,7 @@ link() {
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/"$USER"
 
 # install essentials
-install ripgrep duf zoxide tree bat eza fd jq procs fzf github-cli
+install ripgrep duf zoxide tree eza fd jq procs fzf github-cli
 yay -S --noconfirm firefox-tridactyl firefox-tridactyl-native
 
 # install fonts
@@ -31,6 +31,11 @@ fc-cache
 # bash
 mv $HOME/.bashrc $HOME/.bashrc.bak
 ln -s $SOURCE/bash/bashrc $HOME/.bashrc
+
+# bat
+install bat
+link bat
+bat cache --build
 
 # btop
 install btop
