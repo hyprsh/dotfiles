@@ -47,8 +47,8 @@ link dunst
 # link fish
 
 # gtk3/4
+mkdir -p $HOME/.local/share/icons
 yay -S --noconfirm --needed rose-pine-gtk-theme-full
-gsettings set org.gnome.desktop.interface gtk-theme \'rose-pine-gtk\'
 link gtk-3.0
 
 # hyprland
