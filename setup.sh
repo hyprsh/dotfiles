@@ -122,7 +122,7 @@ else
     microcode=intel-ucode
 fi
 
-# base
+# base packages
 pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo
 
 echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
@@ -131,7 +131,7 @@ sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
 if [ "${gpu}" = 'amd' ]; then
     pacstrap /mnt mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver libva-utils
 elif [ "${gpu}" = 'nvidia' ]; then
-    pacstrap /mnt nvidia-dkms nvidia-utils libva-nvidia-driver
+    pacstrap /mnt nvidia-dkms nvidia-utils libva-nvidia-driver egl-wayland lib32-nvidia-utils nvidia-settings
     cat > /mnt/etc/modprobe.d/nvidia.conf <<EOF
 options nvidia_drm modeset=1 fbdev=1
 options nvidia NVreg_PreserveVideoMemoryAllocations=1
@@ -139,8 +139,15 @@ EOF
 sed -i 's/kms //g' /mnt/etc/mkinitcpio.conf
 fi
 
-# hyprland
-pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils egl-wayland polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland firefox ly
+# hyprland packages
+pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland lemurs
+
+## configure lemurs display manager
+cat > /mnt/etc/lemurs/wayland/hyprland <<EOF
+#! /bin/sh
+exec Hyprland
+EOF
+chmod 755 /mnt/etc/lemurs/wayland/hyprland
 
 ## Generate /etc/fstab.
 output 'Generating a new fstab.'
@@ -255,7 +262,7 @@ systemctl enable reflector.timer --root=/mnt
 systemctl enable snapper-timeline.timer --root=/mnt
 systemctl enable snapper-cleanup.timer --root=/mnt
 systemctl enable systemd-oomd --root=/mnt
-systemctl enable ly --root=/mnt
+systemctl enable lemurs --root=/mnt
 systemctl enable NetworkManager --root=/mnt
 systemctl enable systemd-resolved --root=/mnt
 systemctl enable sshd --root=/mnt
