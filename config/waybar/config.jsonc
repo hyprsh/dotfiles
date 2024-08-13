@@ -2,7 +2,7 @@
 {
     "layer": "bottom",
     "position": "top",
-    "height": 30,
+    "height": 31,
     "margin": "0 0 0 0",
     "spacing": 0,
     "modules-left": [
@@ -74,14 +74,12 @@
     },
     "pulseaudio": {
         "scroll-step": 3, // %, can be a float
-        "format": "{icon} {volume}%",
+        "format": "{format_source}  {icon} {volume}%",
         "format-bluetooth": "{icon} {volume}% ",
         "format-bluetooth-muted": "{icon} ",
-        "format-muted": "",
-        //"format-source": "{volume}% ",
-        //"format-source-muted": "",
-        //"format-source": "",
-        //"format-source-muted": "",
+        "format-muted": " ",
+        "format-source": "",
+        "format-source-muted": " ",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -91,7 +89,7 @@
             "car": "",
             "default": ["", "", ""]
         },
-        //"on-click": "pavucontrol",
-        //"on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
     },
 }
