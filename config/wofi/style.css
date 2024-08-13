@@ -1,1 +1,59 @@
-rose-pine.css
+window {
+    margin: 0px;
+    background-color: #191724;
+    border-radius: 5px;
+    border: 1px solid #ebbcba;
+    color: #ebbcba;
+    font-family: 'Mono Lisa Nerd Font';
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+#input {
+    margin: 5px;
+    border-radius: 0px;
+    border: none;
+    color: #ebbcba;
+    background-color: #191724;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #191724;
+    color: #191724;
+    border-radius: 0px;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #191724;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 3px;
+    border: none;
+    color: #e0def4;
+}
+
+#entry:selected {
+    background-color: #ebbcba;
+    color: #191724;
+    border-radius: 0px;
+    ;
+    outline: none;
+}
+
+#entry:selected * {
+    background-color: #ebbcba;
+    color: #191724;
+    border-radius: 0px;
+    ;
+    outline: none;
+}
