@@ -123,7 +123,7 @@ else
 fi
 
 # base packages
-pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo
+pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo bluez bluez-utils blueman
 
 echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
 sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
@@ -264,6 +264,7 @@ systemctl enable snapper-cleanup.timer --root=/mnt
 systemctl enable systemd-oomd --root=/mnt
 systemctl enable lemurs --root=/mnt
 systemctl enable NetworkManager --root=/mnt
+systemctl enable bluetooth --root=/mnt
 systemctl enable systemd-resolved --root=/mnt
 systemctl enable sshd --root=/mnt
 
