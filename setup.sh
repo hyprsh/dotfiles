@@ -122,7 +122,7 @@ else
 fi
 
 # base packages
-pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo bluez bluez-utils blueman
+pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo bluez bluez-utils blueman iwd
 
 echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
 sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
@@ -131,14 +131,7 @@ sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
 pacstrap /mnt mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver libva-utils
 
 # hyprland packages
-pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland lemurs
-
-## configure lemurs display manager
-cat > /mnt/etc/lemurs/wayland/hyprland <<EOF
-#! /bin/sh
-exec Hyprland
-EOF
-chmod 755 /mnt/etc/lemurs/wayland/hyprland
+pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland ly
 
 ## Generate /etc/fstab.
 output 'Generating a new fstab.'
@@ -253,7 +246,7 @@ systemctl enable reflector.timer --root=/mnt
 systemctl enable snapper-timeline.timer --root=/mnt
 systemctl enable snapper-cleanup.timer --root=/mnt
 systemctl enable systemd-oomd --root=/mnt
-systemctl enable lemurs --root=/mnt
+systemctl enable ly --root=/mnt
 systemctl enable NetworkManager --root=/mnt
 systemctl enable bluetooth --root=/mnt
 systemctl enable systemd-resolved --root=/mnt
