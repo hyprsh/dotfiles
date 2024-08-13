@@ -7,7 +7,6 @@ username=nd
 password=Welcome0
 hostname=arch
 locale=en_GB # instead of en_US for metric units
-gpu=amd # or nvidia
 kblayout=us
 
 # Installation
@@ -128,16 +127,8 @@ pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inot
 echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
 sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
 
-if [ "${gpu}" = 'amd' ]; then
-    pacstrap /mnt mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver libva-utils
-elif [ "${gpu}" = 'nvidia' ]; then
-    pacstrap /mnt nvidia-dkms nvidia-utils libva-nvidia-driver egl-wayland lib32-nvidia-utils nvidia-settings
-    cat > /mnt/etc/modprobe.d/nvidia.conf <<EOF
-options nvidia_drm modeset=1 fbdev=1
-options nvidia NVreg_PreserveVideoMemoryAllocations=1
-EOF
-sed -i 's/kms //g' /mnt/etc/mkinitcpio.conf
-fi
+# amdgpu
+pacstrap /mnt mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver libva-utils
 
 # hyprland packages
 pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland lemurs
@@ -268,8 +259,3 @@ systemctl enable bluetooth --root=/mnt
 systemctl enable systemd-resolved --root=/mnt
 systemctl enable sshd --root=/mnt
 
-if [ "${gpu}" = 'nvidia' ]; then
-systemctl enable nvidia-resume.service --root=/mnt
-systemctl enable nvidia-hibernate.service --root=/mnt
-systemctl enable nvidia-suspend.service --root=/mnt
-fi
