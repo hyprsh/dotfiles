@@ -1,254 +1,130 @@
+
 #!/bin/bash
 
-set -u
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE="$REPO/config"
+DEST="$HOME/.config"
 
-disk=/dev/nvme0n1
-username=nd
-password=Welcome0
-hostname=arch
-locale=en_GB # instead of en_US for metric units
-kblayout=us
+install() {
+  rpm-ostree install --apply-live --assumeyes $1
+}
 
-# Installation
+link() {
+  if ! [[ -L "$DEST"/"$1" ]]; then
+    mv $DEST/"$1" $DEST/"$1".bak
+    ln -s $SOURCE/"$1" $DEST/"$1"
+  fi
+}
 
-## Updating the live environment usually causes more problems than its worth, and quite often can't be done without remounting cowspace with more capacity, especially at the end of any given month.
-pacman -Sy
+# sudo without pw
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/wheel
 
-## Installing curl
-pacman -S --noconfirm curl
+# setup automatic updates
+# none  - disabled
+# check - display updates in `rpm-ostree status`
+# stage - download, unpack and finalize after manual reboot
+# apply - same as stage but with automatic reboot
+sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm-ostreed.conf
+sudo systemctl reload rpm-ostreed
+sudo systemctl enable rpm-ostreed-automatic.timer --now
 
-## Wipe the disk
-sgdisk --zap-all "${disk}"
+# add flatpak remotes, update apps
+flatpak remote-add --if-not-exists fedora oci+https://registry.fedoraproject.org
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+flatpak update --appstream
+flatpak update
 
-## Creating a new partition scheme.
-output "Creating new partition scheme on ${disk}."
-sgdisk -g "${disk}"
-sgdisk -I -n 1:0:+512M -t 1:ef00 -c 1:'ESP' "${disk}"
-sgdisk -I -n 2:0:0 -c 2:'rootfs' "${disk}"
 
-ESP='/dev/disk/by-partlabel/ESP'
-BTRFS='/dev/disk/by-partlabel/rootfs'
+# install essentials
+# install ripgrep duf zoxide tree eza fd jq procs fzf github-cli
 
-## Informing the Kernel of the changes.
-output 'Informing the Kernel about the disk changes.'
-partprobe "${disk}"
+# install system pkgs
+rpm-ostree install --assumeyes \
+	kitty \
+	distrobox
 
-## Formatting the ESP as FAT32.
-output 'Formatting the EFI Partition as FAT32.'
-mkfs.fat -F 32 -s 2 "${ESP}"
+# neovim? or use distrobox -> neovim?
 
-## Formatting the partition as BTRFS.
-output 'Formatting the rootfs as BTRFS.'
-mkfs.btrfs "${BTRFS}"
-mount "${BTRFS}" /mnt
+# override silverblue default firefox, as we use flatpak for this
+rpm-ostree override remove firefox firefox-langpacks
 
-## Creating BTRFS subvolumes.
-output 'Creating BTRFS subvolumes.'
+# install flatpak pkgs
+flatpak install flathub --assumeyes --noninteractive \
+	org.mozilla.firefox \
+	com.mattjakeman.ExtensionManager
 
-btrfs su cr /mnt/@
-btrfs su cr /mnt/@/.snapshots
-mkdir -p /mnt/@/.snapshots/1
-btrfs su cr /mnt/@/.snapshots/1/snapshot
-btrfs su cr /mnt/@/boot/
-btrfs su cr /mnt/@/home
-btrfs su cr /mnt/@/root
-btrfs su cr /mnt/@/srv
-btrfs su cr /mnt/@/var_log
-btrfs su cr /mnt/@/var_crash
-btrfs su cr /mnt/@/var_cache
-btrfs su cr /mnt/@/var_tmp
-btrfs su cr /mnt/@/var_spool
-btrfs su cr /mnt/@/var_lib_libvirt_images
-btrfs su cr /mnt/@/var_lib_machines
+# install fonts
+mkdir -p ~/.local/share/fonts
+cp fonts/* ~/.local/share/fonts
+fc-cache
 
-## Disable CoW on subvols we are not taking snapshots of
-chattr +C /mnt/@/boot
-chattr +C /mnt/@/home
-chattr +C /mnt/@/root
-chattr +C /mnt/@/srv
-chattr +C /mnt/@/var_log
-chattr +C /mnt/@/var_crash
-chattr +C /mnt/@/var_cache
-chattr +C /mnt/@/var_tmp
-chattr +C /mnt/@/var_spool
-chattr +C /mnt/@/var_lib_libvirt_ima
+# gnome settings
+# dcomp blabla
 
-## Set the default BTRFS Subvol to Snapshot 1 before pacstrapping
-btrfs subvolume set-default "$(btrfs subvolume list /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+')" /mnt
+# bash
+# mv $HOME/.bashrc $HOME/.bashrc.bak
+# ln -s $SOURCE/bash/bashrc $HOME/.bashrc
 
-cat > /mnt/@/.snapshots/1/info.xml <<EOF
-<?xml version=\"1.0\"?>
-<snapshot>
-  <type>single</type>
-  <num>1</num>
-  <date>${installation_date}</date>
-  <description>First Root Filesystem</description>
-  <cleanup>number</cleanup>
-</snapshot>
-EOF
+# bat
+# install bat
+# link bat
+# bat cache --build
 
-chmod 600 /mnt/@/.snapshots/1/info.xml
+# btop
+# install btop
+# link btop
 
-## Mounting the newly created subvolumes.
-umount /mnt
-output 'Mounting the newly created subvolumes.'
-mount -o ssd,noatime,compress=zstd "${BTRFS}" /mnt
-mkdir -p /mnt/{boot,root,home,.snapshots,srv,tmp,var/log,var/crash,var/cache,var/tmp,var/spool,var/lib/libvirt/images,var/lib/machines}
+# chromium
+# link chromium-flags.conf
 
-mount -o noatime,compress=zstd,subvol=@/boot "${BTRFS}" /mnt/boot
-mount -o noatime,compress=zstd,subvol=@/root "${BTRFS}" /mnt/root
-mount -o noatime,compress=zstd,subvol=@/home "${BTRFS}" /mnt/home
-mount -o noatime,compress=zstd,subvol=@/.snapshots "${BTRFS}" /mnt/.snapshots
-mount -o noatime,compress=zstd,subvol=@/srv "${BTRFS}" /mnt/srv
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_log "${BTRFS}" /mnt/var/log
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_crash "${BTRFS}" /mnt/var/crash
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_cache "${BTRFS}" /mnt/var/cache
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_tmp "${BTRFS}" /mnt/var/tmp
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_spool "${BTRFS}" /mnt/var/spool
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_lib_libvirt_images "${BTRFS}" /mnt/var/lib/libvirt/images
-mount -o noatime,compress=zstd,nodatacow,subvol=@/var_lib_machines "${BTRFS}" /mnt/var/lib/machines
+# dunst
+# link dunst
 
-mkdir -p /mnt/boot/efi
-mount "${ESP}" /mnt/boot/efi
+# fish
+# install fish
+# link fish
 
-## Pacstrap
-output 'Installing the base system (it may take a while).'
+# gtk3/4
+# mkdir -p $HOME/.local/share/icons
+# yay -S --noconfirm --needed rose-pine-gtk-theme-full
+# link gtk-3.0
 
-CPU=$(grep vendor_id /proc/cpuinfo)
-if [[ "${CPU}" == *"AuthenticAMD"* ]]; then
-    microcode=amd-ucode
-else
-    microcode=intel-ucode
-fi
+# hyprland
+# link hypr
 
-# base packages
-pacstrap /mnt apparmor base base-devel efibootmgr firewalld grub grub-btrfs inotify-tools linux-firmware linux nano reflector sbctl snapper snap-pac sudo zram-generator "${microcode}" neovim networkmanager flatpak pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol fwupd wget curl zsh zsh-completions git openssh unzip man-db man-pages texinfo bluez bluez-utils blueman iwd
+# kitty
+link kitty
 
-echo 'UriSchemes=file;https' >> /mnt/etc/fwupd/fwupd.conf
-sed -i -e '/Color/s/^#*//' -e '/ParallelDownloads/s/^#*//' /mnt/etc/pacman.conf
+# waybar
+# install waybar
+# link waybar
 
-# amdgpu
-pacstrap /mnt mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver libva-utils
+# lazygit
+# install lazygit
+# link lazygit
 
-# hyprland packages
-pacstrap /mnt xdg-desktop-portal-hyprland xdg-utils polkit-gnome hyprland hyprpaper hyprlock hypridle nwg-look dunst wofi grim slurp thunar cliphist kitty qt5-wayland qt6-wayland ly
+# neovim
+# install nodejs-lts-iron npm gopls
+# link nvim
 
-## Generate /etc/fstab.
-output 'Generating a new fstab.'
-genfstab -U /mnt >> /mnt/etc/fstab
-sed -i 's#,subvolid=258,subvol=/@/.snapshots/1/snapshot,subvol=@/.snapshots/1/snapshot##g' /mnt/etc/fstab
+# qutebrowser
+# install qutebrowser
+# link qutebrowser
 
-output 'Setting up hostname, locale and keyboard layout'
+# wofi
+# link wofi
 
-## Set hostname.
-echo "$hostname" > /mnt/etc/hostname
+# yt-dlp
+# install yt-dlp
+# link yt-dlp
 
-## Setting hosts file.
-echo 'Setting hosts file.'
-echo "127.0.0.1   localhost
-::1         localhost
-127.0.1.1   $hostname.localdomain   $hostname" > /mnt/etc/hosts
+# zsh
+# install zsh-syntax-highlighting zsh-autosuggestions
+# mv $HOME/.zshrc $HOME/.zshrc.bak
+# ln -s $SOURCE/zsh/zshrc $HOME/.zshrc
+# sudo chsh nd -s /bin/zsh
 
-## Setup locales.
-echo "$locale.UTF-8 UTF-8"  > /mnt/etc/locale.gen
-echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
-
-## Setup keyboard layout.
-echo "KEYMAP=$kblayout" > /mnt/etc/vconsole.conf
-
-## Configure /etc/mkinitcpio.conf
-sed -i 's/#COMPRESSION="zstd"/COMPRESSION="zstd"/g' /mnt/etc/mkinitcpio.conf
-sed -i 's/^MODULES=.*/MODULES=(btrfs)/g' /mnt/etc/mkinitcpio.conf
-
-## Configure grub
-sed -i 's/GRUB_GFXMODE=.*/GRUB_GFXMODE=1280x720x32,auto/g' /mnt/etc/default/grub
-sed -i 's/ part_msdos//g' /mnt/etc/default/grub
-cat >> /mnt/etc/default/grub <<EOF
-
-GRUB_BTRFS_OVERRIDE_BOOT_PARTITION_DETECTION=true
-EOF
-
-# Disable root subvol pinning. !IMPORTANT!
-sed -i 's/rootflags=subvol=${rootsubvol}//g' /mnt/etc/grub.d/10_linux
-
-cat > /mnt/etc/systemd/zram-generator.conf <<EOF
-[zram0]
-zram-fraction = 1
-max-zram-size = 8192
-compression-algorithm = zstd
-EOF
-
-## Configuring the system.
-arch-chroot /mnt /bin/bash -e <<EOF
-
-    # Setting up timezone
-    # Temporarily hardcoding here
-    ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime
-
-    # Setting up clock
-    hwclock --systohc
-
-    # Generating locales
-    locale-gen
-
-    # Create SecureBoot keys
-    # This isn't strictly necessary, but linux-hardened preset expects it and mkinitcpio will fail without it
-    # sbctl create-keys
-
-    # Generating a new initramfs
-    chmod 600 /boot/initramfs-linux*
-    mkinitcpio -P
-
-    # Installing GRUB
-    grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --disable-shim-lock
-
-    # Creating grub config file
-    grub-mkconfig -o /boot/grub/grub.cfg
-
-    # Adding user with sudo privilege
-    useradd -m $username
-    usermod -aG wheel $username
-
-    # Setting up dconf
-    dconf update
-
-    # Use systemd-resolved for DNS resolution
-    rm /etc/resolv.conf
-    ln -s /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
-    # Snapper configuration
-    umount /.snapshots
-    rm -r /.snapshots
-    snapper --no-dbus -c root create-config /
-    btrfs subvolume delete /.snapshots
-    mkdir /.snapshots
-    mount -a
-    chmod 750 /.snapshots
-
-    # install yay
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd yay-bin
-    makepkg -si
-EOF
-
-## Set user password.
-[ -n "$username" ] && echo "Setting user password for ${username}." && echo -e "${user_password}\n${user_password}" | arch-chroot /mnt passwd "$username"
-
-## Give wheel user sudo access.
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/g' /mnt/etc/sudoers
-
-## Enable services
-systemctl enable apparmor --root=/mnt
-systemctl enable firewalld --root=/mnt
-systemctl enable fstrim.timer --root=/mnt
-systemctl enable grub-btrfsd.service --root=/mnt
-systemctl enable reflector.timer --root=/mnt
-systemctl enable snapper-timeline.timer --root=/mnt
-systemctl enable snapper-cleanup.timer --root=/mnt
-systemctl enable systemd-oomd --root=/mnt
-systemctl enable ly --root=/mnt
-systemctl enable NetworkManager --root=/mnt
-systemctl enable bluetooth --root=/mnt
-systemctl enable systemd-resolved --root=/mnt
-systemctl enable sshd --root=/mnt
-
+# bitwarden-cli
+# install bitwarden-cli
+# bw config server https://vault.hypr.sh > /dev/null 2>&1
