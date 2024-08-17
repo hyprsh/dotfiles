@@ -1,29 +1,24 @@
-# arch setup WIP
+# fedora silverblue setup WIP
 
-## 1. Boot from usb
-
-> If system has nvidia gpu edit boot entry with `e` add `nomodeset` to the end of the line and hit `CTRL+X` to boot the installer.
-
-## 2. Set root password
-
-Set a root password to ssh into the host from a remote host (control machine)
+## 1. Prepare media and run installation
 
 ```bash
-passwd
+# download and flash to usb
+curl https://download.fedoraproject.org/pub/fedora/linux/releases/40/Silverblue/x86_64/iso/Fedora-Silverblue-ostree-x86_64-40-1.14.iso -O
+dd if=Fedora-Silverblue-ostree-x86_64-40-1.14.iso of=/dev/sdX bs=8M status=progress oflag=direct
 ```
+
+Afterwards boot from media and install silverblue.
+
 
 ## 3. Run the setup script
 
 ```bash
-# download setup.sh
-curl -O https://raw.githubusercontent.com/hyprsh/dotfiles-arch/main/setup.sh
-
-# edit setup vars
-nano setup.sh
-
-# run setup
+git clone https://github.com/hyprsh/dotfiles-arch && cd .dotfiles
 ./setup.sh
 
+# run setup.sh
+./setup.sh
 ```
 
 ## 4. reboot
@@ -32,12 +27,12 @@ nano setup.sh
 reboot
 ```
 
-## 5. dotfiles
+## 5. Post setup
 
 ```sh
-sudo -u nd
-git clone https://github.com/hyprsh/dotfiles-arch /home/nd/.dotfiles
-cd /home/nd/.dotfiles
-./dotfiles.sh
+cd .dotfiles
+./setup.sh setup-gnome
+./setup.sh enable-extensions
+./setup.sh setup-dotfiles
+./setup.sh setup-toolbox
 ```
-
