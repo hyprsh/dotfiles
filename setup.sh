@@ -17,6 +17,7 @@ EXT_LIST=(
 )
 
 install() {
+	rpm-ostree upgrade
 	# sudo without pw
 	echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/wheel
 
