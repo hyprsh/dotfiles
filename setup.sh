@@ -40,6 +40,8 @@ install() {
 	# install system pkgs
 	rpm-ostree install --assumeyes \
 		alacritty \
+		gnome-tweaks \
+		steam-devices \
 		btop
 
 	# override silverblue default firefox, as we use flatpak for this
@@ -50,8 +52,8 @@ install() {
 		org.mozilla.firefox \
 
 	# install fonts
-	mkdir -p ~/.local/share/fonts
-	cp fonts/* ~/.local/share/fonts
+	mkdir -p $HOME/.local/share/fonts
+	cp fonts/* $HOME/.local/share/fonts
 	fc-cache
 
 	# install extensions
