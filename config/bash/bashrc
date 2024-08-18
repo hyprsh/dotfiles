@@ -1,0 +1,67 @@
+# .bashrc
+# inspired by: https://bluz71.github.io/2023/06/02/maximize-productivity-of-the-bash-shell.html
+
+# env
+export EDITOR=nvim
+export PROMPT_DIRTRIM=2
+
+# prompt
+toolbox_or_not() {
+    HN=$(hostname)
+    if [ $HN != "toolbox" ]; then
+        echo "[!!]\[\033[38;5;094m\]"
+    fi
+}
+export PS1="\[\033[1;37m\]$(toolbox_or_not)\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
+export PS1="\[\e]0;\w\a\]$PS1"
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Use bash-completion, if available
+# [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+#     . /usr/share/bash-completion/bash_completion
+
+#  - autocd - change directory without entering the 'cd' command
+#  - cdspell - automatically fix directory typos when changing directory
+#  - direxpand - automatically expand directory globs when completing
+#  - dirspell - automatically fix directory typos when completing
+#  - globstar - ** recursive glob
+#  - histappend - append to history, don't overwrite
+#  - histverify - expand, but don't automatically execute, history expansions
+#  - nocaseglob - case-insensitive globbing
+#  - no_empty_cmd_completion - do not TAB expand empty lines
+shopt -s autocd cdspell direxpand dirspell globstar histappend histverify \
+    nocaseglob no_empty_cmd_completion
+
+# History
+HISTCONTROL=ignoreboth:erasedups # Ignore and erase duplicates
+HISTIGNORE=?:??                  # Ignore one and two letter commands
+HISTFILESIZE=99999               # Max size of history file
+HISTSIZE=99999                   # Amount of history to preserve
+PROMPT_COMMAND="history -a; history -n"
+
+# alias
+t() {
+    if [ -n "$1" ]; then
+        toolbox run -c t "$1"
+    fi
+}
+alias tt='toolbox enter t'
+alias n='nvim'
+alias vim='nvim'
+alias g='git'
+alias d='docker'
+
+# Compression
+compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+alias decompress="tar -xzf"
+

@@ -41,8 +41,7 @@ install() {
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		steam-devices \
-		btop
+		steam-devices
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
@@ -81,8 +80,8 @@ setup_dotfiles() {
 
 install_toolbox() {
 	# create toolbox
-	toolbox create
-	toolbox run sudo dnf install --assumeyes -q \
+	toolbox create t
+	toolbox run -c t sudo dnf install --assumeyes -q \
 		zsh \
 		zsh-syntax-highlighting \
 		zsh-autosuggestions \
