@@ -118,7 +118,8 @@ setup_extensions() {
 
 setup_gnome() {
 	dconf reset -f /
-	dconf load / < gnome.dconf
+	dconf load / < config/gnome.dconf
+	cp applications/* $HOME/.local/share/applications/
 }
 
 setup_gaming() {
