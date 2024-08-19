@@ -27,7 +27,6 @@ setup_system() {
 	# stage - download, unpack and finalize after manual reboot
 	# apply - same as stage but with automatic reboot
 	sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm-ostreed.conf
-	sudo systemctl reload rpm-ostreed
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 	# add flatpak remotes, update apps
