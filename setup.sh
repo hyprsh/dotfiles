@@ -106,7 +106,7 @@ enable_extensions() {
 }
 
 setup_gnome() {
-	dconf reset -f /
+	# dconf reset -f /
 	dconf load / < config/gnome.dconf
 	cp applications/* $HOME/.local/share/applications/
 }
