@@ -67,7 +67,6 @@ setup_dotfiles() {
 	rm -rf $SRC/nvim && ln -s $SRC/nvim $DST/nvim
 	rm -rf $SRC/tmux && ln -s $SRC/tmux $DST/tmux
 	rm -rf $SRC/yt-dlp && ln -s $SRC/yt-dlp $DST/yt-dlp
-	bat cache --build
 }
 
 setup_toolbox() {
