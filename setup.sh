@@ -58,8 +58,6 @@ setup_system() {
 	mkdir -p $HOME/.local/share/fonts
 	cp fonts/* $HOME/.local/share/fonts
 	fc-cache
-
-
 }
 
 setup_dotfiles() {
@@ -138,6 +136,8 @@ run_setup() {
 	setup_gnome
 	echo "Setting up extensions..."
 	setup_extensions
+	echo "Setting up dotfiles..."
+	setup_dotfiles
 
 	# finish
 	echo "Setup finished!"
