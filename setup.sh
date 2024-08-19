@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 SRC="$(pwd)/config"
@@ -60,32 +59,20 @@ setup_system() {
 	cp fonts/* $HOME/.local/share/fonts
 	fc-cache
 
-	setup_dotfiles
-	setup_extensions
-	setup_toolbox
-	setup_gnome
 
-	# finish
-	echo "Setup finished!"
-	echo ""
-	echo "now reboot your system."
-	echo "finalize gnome setup: ~/.dotfiles/setup.sh setup-gnome"
-	echo "finalize toolbox setup: ~/.dotfiles/setup.sh setup-toolbox";
-	echo "finalize gaming setup: ~/.dotfiles/setup.sh setup-gaming";
 }
 
 setup_dotfiles() {
-	rm -f $HOME/.bashrc $HOME/.bashrc.bak $HOME/.inputrc
-	ln -s $SRC/bash/bashrc $HOME/.bashrc
-	ln -s $SRC/bash/inputrc $HOME/.inputrc
-	link alacritty
-	link bat
+	rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
+	rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
+	rm -rf $SRC/alacritty && ln -s $SRC/alacritty $DST/alacritty
+	rm -rf $SRC/bat && ln -s $SRC/bat $DST/bat
+	rm -rf $SRC/btop && ln -s $SRC/btop $DST/btop
+	rm -rf $SRC/lazygit && ln -s $SRC/lazygit $DST/lazygit
+	rm -rf $SRC/nvim && ln -s $SRC/nvim $DST/nvim
+	rm -rf $SRC/tmux && ln -s $SRC/tmux $DST/tmux
+	rm -rf $SRC/yt-dlp && ln -s $SRC/yt-dlp $DST/yt-dlp
 	bat cache --build
-	link btop
-	link lazygit
-	link nvim
-	link tmux
-	link yt-dlp
 }
 
 setup_toolbox() {
@@ -100,6 +87,7 @@ setup_toolbox() {
 		zoxide \
 		fd \
 		procs \
+		lazygit \
 		fzf \
 		gh
 }
@@ -114,21 +102,14 @@ setup_extensions() {
 		wget -O "${i}".zip "https://extensions.gnome.org/download-extension/${i}.shell-extension.zip?version_tag=$VERSION_TAG"
 		gnome-extensions install --force "${i}".zip
 		rm ${i}.zip
+		gnome-extensions enable "${i}"
 	done
 }
 
 setup_gnome() {
-	enable_extensions
 	dconf reset -f /
 	dconf load / < config/gnome.dconf
 	cp applications/* $HOME/.local/share/applications/
-}
-
-enable_extensions() {
-	for i in "${EXT_LIST[@]}"
-	do
-		gnome-extensions enable "${i}"
-	done
 }
 
 setup_gaming() {
@@ -142,23 +123,32 @@ setup_gaming() {
 	com.valvesoftware.Steam.CompatibilityTool.Proton-GE \
 	org.freedesktop.Platform.VulkanLayer.MangoHud \
 	org.freedesktop.Platform.VulkanLayer.vkBasalt \
+	com.usebottles.bottles \
 	com.heroicgameslauncher.hgl \
 	net.lutris.Lutris
+	echo "Setup gaming finished, now reboot."
 }
 
-link() {
-    rm -r $DST/"$1"
-    ln -s $SRC/"$1" $DST/"$1"
+run_setup() {
+	echo "Setting up system..."
+	setup_system
+	echo "Setting up toolbox..."
+	setup_toolbox
+	echo "Setting up gnome..."
+	setup_gnome
+	echo "Setting up extensions..."
+	setup_extensions
+
+	# finish
+	echo "Setup finished!"
+	echo ""
+	echo "now reboot your system."
+	echo "gaming setup: setup.sh gaming";
 }
 
 case "$1" in
-	system) setup_system;;
-	extensions) setup_extensions;;
-	gnome) setup_gnome;;
-	dotfiles) setup_dotfiles;;
-	toolbox) setup_toolbox;;
+	system) run_setup;;
 	gaming) setup_gaming;;
-	enable-extensions) enable_extensions;;
-	*) echo "usage: setup.sh system, extensions, dotfiles, toolbox, gnome, gaming, enable-extensions";;
+	*) echo "usage: setup.sh <system|gaming>";;
 esac
 
