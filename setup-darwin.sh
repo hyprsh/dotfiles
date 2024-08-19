@@ -40,8 +40,8 @@ cp $DOTFILES/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com
 mkdir -p $HOME/.local/bin
 ln -sf scripts/t.sh $HOME/.local/bin/t
 
-# monolisa font
-cp fonts/monolisa/* $HOME/Library/Fonts
+# install fonts
+cp fonts/* $HOME/Library/Fonts
 
 
 # install software from bundlefile
