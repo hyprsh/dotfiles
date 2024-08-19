@@ -69,9 +69,9 @@ setup_system() {
 	echo "Setup finished!"
 	echo ""
 	echo "now reboot your system."
-	echo "enable gnome shell extensions with: ~/.dotfiles/setup.sh enable-extensions"
-	echo "configure gnome: ~/.dotfiles/setup.sh setup-gnome"
-	echo "setup toolbox with: ~/.dotfiles/setup.sh setup-toolbox";
+	echo "finalize gnome setup: ~/.dotfiles/setup.sh setup-gnome"
+	echo "finalize toolbox setup: ~/.dotfiles/setup.sh setup-toolbox";
+	echo "finalize gaming setup: ~/.dotfiles/setup.sh setup-gaming";
 }
 
 setup_dotfiles() {
