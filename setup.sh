@@ -66,7 +66,6 @@ setup_dotfiles() {
 	rm -rf $SRC/alacritty && ln -s $SRC/alacritty $DST/alacritty
 	rm -rf $SRC/bat && ln -s $SRC/bat $DST/bat
 	rm -rf $SRC/btop && ln -s $SRC/btop $DST/btop
-	rm -rf $SRC/lazygit && ln -s $SRC/lazygit $DST/lazygit
 	rm -rf $SRC/nvim && ln -s $SRC/nvim $DST/nvim
 	rm -rf $SRC/tmux && ln -s $SRC/tmux $DST/tmux
 	rm -rf $SRC/yt-dlp && ln -s $SRC/yt-dlp $DST/yt-dlp
