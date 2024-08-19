@@ -1,18 +1,12 @@
 # .bashrc
-# inspired by: https://bluz71.github.io/2023/06/02/maximize-productivity-of-the-bash-shell.html
 
 # env
 export EDITOR=nvim
 export PROMPT_DIRTRIM=2
 
 # prompt
-toolbox_or_not() {
-    HN=$(hostname)
-    if [ $HN != "toolbox" ]; then
-        echo "[!!]\[\033[38;5;094m\]"
-    fi
-}
-export PS1="\[\033[1;37m\]$(toolbox_or_not)\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
+export PS1="\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
+[ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
 export PS1="\[\e]0;\w\a\]$PS1"
 
 # Source global definitions
@@ -53,15 +47,20 @@ PROMPT_COMMAND="history -a; history -n"
 t() {
     if [ -n "$1" ]; then
         toolbox run -c t "$1"
+    else
+        toolbox enter t
     fi
 }
-alias tt='toolbox enter t'
-alias n='nvim'
-alias vim='nvim'
-alias g='git'
-alias d='docker'
 
 # Compression
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 alias decompress="tar -xzf"
+
+# toolbox only
+if [ -n "$TOOLBOX_PATH" ]; then
+    alias n='nvim'
+    alias vim='nvim'
+    alias g='git'
+    alias d='docker'
+fi
 
