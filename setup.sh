@@ -118,9 +118,17 @@ setup_extensions() {
 }
 
 setup_gnome() {
+	enable_extensions
 	dconf reset -f /
 	dconf load / < config/gnome.dconf
 	cp applications/* $HOME/.local/share/applications/
+}
+
+enable_extensions() {
+	for i in "${EXT_LIST[@]}"
+	do
+		gnome-extensions enable "${i}"
+	done
 }
 
 setup_gaming() {
@@ -138,13 +146,6 @@ setup_gaming() {
 	net.lutris.Lutris
 }
 
-enable_extensions() {
-	for i in "${EXT_LIST[@]}"
-	do
-		gnome-extensions enable "${i}"
-	done
-}
-
 link() {
     rm -r $DST/"$1"
     ln -s $SRC/"$1" $DST/"$1"
@@ -158,6 +159,6 @@ case "$1" in
 	toolbox) setup_toolbox;;
 	gaming) setup_gaming;;
 	enable-extensions) enable_extensions;;
-	*) echo "usage: setup.sh system, extensions, dotfiles, toolbox, gnome, gaming, enable-extensions, dump-gnome";;
+	*) echo "usage: setup.sh system, extensions, dotfiles, toolbox, gnome, gaming, enable-extensions";;
 esac
 
