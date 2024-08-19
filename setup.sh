@@ -61,12 +61,12 @@ setup_system() {
 setup_dotfiles() {
 	rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 	rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
-	rm -rf $SRC/alacritty && ln -s $SRC/alacritty $DST/alacritty
-	rm -rf $SRC/bat && ln -s $SRC/bat $DST/bat
-	rm -rf $SRC/btop && ln -s $SRC/btop $DST/btop
-	rm -rf $SRC/nvim && ln -s $SRC/nvim $DST/nvim
-	rm -rf $SRC/tmux && ln -s $SRC/tmux $DST/tmux
-	rm -rf $SRC/yt-dlp && ln -s $SRC/yt-dlp $DST/yt-dlp
+	ln -s $SRC/alacritty $DST/alacritty
+	ln -s $SRC/bat $DST/bat
+	ln -s $SRC/btop $DST/btop
+	ln -s $SRC/nvim $DST/nvim
+	ln -s $SRC/tmux $DST/tmux
+	ln -s $SRC/yt-dlp $DST/yt-dlp
 }
 
 setup_toolbox() {
