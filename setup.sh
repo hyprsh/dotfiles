@@ -33,7 +33,7 @@ setup_system() {
 	# flatpak remote-add --if-not-exists fedora oci+https://registry.fedoraproject.org
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-	sudo flatpak update --appstream
+	sudo flatpak update --appstream --assumeyes
 	sudo flatpak update
 
 	# install system pkgs
@@ -46,7 +46,7 @@ setup_system() {
 	rpm-ostree override remove firefox firefox-langpacks
 
 	# install flatpak pkgs
-	sudo flatpak install flathub --assumeyes --noninteractive \
+	flatpak install flathub --assumeyes --noninteractive \
 		org.mozilla.firefox
 
 	# ddcutil permissions for brightness control
