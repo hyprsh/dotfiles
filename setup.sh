@@ -1,9 +1,8 @@
 
 #!/bin/bash
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE="$REPO/config"
-DEST="$HOME/.config"
+SRC="$(pwd)/config"
+DST="$HOME/.config"
 
 EXT_LIST=(
 	caffeine@patapon.info
@@ -14,9 +13,10 @@ EXT_LIST=(
 	forge@jmmaranan.com
 	start-overlay-in-application-view@Hex_cz
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
+	display-brightness-ddcutil@themightydeity.github.com
 )
 
-install() {
+setup_system() {
 	rpm-ostree upgrade
 	# sudo without pw
 	echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/wheel
@@ -41,22 +41,29 @@ install() {
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		steam-devices
+		steam-devices \
+		ddcutil
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
 
 	# install flatpak pkgs
 	flatpak install flathub --assumeyes --noninteractive \
-		org.mozilla.firefox \
+		org.mozilla.firefox
+
+	# ddcutil permissions for brightness control
+	echo 'SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{class}=="0x030000", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/60-ddcutil-i2c.rules
+	echo echo "i2c-dev" | sudo tee /etc/modules-load.d/i2c.conf
 
 	# install fonts
 	mkdir -p $HOME/.local/share/fonts
 	cp fonts/* $HOME/.local/share/fonts
 	fc-cache
 
-	# install extensions
-	install_extensions
+	setup_dotfiles
+	setup_extensions
+	setup_toolbox
+	setup_gnome
 
 	# finish
 	echo "Setup finished!"
@@ -67,24 +74,23 @@ install() {
 	echo "setup toolbox with: ~/.dotfiles/setup.sh setup-toolbox";
 }
 
-link() {
-  if ! [[ -L "$DEST"/"$1" ]]; then
-    mv $DEST/"$1" $DEST/"$1".bak
-    ln -s $SOURCE/"$1" $DEST/"$1"
-  fi
-}
-
 setup_dotfiles() {
+	rm -f $HOME/.bashrc $HOME/.bashrc.bak $HOME/.inputrc
+	ln -s $SRC/bash/bashrc $HOME/.bashrc
+	ln -s $SRC/bash/inputrc $HOME/.inputrc
+	link alacritty
+	link bat
 	link btop
+	link lazygit
+	link nvim
+	link tmux
+	link yt-dlp
 }
 
-install_toolbox() {
+setup_toolbox() {
 	# create toolbox
 	toolbox create t
 	toolbox run -c t sudo dnf install --assumeyes -q \
-		zsh \
-		zsh-syntax-highlighting \
-		zsh-autosuggestions \
 		neovim \
 		bat \
 		btop \
@@ -97,7 +103,7 @@ install_toolbox() {
 		gh
 }
 
-install_extensions() {
+setup_extensions() {
 	GN_CMD_OUTPUT=$(gnome-shell --version)
 	GN_SHELL=${GN_CMD_OUTPUT:12:2}
 	for i in "${EXT_LIST[@]}"
@@ -110,6 +116,26 @@ install_extensions() {
 	done
 }
 
+setup_gnome() {
+	dconf reset -f /
+	dconf load / < gnome.dconf
+}
+
+setup_gaming() {
+	rpm-ostree install --apply-live --assumeyes steam-devices
+	flatpak install flathub --assumeyes --noninteractive \
+	com.valvesoftware.Steam \
+	com.valvesoftware.Steam.CompatibilityTool.Boxtron \
+	com.valvesoftware.Steam.Utility.protontricks \
+	com.valvesoftware.SteamLink \
+	com.valvesoftware.Steam.Utility.gamescope \
+	com.valvesoftware.Steam.CompatibilityTool.Proton-GE \
+	org.freedesktop.Platform.VulkanLayer.MangoHud \
+	org.freedesktop.Platform.VulkanLayer.vkBasalt \
+	com.heroicgameslauncher.hgl \
+	net.lutris.Lutris
+}
+
 enable_extensions() {
 	for i in "${EXT_LIST[@]}"
 	do
@@ -117,22 +143,23 @@ enable_extensions() {
 	done
 }
 
-gather_gnome() {
+dump_gnome() {
 	dconf dump / > gnome.dconf
 }
 
-setup_gnome() {
-	dconf reset -f /
-	dconf load / < gnome.dconf
+link() {
+    rm -r $DST/"$1"
+    ln -s $SRC/"$1" $DST/"$1"
 }
 
 case "$1" in
-	install-extensions) install_extensions;;
+	system) setup_system;;
+	extensions) setup_extensions;;
+	gnome) setup_gnome;;
+	dotfiles) setup_dotfiles;;
+	toolbox) setup_toolbox;;
+	gaming) setup_gaming;;
 	enable-extensions) enable_extensions;;
-	setup-dotfiles) setup_dotfiles;;
-	setup-toolbox) install_toolbox;;
-	setup-gnome) setup_gnome;;
-	gather-gnome) gather_gnome;;
-	*) install;;
+	*) echo "usage: setup.sh system, extensions, dotfiles, toolbox, gnome, gaming, enable-extensions, dump-gnome";;
 esac
 
