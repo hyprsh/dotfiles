@@ -1,5 +1,13 @@
 # fedora silverblue setup WIP
 
+## todos
+
+- finalize toolbox setup
+- dump gnome settings
+- testing
+- document shortcuts
+- 'META-T -> alacritty -e t'
+
 ## 1. Prepare media and run installation
 
 ```bash
@@ -18,7 +26,7 @@ git clone https://github.com/hyprsh/dotfiles-arch && cd .dotfiles
 ./setup.sh
 
 # run setup.sh
-./setup.sh
+./setup.sh system
 ```
 
 ## 4. reboot
@@ -31,8 +39,6 @@ reboot
 
 ```sh
 cd .dotfiles
-./setup.sh setup-gnome
 ./setup.sh enable-extensions
-./setup.sh setup-dotfiles
-./setup.sh setup-toolbox
+./setup.sh gaming
 ```
