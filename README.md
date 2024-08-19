@@ -2,11 +2,10 @@
 
 ## todos
 
-- finalize toolbox setup
-- dump gnome settings
 - testing
-- document shortcuts
-- 'META-T -> alacritty -e t'
+- hide accesibility stuff
+- enable third-part per default
+- unpin all dock apps, or display in menu and dock
 
 ## 1. Prepare media and run installation
 

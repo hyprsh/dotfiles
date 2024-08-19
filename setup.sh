@@ -72,7 +72,7 @@ setup_dotfiles() {
 setup_toolbox() {
 	# create toolbox
 	toolbox create --assumeyes t
-	toolbox run -c t sudo dnf install --assumeyes -q \
+	toolbox run -c t sudo dnf install --assumeyes \
 		neovim \
 		bat \
 		btop \

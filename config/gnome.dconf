@@ -42,6 +42,7 @@ font-name='Cantarell 14'
 monospace-font-name='Source Code Pro 14'
 text-scaling-factor=1.5
 toolbar-style='text'
+toolkit-accessibility=false
 
 [org/gnome/desktop/peripherals/mouse]
 natural-scroll=true
