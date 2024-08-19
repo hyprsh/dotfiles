@@ -80,6 +80,7 @@ setup_dotfiles() {
 	ln -s $SRC/bash/inputrc $HOME/.inputrc
 	link alacritty
 	link bat
+	bat cache --build
 	link btop
 	link lazygit
 	link nvim
@@ -142,10 +143,6 @@ enable_extensions() {
 	do
 		gnome-extensions enable "${i}"
 	done
-}
-
-dump_gnome() {
-	dconf dump / > gnome.dconf
 }
 
 link() {
