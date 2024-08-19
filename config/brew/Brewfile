@@ -32,7 +32,10 @@ brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "aerospace"
 cask "arc"
+cask "balenaetcher"
+cask "betterdisplay"
 cask "discord"
+cask "firefox"
 cask "git-credential-manager"
 cask "google-chrome"
 cask "google-chrome@canary"
@@ -44,4 +47,5 @@ cask "minecraft"
 cask "wezterm"
 cask "zed"
 mas "Bitwarden", id: 1352778147
+mas "Noir", id: 1592917505
 mas "WireGuard", id: 1451685025

@@ -29,7 +29,7 @@ fi
 
 # brew
 rm $HOME/.Brewfile
-cp $DOTFILES/brew/Brewfile $HOME/.Brewfile
+cp $SRC/brew/Brewfile $HOME/.Brewfile
 link brew
 
 # hyperkey
