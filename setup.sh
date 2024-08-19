@@ -41,7 +41,6 @@ setup_system() {
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		steam-devices \
 		ddcutil
 
 	# override silverblue default firefox, as we use flatpak for this
@@ -76,7 +75,7 @@ setup_dotfiles() {
 
 setup_toolbox() {
 	# create toolbox
-	toolbox create t
+	toolbox create --assumeyes t
 	toolbox run -c t sudo dnf install --assumeyes -q \
 		neovim \
 		bat \
@@ -84,9 +83,8 @@ setup_toolbox() {
 		ripgrep \
 		duf \
 		zoxide \
-		fd \
+		fd-find \
 		procs \
-		lazygit \
 		fzf \
 		gh
 }
@@ -101,6 +99,13 @@ setup_extensions() {
 		wget -O "${i}".zip "https://extensions.gnome.org/download-extension/${i}.shell-extension.zip?version_tag=$VERSION_TAG"
 		gnome-extensions install --force "${i}".zip
 		rm ${i}.zip
+		gnome-extensions enable "${i}"
+	done
+}
+
+enable_extensions() {
+	for i in "${EXT_LIST[@]}"
+	do
 		gnome-extensions enable "${i}"
 	done
 }
@@ -150,6 +155,7 @@ run_setup() {
 case "$1" in
 	system) run_setup;;
 	gaming) setup_gaming;;
-	*) echo "usage: setup.sh <system|gaming>";;
+	extensions) enable_extensions;;
+	*) echo "usage: setup.sh <system|extensions|gaming>";;
 esac
 
