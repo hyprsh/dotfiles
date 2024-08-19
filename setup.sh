@@ -31,10 +31,10 @@ setup_system() {
 
 	# add flatpak remotes, update apps
 	# flatpak remote-add --if-not-exists fedora oci+https://registry.fedoraproject.org
-	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-	flatpak update --appstream
-	flatpak update
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+	sudo flatpak update --appstream
+	sudo flatpak update
 
 	# install system pkgs
 	rpm-ostree install --assumeyes \
@@ -46,12 +46,12 @@ setup_system() {
 	rpm-ostree override remove firefox firefox-langpacks
 
 	# install flatpak pkgs
-	flatpak install flathub --assumeyes --noninteractive \
+	sudo flatpak install flathub --assumeyes --noninteractive \
 		org.mozilla.firefox
 
 	# ddcutil permissions for brightness control
 	echo 'SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{class}=="0x030000", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/60-ddcutil-i2c.rules
-	echo echo "i2c-dev" | sudo tee /etc/modules-load.d/i2c.conf
+	echo "i2c-dev" | sudo tee /etc/modules-load.d/i2c.conf
 
 	# install fonts
 	mkdir -p $HOME/.local/share/fonts
@@ -97,7 +97,6 @@ setup_extensions() {
 		wget -O "${i}".zip "https://extensions.gnome.org/download-extension/${i}.shell-extension.zip?version_tag=$VERSION_TAG"
 		gnome-extensions install --force "${i}".zip
 		rm ${i}.zip
-		gnome-extensions enable "${i}"
 	done
 }
 
@@ -146,7 +145,7 @@ run_setup() {
 	# finish
 	echo "Setup finished!"
 	echo ""
-	echo "now reboot your system."
+	echo "now reboot your system, and enable gnome extensions: setup.sh extensions"
 	echo "gaming setup: setup.sh gaming";
 }
 
