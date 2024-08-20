@@ -31,6 +31,10 @@ categories=['X-SuSE-YaST']
 name='suse-yast.directory'
 translate=true
 
+[org/gnome/desktop/background]
+picture-uri='file:///var/home/nd/.dotfiles/wallpapers/background.jpg'
+picture-uri-dark='file:///var/home/nd/.dotfiles/wallpapers/background.jpg'
+
 [org/gnome/desktop/input-sources]
 current=uint32 0
 sources=[('xkb', 'us')]
