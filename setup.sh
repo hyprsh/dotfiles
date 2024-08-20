@@ -30,9 +30,9 @@ setup_system() {
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 	# add rpm fusion repos
-	rpm-ostree install --assumeyes --apply-live \
-		https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-		https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	# rpm-ostree install --assumeyes --apply-live \
+	# 	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+	# 	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 	# install system pkgs
 	rpm-ostree install --assumeyes \
