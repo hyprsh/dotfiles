@@ -6,7 +6,7 @@ Icon=Alacritty
 Terminal=false
 Categories=System;TerminalEmulator;
 
-Name=Alacritty (HOST)
+Name=Alacritty System
 GenericName=Terminal
 Comment=A fast, cross-platform, OpenGL terminal emulator
 StartupNotify=true
