@@ -35,9 +35,6 @@ setup_system() {
 		gnome-tweaks \
 		ddcutil
 
-	# virtualisation
-	# rpm-ostree install --assumeyes virt-install virt-manager virt-viewer
-
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
 
@@ -138,6 +135,10 @@ setup_gaming() {
 	echo "Setup gaming finished, now reboot."
 }
 
+setup_virtualization() {
+	rpm-ostree install --assumeyes virt-install virt-manager virt-viewer
+}
+
 run_setup() {
 	echo "Setting up system..."
 	setup_system
@@ -158,7 +159,7 @@ run_setup() {
 case "$1" in
 	system) run_setup;;
 	gaming) setup_gaming;;
-	extensions) enable_extensions;;
-	*) echo "usage: setup.sh <system|extensions|gaming>";;
+	virtualization) setup_virtualization;;
+	*) echo "usage: setup.sh <system|virtualization|gaming>";;
 esac
 
