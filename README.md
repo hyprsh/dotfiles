@@ -15,10 +15,11 @@ curl https://download.fedoraproject.org/pub/fedora/linux/releases/40/Silverblue/
 dd if=Fedora-Silverblue-ostree-x86_64-40-1.14.iso of=/dev/sdX bs=8M status=progress oflag=direct
 ```
 
-Afterwards boot from media and install silverblue.
+Afterwards boot from media and install silverblue and create an user.
 
+> Enable `Third Party Repos` or the script will fail!
 
-## 3. Run the setup script
+## 2. Run the setup script
 
 ```bash
 git clone https://github.com/hyprsh/dotfiles-arch && cd .dotfiles
@@ -28,16 +29,16 @@ git clone https://github.com/hyprsh/dotfiles-arch && cd .dotfiles
 ./setup.sh system
 ```
 
-## 4. reboot
+## 3. reboot
 
 ```bash
 reboot
 ```
 
-## 5. Post setup
+## 4. Post setup
+
+In the system terminal META+SHIFT+T
 
 ```sh
-cd .dotfiles
-./setup.sh enable-extensions
-./setup.sh gaming
+.dotfiles/setup.sh enable-extensions
 ```
