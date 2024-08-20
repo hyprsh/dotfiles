@@ -29,17 +29,14 @@ setup_system() {
 	sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm-ostreed.conf
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
-	# add rpm fusion repos
-	# rpm-ostree install --assumeyes --apply-live \
-	# 	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-	# 	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
 	# install system pkgs
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		ddcutil \
-		steam-devices
+		ddcutil
+
+	# virtualisation
+	# rpm-ostree install --assumeyes virt-install virt-manager virt-viewer
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
@@ -118,19 +115,24 @@ setup_gnome() {
 }
 
 setup_gaming() {
+	# add rpm fusion repos
+	rpm-ostree install --assumeyes --apply-live \
+		https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+		https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	rpm-ostree update
 	rpm-ostree install --apply-live --assumeyes steam-devices
 	flatpak install flathub --assumeyes --noninteractive \
-	com.valvesoftware.Steam \
-	com.valvesoftware.Steam.CompatibilityTool.Boxtron \
-	com.valvesoftware.Steam.Utility.protontricks \
-	com.valvesoftware.SteamLink \
-	com.valvesoftware.Steam.Utility.gamescope \
-	com.valvesoftware.Steam.CompatibilityTool.Proton-GE \
-	org.freedesktop.Platform.VulkanLayer.MangoHud \
-	org.freedesktop.Platform.VulkanLayer.vkBasalt \
-	com.usebottles.bottles \
-	com.heroicgameslauncher.hgl \
-	net.lutris.Lutris
+		com.valvesoftware.Steam \
+		com.valvesoftware.Steam.CompatibilityTool.Boxtron \
+		com.valvesoftware.Steam.Utility.protontricks \
+		com.valvesoftware.SteamLink \
+		com.valvesoftware.Steam.Utility.gamescope \
+		com.valvesoftware.Steam.CompatibilityTool.Proton-GE \
+		org.freedesktop.Platform.VulkanLayer.MangoHud \
+		org.freedesktop.Platform.VulkanLayer.vkBasalt \
+		com.usebottles.bottles \
+		com.heroicgameslauncher.hgl \
+		net.lutris.Lutris
 	echo "Setup gaming finished, now reboot."
 }
 
