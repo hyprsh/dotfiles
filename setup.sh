@@ -109,6 +109,8 @@ enable_extensions() {
 }
 
 setup_gnome() {
+	setup_extensions
+
 	# dconf reset -f /
 	dconf load / < config/gnome.dconf
 	cp applications/* $HOME/.local/share/applications/
@@ -143,8 +145,6 @@ run_setup() {
 	setup_toolbox
 	echo "Setting up gnome..."
 	setup_gnome
-	echo "Setting up extensions..."
-	setup_extensions
 	echo "Setting up dotfiles..."
 	setup_dotfiles
 
