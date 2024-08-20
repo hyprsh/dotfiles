@@ -30,7 +30,7 @@ setup_system() {
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 	# install system pkgs
-	rpm-ostree install --assumeyes --apply-live \
+	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
 		ddcutil \
@@ -47,7 +47,6 @@ setup_system() {
 	    snapshot_preserve 3d 1w 1m
 	EOF
 	mkdir $HOME/.snapshots
-	sudo enable --now btrbk.timer
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
@@ -177,6 +176,7 @@ run_setup() {
 	echo ""
 	echo "now reboot your system, and enable gnome extensions: setup.sh extensions"
 	echo "gaming setup: setup.sh gaming";
+	echo "enable daily backups: sudo enable --now btrbk.timer"
 }
 
 case "$1" in
