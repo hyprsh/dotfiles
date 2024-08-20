@@ -175,15 +175,15 @@ run_setup() {
 	# finish
 	echo "Setup finished!"
 	echo ""
-	echo "now reboot your system, and enable gnome extensions: setup.sh extensions"
-	echo "gaming setup: setup.sh gaming";
-	echo "enable daily backups: sudo enable --now btrbk.timer"
+	echo "now reboot your system!"
+	echo "run setup.sh help for additional setup procedures";
 }
 
 case "$1" in
 	system) run_setup;;
 	gaming) setup_gaming;;
 	virtualization) setup_virtualization;;
-	*) echo "usage: setup.sh <system|virtualization|gaming>";;
+	backup) sudo systemctl enable --now btrbk.timer;;
+	*) echo "usage: setup.sh <system|virtualization|backup|gaming>";;
 esac
 
