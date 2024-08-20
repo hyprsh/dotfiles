@@ -107,6 +107,9 @@ name='alacritty'
 [org/gnome/shell/app-switcher]
 current-workspace-only=true
 
+[org/gnome/shell]
+favorite-apps=['']
+
 [org/gnome/shell/extensions/auto-move-windows]
 application-list=['org.mozilla.firefox.desktop:2', 'com.valvesoftware.Steam.desktop:3']
 
