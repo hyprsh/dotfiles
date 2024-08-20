@@ -30,7 +30,7 @@ setup_system() {
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 	# install system pkgs
-	rpm-ostree install --assumeyes \
+	rpm-ostree install --assumeyes --apply-live \
 		alacritty \
 		gnome-tweaks \
 		ddcutil \
