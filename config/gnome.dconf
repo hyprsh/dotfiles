@@ -128,7 +128,6 @@ name='alacritty'
 [org/gnome/shell]
 app-picker-layout=[{'Alacritty.desktop': <{'position': <0>}>, 'AlacrittySystem.desktop': <{'position': <1>}>, 'org.mozilla.firefox.desktop': <{'position': <2>}>, 'org.gnome.Nautilus.desktop': <{'position': <3>}>, 'org.gnome.Software.desktop': <{'position': <4>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <5>}>, '8e0f747e-c2bc-4843-b196-c32bfe54128a': <{'position': <6>}>, 'Utilities': <{'position': <7>}>, '636a4a4e-13a5-44d5-9de5-409009fcad7e': <{'position': <8>}>}]
 disabled-extensions=['background-logo@fedorahosted.org']
-enabled-extensions=['caffeine@patapon.info', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'just-perfection-desktop@just-perfection', 'space-bar@luchrioh', 'forge@jmmaranan.com', 'start-overlay-in-application-view@Hex_cz', 'gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com', 'display-brightness-ddcutil@themightydeity.github.com']
 favorite-apps=['']
 welcome-dialog-last-shown-version='46.0'
 
