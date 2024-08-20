@@ -1,16 +1,12 @@
-[org/gnome/control-center]
-last-panel='sound'
-window-state=(596, 1189, false)
-
 [org/gnome/desktop/app-folders]
 folder-children=['Utilities', 'YaST', 'Pardus', '636a4a4e-13a5-44d5-9de5-409009fcad7e', '8e0f747e-c2bc-4843-b196-c32bfe54128a']
 
 [org/gnome/desktop/app-folders/folders/636a4a4e-13a5-44d5-9de5-409009fcad7e]
-apps=['org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Contacts.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Weather.desktop', 'org.gnome.Maps.desktop', 'org.gnome.Tour.desktop', 'org.gnome.clocks.desktop', 'yelp.desktop', 'org.gnome.Snapshot.desktop']
+apps=['org.gnome.TextEditor.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Contacts.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Weather.desktop', 'org.gnome.Maps.desktop', 'org.gnome.Tour.desktop', 'org.gnome.clocks.desktop', 'yelp.desktop']
 name='Accessories'
 
 [org/gnome/desktop/app-folders/folders/8e0f747e-c2bc-4843-b196-c32bfe54128a]
-apps=['org.gnome.Settings.desktop', 'org.gnome.Extensions.desktop', 'com.mattjakeman.ExtensionManager.desktop', 'org.gnome.Terminal.desktop', 'org.fedoraproject.MediaWriter.desktop']
+apps=['org.gnome.Settings.desktop', 'org.gnome.Extensions.desktop', 'com.mattjakeman.ExtensionManager.desktop', 'org.gnome.Terminal.desktop']
 name='Settings'
 translate=false
 
@@ -32,8 +28,6 @@ name='suse-yast.directory'
 translate=true
 
 [org/gnome/desktop/input-sources]
-current=uint32 0
-sources=[('xkb', 'us')]
 xkb-options=['caps:super']
 
 [org/gnome/desktop/interface]
@@ -53,15 +47,8 @@ toolkit-accessibility=false
 [org/gnome/desktop/peripherals/mouse]
 natural-scroll=true
 
-[org/gnome/desktop/peripherals/touchpad]
-two-finger-scrolling-enabled=true
-
 [org/gnome/desktop/privacy]
 report-technical-problems=false
-
-[org/gnome/desktop/sound]
-event-sounds=false
-theme-name='__custom'
 
 [org/gnome/desktop/wm/keybindings]
 close=['<Super>q']
@@ -81,9 +68,9 @@ switch-to-workspace-3=['<Super>3']
 switch-to-workspace-4=['<Super>4']
 
 [org/gnome/desktop/wm/preferences]
-audible-bell=false
 focus-mode='mouse'
 num-workspaces=10
+audible-bell=false
 
 [org/gnome/evolution-data-server]
 migrated=true
@@ -91,10 +78,6 @@ migrated=true
 [org/gnome/gnome-system-monitor]
 show-dependencies=false
 show-whose-processes='user'
-
-[org/gnome/login-screen]
-enable-fingerprint-authentication=true
-enable-smartcard-authentication=false
 
 [org/gnome/mutter]
 dynamic-workspaces=false
@@ -121,15 +104,14 @@ binding='<Super>t'
 command='alacritty -e toolbox enter t'
 name='alacritty'
 
+[org/gnome/shell/app-switcher]
+current-workspace-only=true
+
 [org/gnome/shell]
 app-picker-layout=[{'Alacritty.desktop': <{'position': <0>}>, 'AlacrittySystem.desktop': <{'position': <1>}>, 'org.mozilla.firefox.desktop': <{'position': <2>}>, 'org.gnome.Nautilus.desktop': <{'position': <3>}>, 'org.gnome.Software.desktop': <{'position': <4>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <5>}>, '8e0f747e-c2bc-4843-b196-c32bfe54128a': <{'position': <6>}>, 'Utilities': <{'position': <7>}>, '636a4a4e-13a5-44d5-9de5-409009fcad7e': <{'position': <8>}>}]
 disabled-extensions=['background-logo@fedorahosted.org']
 enabled-extensions=['caffeine@patapon.info', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'just-perfection-desktop@just-perfection', 'space-bar@luchrioh', 'forge@jmmaranan.com', 'start-overlay-in-application-view@Hex_cz', 'gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com', 'display-brightness-ddcutil@themightydeity.github.com']
 favorite-apps=['']
-welcome-dialog-last-shown-version='46.0'
-
-[org/gnome/shell/app-switcher]
-current-workspace-only=true
 
 [org/gnome/shell/extensions/auto-move-windows]
 application-list=['org.mozilla.firefox.desktop:2', 'com.valvesoftware.Steam.desktop:3']
@@ -344,15 +326,7 @@ version=27
 workspace-names-map='{"org.gnome.Settings":["w"],"gnome-terminal-server":["w"],"com.mattjakeman.ExtensionManager":["w"]}'
 
 [org/gnome/software]
-check-timestamp=int64 1724129411
 first-run=false
-
-[org/gnome/system/location]
-enabled=true
 
 [org/gnome/terminal/legacy]
 theme-variant='system'
-
-[org/gtk/gtk4/settings/file-chooser]
-show-hidden=false
-sort-directories-first=false
