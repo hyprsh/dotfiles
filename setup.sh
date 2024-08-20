@@ -33,7 +33,20 @@ setup_system() {
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		ddcutil
+		ddcutil \
+		btrbk \
+		vim
+
+	sudo tee /etc/btrbk/btrbk.conf <<-EOF
+	timestamp_format long
+	snapshot_create onchange
+	volume /
+	  snapshot_dir $HOME/.snapshots
+	  subvolume /home
+	    snapshot_preserve_min 3h
+	    snapshot_preserve 3d 1w 1m
+	EOF
+	sudo enable --now btrbk.timer
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
