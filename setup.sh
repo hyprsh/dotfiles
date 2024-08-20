@@ -29,20 +29,26 @@ setup_system() {
 	sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm-ostreed.conf
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
-	# add flatpak remotes, update apps
-	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-	flatpak update --appstream --assumeyes
-	flatpak update --assumeyes
+	# add rpm fusion repos
+	rpm-ostree install --assumeyes --apply-live \
+		https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+		https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 	# install system pkgs
 	rpm-ostree install --assumeyes \
 		alacritty \
 		gnome-tweaks \
-		ddcutil
+		ddcutil \
+		steam-devices
 
 	# override silverblue default firefox, as we use flatpak for this
 	rpm-ostree override remove firefox firefox-langpacks
+
+	# add flatpak remotes, update apps
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+	flatpak update --appstream --assumeyes
+	flatpak update --assumeyes
 
 	# install flatpak pkgs
 	flatpak install flathub --assumeyes --noninteractive \
