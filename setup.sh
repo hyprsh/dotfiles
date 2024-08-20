@@ -46,6 +46,7 @@ setup_system() {
 	    snapshot_preserve_min 3h
 	    snapshot_preserve 3d 1w 1m
 	EOF
+	mkdir $HOME/.snapshots
 	sudo enable --now btrbk.timer
 
 	# override silverblue default firefox, as we use flatpak for this
