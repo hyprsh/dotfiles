@@ -1,12 +1,5 @@
 # fedora silverblue setup WIP
 
-## todos
-
-- testing
-- hide accesibility stuff
-- enable third-part per default
-- unpin all dock apps, or display in menu and dock
-
 ## 1. Prepare media and run installation
 
 ```bash
@@ -33,12 +26,4 @@ git clone https://github.com/hyprsh/dotfiles-arch && cd .dotfiles
 
 ```bash
 reboot
-```
-
-## 4. Post setup
-
-In the system terminal META+SHIFT+T
-
-```sh
-.dotfiles/setup.sh enable-extensions
 ```
