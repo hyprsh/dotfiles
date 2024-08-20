@@ -37,6 +37,7 @@ setup_system() {
 		btrbk \
 		vim
 
+	sudo mkdir -p /etc/btrbk
 	sudo tee /etc/btrbk/btrbk.conf <<-EOF
 	timestamp_format long
 	snapshot_create onchange
