@@ -70,9 +70,17 @@ setup_dotfiles() {
 }
 
 setup_toolbox() {
+	run=toolbox run -c t
 	# create toolbox
 	toolbox create --assumeyes t
-	toolbox run -c t sudo dnf install --assumeyes \
+	$run sudo tee -a /etc/dnf/dnf.conf <<-EOF
+	max_parallel_dowloads=10
+	fastestmirror=True
+	installonly_limit=10
+	keepcache=True
+	defaultyes=True
+	EOF
+	$run sudo dnf install --assumeyes \
 		neovim \
 		bat \
 		btop \
@@ -83,6 +91,8 @@ setup_toolbox() {
 		procs \
 		fzf \
 		gh
+	$run sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	$run sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 }
 
 setup_extensions() {
