@@ -129,6 +129,8 @@ return { -- LSP Configuration & Plugins
       html = {},
       gopls = {},
       cssls = {},
+      ansiblels = {},
+      phpactor = {},
       tsserver = {},
       emmet_ls = {},
       tailwindcss = {

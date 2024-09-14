@@ -3,8 +3,8 @@
 -- For more options, you can see `:help option-list`
 
 -- Make line numbers default
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -64,6 +64,20 @@ vim.opt.foldlevelstart = 99
 vim.opt.foldnestmax = 4
 
 -- number of spaces a tab stands for
--- vim.opt.tabstop = 4
--- vim.opt.softtabstop = 4
--- vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+
+-- ansible
+vim.filetype.add {
+  pattern = {
+    ['.*/host_vars/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/group_vars/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/group_vars/.*/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/playbook.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/playbooks/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/roles/.*/tasks/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/roles/.*/handlers/.*%.ya?ml'] = 'yaml.ansible',
+    ['.*/tasks/.*%.ya?ml'] = 'yaml.ansible',
+  },
+}

@@ -31,6 +31,16 @@ return {
       return '%2l:%-2v'
     end
 
+    -- ---@diagnostic disable-next-line: duplicate-set-field
+    -- statusline.section_git = function()
+    --   return ''
+    -- end
+
+    -- ---@diagnostic disable-next-line: duplicate-set-field
+    -- statusline.section_diff = function()
+    --   return ''
+    -- end
+
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_fileinfo = function()
       return ''
