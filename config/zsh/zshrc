@@ -1,3 +1,13 @@
+# mac/ linux env
+# if [[ "$OSTYPE" == "linux"* ]]; then
+#     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+#     echo "linux"
+# else
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+
+
 # completion
 autoload -Uz compinit
 unsetopt menu_complete   # do not autoselect the first completion entry
@@ -6,15 +16,18 @@ setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt always_to_end
 autoload -U +X bashcompinit && bashcompinit
-zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+# zstyle ':completion:*' use-cache yes
+# zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 compinit
 
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # PATH
-FPATH="$HOME/.local/bin:$PATH"
+# export PATH="$HOME/.local/bin:$PATH"
 
 # env
-export ELIXIR_ERL_OPTIONS="-kernel shell_history enabled"
+ELIXIR_ERL_OPTIONS="-kernel shell_history enabled"
 
 # prompt
 parse_git_branch() {
@@ -24,7 +37,7 @@ setopt PROMPT_SUBST
 PROMPT='%1d%{%F{green}%}$(parse_git_branch)%{%F{none}%} » '
 
 # fzf
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=fg:#c0caf5,bg:#24283b,hl:#ff9e64 \
 --color=fg+:#c0caf5,bg+:#292e42,hl+:#ff9e64 \
 --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
@@ -46,15 +59,17 @@ alias cat="bat --style=plain --pager=never --theme=base16"
 alias ls="eza --group-directories-first"
 alias rt="wezterm cli set-tab-title"
 
-# mac/ linux env
-if [[ `uname` == 'Linux' ]]; then
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-    alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
-    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-    echo "mac osx"
-fi
 
+
+# Herd injected NVM configuration
+export NVM_DIR="/Users/nd/Library/Application Support/Herd/config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+[[ -f "/Applications/Herd.app/Contents/Resources/config/shell/zshrc.zsh" ]] && builtin source "/Applications/Herd.app/Contents/Resources/config/shell/zshrc.zsh"
+
+# Herd injected PHP 8.3 configuration.
+export HERD_PHP_83_INI_SCAN_DIR="/Users/nd/Library/Application Support/Herd/config/php/83/"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/nd/Library/Application Support/Herd/bin/":$PATH
