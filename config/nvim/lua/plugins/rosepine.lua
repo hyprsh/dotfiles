@@ -4,7 +4,7 @@ return {
   priority = 1000,
   opts = {
     variant = 'auto',
-    dark_variant = 'main',
+    dark_variant = 'moon',
 
     styles = {
       bold = true,

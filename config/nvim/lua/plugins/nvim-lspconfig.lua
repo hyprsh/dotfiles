@@ -124,35 +124,12 @@ return { -- LSP Configuration & Plugins
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
-      elixirls = {},
-      -- lexical = {},
       html = {},
       gopls = {},
       cssls = {},
-      ansiblels = {},
-      phpactor = {},
       tsserver = {},
       emmet_ls = {},
-      tailwindcss = {
-        filetypes = { 'css', 'html', 'elixir', 'eelixir', 'heex' },
-        init_options = {
-          userLanguages = {
-            elixir = 'html-eex',
-            eelixir = 'html-eex',
-            heex = 'html-eex',
-          },
-        },
-        settings = {
-          tailwindCSS = {
-            experimental = {
-              classRegex = {
-                'class[:]\\s*"([^"]*)"',
-              },
-            },
-          },
-        },
-      },
-
+      tailwindcss = {},
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
