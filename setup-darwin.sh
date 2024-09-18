@@ -21,6 +21,7 @@ link tmux
 link alacritty
 link yt-dlp
 link zsh
+link kitty
 
 # install brew if not installed
 if type brew &>/dev/null; then
@@ -42,7 +43,6 @@ ln -sf scripts/t.sh $HOME/.local/bin/t
 
 # install fonts
 cp fonts/* $HOME/Library/Fonts
-
 
 # install software from bundlefile
 brew bundle --global --no-lock
