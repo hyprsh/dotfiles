@@ -1,6 +1,6 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/rose-pine.toml"]
+import = ["~/.config/alacritty/rose-pine-moon.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -8,7 +8,7 @@ TERM = "xterm-256color"
 [window]
 padding = { x = 16, y = 14 }
 opacity = 0.98
-# decorations = "None"
+decorations = "Buttonless"
 
 [font]
 normal = { family = "MonoLisa Nerd Font", style="Regular"}
