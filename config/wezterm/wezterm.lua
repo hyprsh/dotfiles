@@ -14,7 +14,7 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return theme.main.colors()
+		return theme.moon.colors()
 	else
 		return theme.dawn.colors()
 	end
@@ -30,7 +30,7 @@ config.colors = scheme_for_appearance(get_appearance())
 
 -- font
 config.font = wezterm.font_with_fallback({ "MonoLisa", "JetBrains Mono" })
-config.font_size = 17.0
+config.font_size = 16.0
 config.line_height = 1.5
 
 -- tabbar
@@ -45,18 +45,18 @@ config.inactive_pane_hsb = { brightness = 0.95 }
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+-- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.window_decorations = "RESIZE"
 config.window_padding = {
 	left = "1px",
 	right = "1px",
-	top = "60px",
 	bottom = "1px",
 }
 config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
 
 -- keys
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1003 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1003 }
 config.keys = {
 	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "|", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
