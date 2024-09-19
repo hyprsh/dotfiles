@@ -2,9 +2,9 @@
 -- See `:help vim.opt`
 -- For more options, you can see `:help option-list`
 
--- Make line numbers default
-vim.opt.number = false
-vim.opt.relativenumber = false
+-- Enable line numbers and relative line numbers
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -48,8 +48,8 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
--- Show which line your cursor is on
-vim.opt.cursorline = false
+-- Highlight the line where the cursor is
+vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
