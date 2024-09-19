@@ -56,4 +56,5 @@ alias bat="bat --style=numbers,changes --theme=base16"
 alias cat="bat --style=plain --pager=never --theme=base16"
 alias ls="eza --group-directories-first"
 alias rt="wezterm cli set-tab-title"
+alias a="aider --cache-prompts --no-pretty"
 
