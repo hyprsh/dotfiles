@@ -20,7 +20,6 @@ require('lazy').setup {
   spec = {
     -- import your plugins
     { import = 'plugins' },
-    { import = 'plugins.**' },  -- This will import all subdirectories
   },
   -- automatically check for plugin updates
   checker = { enabled = false },
