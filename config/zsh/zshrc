@@ -4,6 +4,8 @@ if [[ "$OSTYPE" == "linux"* ]]; then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 else
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 fi
 
@@ -18,9 +20,6 @@ autoload -U +X bashcompinit && bashcompinit
 # zstyle ':completion:*' use-cache yes
 # zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 compinit
-
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
