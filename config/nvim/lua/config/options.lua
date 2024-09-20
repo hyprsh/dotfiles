@@ -3,8 +3,8 @@
 -- For more options, you can see `:help option-list`
 
 -- Enable line numbers and relative line numbers
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -49,7 +49,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Highlight the line where the cursor is
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -64,9 +64,9 @@ vim.opt.foldlevelstart = 99
 vim.opt.foldnestmax = 4
 
 -- number of spaces a tab stands for
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 
 -- ansible
 vim.filetype.add {
