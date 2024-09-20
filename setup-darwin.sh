@@ -28,6 +28,10 @@ if type brew &>/dev/null; then
  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# aider
+rm $HOME/.aider.conf.yml
+cp $SRC/aider/aider.conf.yml $HOME/.aider.conf.yml
+
 # brew
 rm $HOME/.Brewfile
 cp $SRC/brew/Brewfile $HOME/.Brewfile
