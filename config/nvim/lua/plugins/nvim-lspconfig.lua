@@ -7,11 +7,11 @@ return { -- LSP Configuration & Plugins
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- Useful status updates for LSP.
-    { 'j-hui/fidget.nvim', opts = { notification = { window = { winblend = 0 } } } },
+    { 'j-hui/fidget.nvim',       opts = { notification = { window = { winblend = 0 } } } },
 
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
-    { 'folke/neodev.nvim', opts = {} },
+    { 'folke/neodev.nvim',       opts = {} },
   },
   config = function()
     --  This function gets run when an LSP attaches to a particular buffer.
@@ -127,7 +127,7 @@ return { -- LSP Configuration & Plugins
       html = {},
       gopls = {},
       cssls = {},
-      tsserver = {},
+      ts_ls = {},
       emmet_ls = {},
       tailwindcss = {},
       lua_ls = {
@@ -159,7 +159,6 @@ return { -- LSP Configuration & Plugins
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
-      'typescript-language-server', -- TypeScript server
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
