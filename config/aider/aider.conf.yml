@@ -13,7 +13,7 @@ tool-output-color: #9ccfd8
 tool-error-color: #eb6f92
 tool-warning-color: #f6c177
 assistant-output-color: #c4a7e7
-code-theme: rose-pine
+code-theme: solarized-dark
 
 # Behavior settings
 auto-commits: true
