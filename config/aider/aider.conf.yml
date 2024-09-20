@@ -14,3 +14,7 @@ verbose: false
 show_diffs: false
 
 # Color settings
+
+# File handling
+drop:
+  - oil:///Users/nd/.dotfiles/config/aider/
