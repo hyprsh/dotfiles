@@ -9,11 +9,11 @@ pretty: true
 
 # Color settings
 user-input-color: #31748f
-tool-output-color:
-tool-error-color: #FF2222
-tool-warning-color: #FFA500
-assistant-output-color: #0088ff
-code-theme: default
+tool-output-color: #9ccfd8
+tool-error-color: #eb6f92
+tool-warning-color: #f6c177
+assistant-output-color: #c4a7e7
+code-theme: rose-pine
 
 # Behavior settings
 auto-commits: true
