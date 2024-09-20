@@ -1,14 +1,21 @@
 # Model settings
 # model: gpt-4
-# temperature: 0.0
+cache-prompts: false
 
 # Editor settings
 pretty: true
-dark_mode: false
-use_color: true
+dark-mode: false
+pretty: true
+
+# Color settings
+user-input-color: #00cc00
+tool-output-color:
+tool-error-color: #FF2222
+tool-warning-color: #FFA500
+assistant-output-color: #0088ff
+code-theme: default
 
 # Behavior settings
-auto_commits: true
-auto_push: false
+auto-commits: true
 verbose: false
-show_diffs: false
+show-diffs: false
