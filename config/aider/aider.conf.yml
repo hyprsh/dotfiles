@@ -8,7 +8,7 @@ dark-mode: false
 pretty: true
 
 # Color settings
-user-input-color: #00cc00
+user-input-color: #31748f
 tool-output-color:
 tool-error-color: #FF2222
 tool-warning-color: #FFA500
