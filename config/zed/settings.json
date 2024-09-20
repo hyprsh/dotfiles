@@ -6,7 +6,7 @@
   // style
   "theme": {
     "mode": "system", // Uses system preference for light/dark mode
-    "dark": "Rosé Pine Moon", // Dark theme selection
+    "dark": "Rosé Pine", // Dark theme selection
     "light": "Rosé Pine Dawn" // Light theme selection
   },
 
@@ -53,14 +53,12 @@
   },
 
   // font
-  "buffer_font_size": 17, // Sets editor font size
-  "buffer_font_weight": 300, // Sets editor font weight
-  "buffer_line_height": { "custom": 2 }, // Sets custom line height in editor
+  "buffer_font_size": 16, // Sets editor font size
+  "buffer_line_height": { "custom": 3 }, // Sets custom line height in editor
   "buffer_font_family": "MonoLisa Nerd Font", // Sets primary editor font
   "buffer_font_fallbacks": ["Zed Plex Mono"], // Sets fallback editor font
 
-  "ui_font_size": 17, // Sets UI font size
-  "ui_font_weight": 300, // Sets UI font weight
+  "ui_font_size": 16, // Sets UI font size
   "ui_font_family": "MonoLisa Nerd Font", // Sets primary UI font
   "ui_font_fallbacks": ["Zed Plex Mono"], // Sets fallback UI font
 
