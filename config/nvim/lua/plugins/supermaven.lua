@@ -1,13 +1,6 @@
 return {
-  "supermaven-inc/supermaven-nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
-  },
+  'supermaven-inc/supermaven-nvim',
   config = function()
-    require("supermaven").setup()
+    require('supermaven-nvim').setup {}
   end,
-  keys = {
-    { "<leader>sm", "<cmd>Telescope supermaven<cr>", desc = "Supermaven" },
-  },
 }
