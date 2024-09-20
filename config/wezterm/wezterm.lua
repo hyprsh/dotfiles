@@ -14,7 +14,7 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return theme.moon.colors()
+		return theme.main.colors()
 	else
 		return theme.dawn.colors()
 	end
@@ -29,7 +29,11 @@ config.adjust_window_size_when_changing_font_size = false
 config.colors = scheme_for_appearance(get_appearance())
 
 -- font
-config.font = wezterm.font_with_fallback({ "MonoLisa", "JetBrains Mono" })
+config.font = wezterm.font_with_fallback({
+	"MonoLisa Nerd Font",
+	"MonoLisa",
+	"JetBrains Mono",
+})
 config.font_size = 16.0
 config.line_height = 1.5
 
