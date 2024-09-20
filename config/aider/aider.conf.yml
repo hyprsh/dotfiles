@@ -1,8 +1,6 @@
-# Default aider settings
-
 # Model settings
-model: gpt-4
-temperature: 0.0
+# model: gpt-4
+# temperature: 0.0
 
 # Editor settings
 pretty: true
@@ -13,23 +11,6 @@ use_color: true
 auto_commits: true
 auto_push: false
 verbose: false
-show_diffs: true
+show_diffs: false
 
-# File handling
-ignore_paths:
-  - .git
-  - .aider*
-  - .vscode
-  - .idea
-  - __pycache__
-  - *.pyc
-  - node_modules
-  - .DS_Store
-
-# Git settings
-git_commit_message_prefix: "AI: "
-
-# OpenAI API settings
-# openai_api_key: your_api_key_here  # Uncomment and replace with your actual API key if needed
-
-# Customize these settings as needed for your workflow
+# Color settings
