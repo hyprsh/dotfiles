@@ -69,9 +69,20 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
 -- auto-reload files when modified externally
--- https://unix.stackexchange.com/a/383044
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'CursorHoldI', 'FocusGained' }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { '*' },
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- Trigger `autoread` when files changes on disk
+vim.api.nvim_create_autocmd({ "FileChangedShellPost" }, {
+  pattern = "*",
+  callback = function()
+    vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+  end,
 })
