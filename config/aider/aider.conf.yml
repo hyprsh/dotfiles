@@ -1,11 +1,12 @@
 # Model settings
 # model: o1-preview
-# cache-prompts: true
+cache-prompts: true
 
-# Editor settings
-# dark-mode: true
-pretty: true
+# General settings
 vim: true
+auto-commits: false
+dirty-commits: false
+read: CONVENTIONS.md
 
 # Color settings
 user-input-color: #e0def4
