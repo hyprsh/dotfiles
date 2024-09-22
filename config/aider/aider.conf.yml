@@ -1,21 +1,16 @@
 # Model settings
-# model: gpt-4
-cache-prompts: false
+# model: o1-preview
+# cache-prompts: true
 
 # Editor settings
+# dark-mode: true
 pretty: true
-dark-mode: false
-pretty: true
+vim: true
 
 # Color settings
-user-input-color: #31748f
-tool-output-color: #9ccfd8
+user-input-color: #e0def4
+tool-output-color: #e0def4
 tool-error-color: #eb6f92
 tool-warning-color: #f6c177
-assistant-output-color: #c4a7e7
-code-theme: solarized-dark
-
-# Behavior settings
-auto-commits: true
-verbose: false
-show-diffs: false
+assistant-output-color: #e0def4
+code-theme: monokai
