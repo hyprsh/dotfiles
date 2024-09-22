@@ -68,16 +68,10 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
--- ansible
-vim.filetype.add {
-  pattern = {
-    ['.*/host_vars/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/group_vars/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/group_vars/.*/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/playbook.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/playbooks/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/roles/.*/tasks/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/roles/.*/handlers/.*%.ya?ml'] = 'yaml.ansible',
-    ['.*/tasks/.*%.ya?ml'] = 'yaml.ansible',
-  },
-}
+-- auto-reload files when modified externally
+-- https://unix.stackexchange.com/a/383044
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'CursorHoldI', 'FocusGained' }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { '*' },
+})
