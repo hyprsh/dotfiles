@@ -1,5 +1,6 @@
 return {
   'joshuavial/aider.nvim',
+  description = "Neovim plugin for Aider, an AI-powered coding assistant",
   config = function()
     require('aider').setup {
       -- -- set a keybinding for the AiderOpen function
