@@ -50,6 +50,7 @@ alias vim="nvim"
 alias n="nvim"
 alias lg="lazygit"
 alias g="git"
+alias gl="git log --oneline --graph --decorate --all"
 alias rmhosts="rm ~/.ssh/known_hosts"
 alias bat="bat --style=numbers,changes --theme=base16"
 alias cat="bat --style=plain --pager=never --theme=base16"
@@ -57,6 +58,8 @@ alias ls="eza --group-directories-first"
 alias rt="wezterm cli set-tab-title"
 alias a="aider --cache-prompts --dark-mode"
 
+# flutter
+export PATH="$PATH:/Users/nd/flutter/bin"
 
 # bun completions
 [ -s "/Users/nd/.bun/_bun" ] && source "/Users/nd/.bun/_bun"
