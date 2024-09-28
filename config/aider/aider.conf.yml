@@ -4,8 +4,8 @@ cache-prompts: true
 
 # General settings
 vim: true
-auto-commits: false
-dirty-commits: false
+auto-commits: true
+dirty-commits: true
 read: CONVENTIONS.md
 
 # Color settings
@@ -14,4 +14,4 @@ tool-output-color: #e0def4
 tool-error-color: #eb6f92
 tool-warning-color: #f6c177
 assistant-output-color: #e0def4
-code-theme: monokai
+code-theme: nord-darker # pygments themes
