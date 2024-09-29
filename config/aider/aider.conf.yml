@@ -4,8 +4,8 @@ cache-prompts: true
 
 # General settings
 vim: true
-auto-commits: true
-dirty-commits: true
+auto-commits: false
+dirty-commits: false
 read: CONVENTIONS.md
 
 # Color settings
