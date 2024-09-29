@@ -128,6 +128,7 @@ return { -- LSP Configuration & Plugins
       gopls = {},
       cssls = {},
       ts_ls = {},
+      eslint = {},
       emmet_ls = {},
       tailwindcss = {
         settings = {
