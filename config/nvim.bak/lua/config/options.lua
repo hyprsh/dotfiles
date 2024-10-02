@@ -55,13 +55,10 @@ vim.opt.cursorline = false
 vim.opt.scrolloff = 10
 
 -- Fold settings
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.opt.foldcolumn = '0'
-vim.opt.foldtext = ''
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
-vim.opt.foldnestmax = 4
+vim.opt.foldmethod = 'expr' -- fold based on expression
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' -- fold based on treesitter
+vim.opt.foldtext = 'getline(v:foldstart)' -- only show the first line of the fold
+vim.opt.foldlevel = 99 -- don't fold anything by default
 
 -- number of spaces a tab stands for
 vim.opt.tabstop = 2
@@ -70,19 +67,19 @@ vim.opt.shiftwidth = 2
 
 -- auto-reload files when modified externally
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
-  pattern = "*",
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  pattern = '*',
   callback = function()
-    if vim.fn.mode() ~= "c" then
-      vim.cmd("checktime")
+    if vim.fn.mode() ~= 'c' then
+      vim.cmd 'checktime'
     end
   end,
 })
 
 -- Trigger `autoread` when files changes on disk
-vim.api.nvim_create_autocmd({ "FileChangedShellPost" }, {
-  pattern = "*",
+vim.api.nvim_create_autocmd({ 'FileChangedShellPost' }, {
+  pattern = '*',
   callback = function()
-    vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+    vim.notify('File changed on disk. Buffer reloaded.', vim.log.levels.WARN)
   end,
 })
