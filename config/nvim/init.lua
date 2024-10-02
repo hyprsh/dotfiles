@@ -121,7 +121,7 @@ require('lazy').setup {
   { 'echasnovski/mini.nvim',                  version = false },
   { 'stevearc/oil.nvim',                      lazy = false },
   { 'nvim-lua/plenary.nvim',                  build = false },
-  { 'nvim-telescope/telescope.nvim',          branch = '0.1.x', build = false },
+  { 'nvim-telescope/telescope.nvim',          branch = '0.1.x',             build = false },
   { 'natecraddock/telescope-zf-native.nvim',  build = false },
   { 'nvim-telescope/telescope-ui-select.nvim' },
   { 'refractalize/oil-git-status.nvim' },
@@ -138,8 +138,7 @@ require('lazy').setup {
   { "j-hui/fidget.nvim" },
   { 'tpope/vim-sleuth' },
   { "kdheepak/lazygit.nvim" },
-  { "supermaven-inc/supermaven-nvim" },
-
+  { "supermaven-inc/supermaven-nvim",         opts = { log_level = 'off', } },
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
@@ -196,8 +195,6 @@ require('darkvoid').setup {
   show_end_of_buffer = false,
 }
 vim.cmd.colorscheme('darkvoid')
-
-require("supermaven-nvim").setup {}
 
 -- See :help lazyGit
 vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
