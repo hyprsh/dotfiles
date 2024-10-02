@@ -21,6 +21,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- Show whitespa
 vim.opt.inccommand = 'split' -- Preview substitutions live, as you type!
 vim.opt.cursorline = false -- Highlight the line where the cursor is
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.laststatus = 3 -- avante
 
 -- fold options
 vim.opt.foldmethod = 'expr'                          -- fold based on expression
@@ -136,17 +137,64 @@ require('lazy').setup {
   { 'neovim/nvim-lspconfig' },
   { "j-hui/fidget.nvim" },
   { 'tpope/vim-sleuth' },
+
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false,
+    opts = {
+      provider = "claude",
+      auto_suggestions_provider = "copilot",
+      behaviour = {
+        auto_suggestions = false, -- Experimental stage
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+      },
+    },
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+          },
+        },
+      },
+      {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  }
+
 }
 
 -- PLUGIN CONFIGURATION
 
 -- theme
 require('darkvoid').setup {
-  transparent = false,
+  transparent = true,
   glow = false,
   show_end_of_buffer = false,
 }
-vim.cmd.colorscheme 'darkvoid'
+vim.cmd.colorscheme('darkvoid')
 
 -- See :help nvim-treesitter-modules
 ---@diagnostic disable-next-line: missing-fields
@@ -260,6 +308,7 @@ statusline.section_location = function()
 end
 
 ---@diagnostic disable-next-line: duplicate-set-field
+
 statusline.section_fileinfo = function()
   return ''
 end
@@ -368,10 +417,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
   end,
 })
-
-
-
-
--- avante / codecompletion
--- diagnostics / code action
--- supermaven?
