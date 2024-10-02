@@ -137,6 +137,7 @@ require('lazy').setup {
   { 'neovim/nvim-lspconfig' },
   { "j-hui/fidget.nvim" },
   { 'tpope/vim-sleuth' },
+  { "kdheepak/lazygit.nvim" },
 
   {
     "yetone/avante.nvim",
@@ -195,6 +196,9 @@ require('darkvoid').setup {
   show_end_of_buffer = false,
 }
 vim.cmd.colorscheme('darkvoid')
+
+-- See :help lazyGit
+vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
 
 -- See :help nvim-treesitter-modules
 ---@diagnostic disable-next-line: missing-fields
