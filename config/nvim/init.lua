@@ -119,8 +119,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
   { 'echasnovski/mini.nvim',                  version = false },
-  { 'stevearc/oil.nvim',                      lazy = false },  -- file browser
-  { 'nvim-lua/plenary.nvim',                  build = false }, -- telescope dependency
+  { 'stevearc/oil.nvim',                      lazy = false },
+  { 'nvim-lua/plenary.nvim',                  build = false },
   { 'nvim-telescope/telescope.nvim',          branch = '0.1.x', build = false },
   { 'natecraddock/telescope-zf-native.nvim',  build = false },
   { 'nvim-telescope/telescope-ui-select.nvim' },
@@ -138,6 +138,7 @@ require('lazy').setup {
   { "j-hui/fidget.nvim" },
   { 'tpope/vim-sleuth' },
   { "kdheepak/lazygit.nvim" },
+  { "supermaven-inc/supermaven-nvim" },
 
   {
     "yetone/avante.nvim",
@@ -146,7 +147,7 @@ require('lazy').setup {
     version = false,
     opts = {
       provider = "claude",
-      auto_suggestions_provider = "copilot",
+      auto_suggestions_provider = "claude",
       behaviour = {
         auto_suggestions = false, -- Experimental stage
         auto_set_highlight_group = true,
@@ -161,7 +162,6 @@ require('lazy').setup {
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
         "HakonHarnes/img-clip.nvim",
         event = "VeryLazy",
@@ -196,6 +196,8 @@ require('darkvoid').setup {
   show_end_of_buffer = false,
 }
 vim.cmd.colorscheme('darkvoid')
+
+require("supermaven-nvim").setup {}
 
 -- See :help lazyGit
 vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
@@ -325,12 +327,7 @@ require('oil').setup {
   win_options = {
     signcolumn = "yes:2",
   },
-  extensions = {
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {
-      }
-    }
-  }
+
 }
 vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open Oil file browser' })
 vim.keymap.set('n', '\\', '<cmd>Oil<cr>', { desc = 'Open Oil file browser' })
@@ -344,6 +341,14 @@ vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { desc = 'Sear
 vim.keymap.set('n', '<leader>ds', '<cmd>Telescope diagnostics<cr>', { desc = 'Search diagnostics' })
 vim.keymap.set('n', '<leader>fs', '<cmd>Telescope current_buffer_fuzzy_find<cr>', { desc = 'Buffer local search' })
 
+require('telescope').setup {
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+      }
+    }
+  }
+}
 require('telescope').load_extension('zf-native')
 require("telescope").load_extension("ui-select")
 
@@ -377,6 +382,18 @@ require("mason-lspconfig").setup {
 require("mason-lspconfig").setup_handlers {
   function(server_name) -- default handler (optional)
     require("lspconfig")[server_name].setup {}
+  end,
+  ["lua_ls"] = function()
+    local lspconfig = require("lspconfig")
+    lspconfig.lua_ls.setup {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" }
+          }
+        }
+      }
+    }
   end,
   ["tailwindcss"] = function()
     require('lspconfig').tailwindcss.setup {
