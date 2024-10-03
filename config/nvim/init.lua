@@ -142,6 +142,11 @@ require('lazy').setup {
     'supermaven-inc/supermaven-nvim',
     opts = {
       log_level = 'off',
+      keymaps = {
+        accept_suggestion = '<C-y>',
+        clear_suggestion = '<C-]>',
+        accept_word = '<C-j>',
+      },
     },
   },
 
@@ -206,8 +211,6 @@ require('lazy').setup {
 }
 
 -- PLUGIN CONFIGURATION
-
--- theme
 
 -- See :help lazyGit
 vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
