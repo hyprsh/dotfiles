@@ -37,6 +37,8 @@ vim.opt.splitbelow = true
 vim.opt.autoread = true
 
 -- AUTOCOMMANDS
+--
+-- file changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   command = 'checktime',
 })
@@ -55,7 +57,7 @@ vim.api.nvim_create_autocmd('BufRead', {
       callback = function()
         local ft = vim.bo[opts.buf].filetype
         local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
-        if not (ft:match 'commit' and ft:match 'rebase') and last_known_line > 1 and last_known_line <= vim.api.nvim_buf_line_count(opts.buf) then
+        if not (ft:match('commit') and ft:match('rebase')) and last_known_line > 1 and last_known_line <= vim.api.nvim_buf_line_count(opts.buf) then
           vim.api.nvim_feedkeys([[g`"]], 'nx', false)
         end
       end,
@@ -99,12 +101,11 @@ vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = 'Go to previous
 vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Delete current buffer' })
 
 -- PLUGINS
-
 -- Lazy Plugin Manager
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
@@ -117,15 +118,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup {
+require('lazy').setup({
+  { 'nvim-lua/plenary.nvim', build = false },
+  { 'stevearc/dressing.nvim' },
+  { 'MunifTanjim/nui.nvim' },
   { 'echasnovski/mini.nvim', version = false },
   { 'stevearc/oil.nvim', lazy = false },
-  { 'nvim-lua/plenary.nvim', build = false },
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', build = false },
-  { 'natecraddock/telescope-zf-native.nvim', build = false },
-  { 'nvim-telescope/telescope-ui-select.nvim' },
   { 'refractalize/oil-git-status.nvim' },
-
   { 'nvim-treesitter/nvim-treesitter' },
   { 'hrsh7th/nvim-cmp' },
   { 'hrsh7th/cmp-nvim-lsp' },
@@ -133,162 +132,146 @@ require('lazy').setup {
   { 'hrsh7th/cmp-path' },
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
-  { 'stevearc/conform.nvim' },
   { 'neovim/nvim-lspconfig' },
+  { 'stevearc/conform.nvim' },
   { 'j-hui/fidget.nvim' },
   { 'tpope/vim-sleuth' },
   { 'kdheepak/lazygit.nvim' },
-  {
-    'supermaven-inc/supermaven-nvim',
-    opts = {
-      log_level = 'off',
-      keymaps = {
-        accept_suggestion = '<C-y>',
-        clear_suggestion = '<C-]>',
-        accept_word = '<C-j>',
-      },
-    },
-  },
-
-  {
-    'hyprsh/darkvoid.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('darkvoid').setup {
-        transparent = true,
-        glow = false,
-        show_end_of_buffer = false,
-      }
-      vim.cmd.colorscheme 'darkvoid'
-    end,
-  },
-
-  {
-    'yetone/avante.nvim',
-    event = 'VeryLazy',
-    lazy = false,
-    version = false,
-    opts = {
-      provider = 'claude',
-      auto_suggestions_provider = 'claude',
-      behaviour = {
-        auto_suggestions = false, -- Experimental stage
-        auto_set_highlight_group = true,
-        auto_set_keymaps = true,
-        auto_apply_diff_after_generation = false,
-        support_paste_from_clipboard = false,
-      },
-    },
-    build = 'make',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'stevearc/dressing.nvim',
-      'nvim-lua/plenary.nvim',
-      'MunifTanjim/nui.nvim',
-      {
-        'HakonHarnes/img-clip.nvim',
-        event = 'VeryLazy',
-        opts = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-          },
-        },
-      },
-      {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { 'markdown', 'Avante' },
-        },
-        ft = { 'markdown', 'Avante' },
-      },
-    },
-  },
-}
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
+  { 'natecraddock/telescope-zf-native.nvim', build = false },
+  { 'nvim-telescope/telescope-ui-select.nvim' },
+  { 'supermaven-inc/supermaven-nvim' },
+  { 'hyprsh/darkvoid.nvim', lazy = false, priority = 1000 },
+  { 'HakonHarnes/img-clip.nvim', event = 'VeryLazy' },
+  { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'Avante' } },
+  { 'yetone/avante.nvim', event = 'VeryLazy', lazy = false, version = false, build = 'make' },
+})
 
 -- PLUGIN CONFIGURATION
+
+-- avante
+require('avante').setup({
+  provider = 'claude',
+  auto_suggestions_provider = 'claude',
+  behaviour = {
+    auto_suggestions = false, -- Experimental stage
+    auto_set_highlight_group = true,
+    auto_set_keymaps = true,
+    auto_apply_diff_after_generation = false,
+    support_paste_from_clipboard = false,
+  },
+})
+
+-- render-markdown
+require('render-markdown').setup({
+  file_types = { 'markdown', 'Avante' },
+})
+
+-- img-clip
+require('img-clip').setup({
+  default = {
+    embed_image_as_base64 = false,
+    prompt_for_file_name = false,
+    drag_and_drop = {
+      insert_mode = true,
+    },
+  },
+})
+
+-- darkvoid
+require('darkvoid').setup({
+  transparent = true,
+  glow = false,
+  show_end_of_buffer = false,
+})
+vim.cmd.colorscheme('darkvoid')
+
+-- suppermaven
+require('supermaven-nvim').setup({
+  log_level = 'off',
+  keymaps = {
+    accept_suggestion = '<C-y>',
+    clear_suggestion = '<C-]>',
+    accept_word = '<C-j>',
+  },
+})
 
 -- See :help lazyGit
 vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'Open lazy git' })
 
 -- See :help nvim-treesitter-modules
----@diagnostic disable-next-line: missing-fields
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
   highlight = { enable = true },
   auto_install = true,
   ensure_installed = { 'lua', 'vim', 'vimdoc', 'json' },
-}
+})
 
 -- See :help cmp-config
-local cmp = require 'cmp'
-cmp.setup {
+local cmp = require('cmp')
+cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     -- { name = 'buffer' },
     { name = 'path' },
   },
-  mapping = cmp.mapping.preset.insert {
-    ['<CR>'] = cmp.mapping.confirm { select = true },
+  mapping = cmp.mapping.preset.insert({
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
     ['<C-d>'] = cmp.mapping.scroll_docs(4),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-  },
+  }),
   snippet = {
     expand = function(args)
       vim.snippet.expand(args.body)
     end,
   },
-}
+})
 
 -- See :help MiniAi-textobject-builtin
-require('mini.ai').setup { n_lines = 500 }
+require('mini.ai').setup({ n_lines = 500 })
 
 -- See :help MiniComment.config
-require('mini.comment').setup {}
+require('mini.comment').setup({})
 
 -- See :help MiniSurround.config
-require('mini.surround').setup {}
+require('mini.surround').setup({})
 
 -- See :help MiniPairs.config
-require('mini.pairs').setup {}
+require('mini.pairs').setup({})
 
 -- See :help MiniIcons.config
-require('mini.icons').setup {}
+require('mini.icons').setup({})
 
 -- See :help MiniIcons.config
-require('mini.icons').setup {}
+require('mini.icons').setup({})
 
 -- See :help MiniBufremove.config
-require('mini.bufremove').setup {}
+require('mini.bufremove').setup({})
 
 -- Close buffer and preserve window layout
 vim.keymap.set('n', '<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>', { desc = 'Close buffer' })
 
 -- See :help MiniGit.config
-require('mini.git').setup {}
+require('mini.git').setup({})
 
 -- See :help MiniDiff.config
-require('mini.diff').setup {
+require('mini.diff').setup({
   view = {
     signs = { add = '+', change = '~', delete = '-' },
   },
-}
+})
 
 -- See :help MiniNotify.config
-require('mini.notify').setup {
+require('mini.notify').setup({
   lsp_progress = { enable = false },
-}
+})
 
 -- See :help MiniNotify.make_notify()
-vim.notify = require('mini.notify').make_notify {}
+vim.notify = require('mini.notify').make_notify({})
 
-local miniclue = require 'mini.clue'
-miniclue.setup {
+local miniclue = require('mini.clue')
+miniclue.setup({
   triggers = {
     { mode = 'n', keys = '<Leader>' },
     { mode = 'x', keys = '<Leader>' },
@@ -315,35 +298,42 @@ miniclue.setup {
     miniclue.gen_clues.windows(),
     miniclue.gen_clues.z(),
   },
-}
+})
 
 -- See :help MiniStatusline.config
-local statusline = require 'mini.statusline'
-statusline.setup { use_icons = true }
+local statusline = require('mini.statusline')
+statusline.setup({ use_icons = true })
 
----@diagnostic disable-next-line: duplicate-set-field
 statusline.section_location = function()
   return '%2l:%-2v'
 end
-
----@diagnostic disable-next-line: duplicate-set-field
 
 statusline.section_fileinfo = function()
   return ''
 end
 
 -- See :help oil
-require('oil').setup {
+require('oil').setup({
   default_file_explorer = true,
   skip_confirm_for_simple_edits = true,
   columns = {},
   win_options = {
     signcolumn = 'yes:2',
   },
-}
+})
 vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open Oil file browser' })
 vim.keymap.set('n', '\\', '<cmd>Oil<cr>', { desc = 'Open Oil file browser' })
-require('oil-git-status').setup {}
+require('oil-git-status').setup({})
+
+require('telescope').setup({
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown({}),
+    },
+  },
+})
+require('telescope').load_extension('zf-native')
+require('telescope').load_extension('ui-select')
 
 -- See :help telescope.builtin
 vim.keymap.set('n', '<leader>?', '<cmd>Telescope oldfiles<cr>', { desc = 'Search file history' })
@@ -352,19 +342,15 @@ vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = 'Sea
 vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { desc = 'Search in project' })
 vim.keymap.set('n', '<leader>ds', '<cmd>Telescope diagnostics<cr>', { desc = 'Search diagnostics' })
 vim.keymap.set('n', '<leader>fs', '<cmd>Telescope current_buffer_fuzzy_find<cr>', { desc = 'Buffer local search' })
-
-require('telescope').setup {
-  extensions = {
-    ['ui-select'] = {
-      require('telescope.themes').get_dropdown {},
-    },
-  },
-}
-require('telescope').load_extension 'zf-native'
-require('telescope').load_extension 'ui-select'
+vim.keymap.set('n', '<leader>/', function()
+  require('telescope').builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown({ winblend = 10, previewer = false }))
+end, { desc = '[/] Fuzzily search in current buffer' })
+vim.keymap.set('n', '<leader>s/', function()
+  require('telescope').builtin.live_grep({ grep_open_files = true, prompt_title = 'Live Grep in Open Files' })
+end, { desc = '[S]earch [/] in Open Files' })
 
 -- format
-require('conform').setup {
+require('conform').setup({
   format_on_save = {
     -- These options will be passed to conform.format()
     timeout_ms = 500,
@@ -378,24 +364,24 @@ require('conform').setup {
     javascriptreact = { 'eslint', 'prettierd', 'prettier', stop_after_first = true },
     python = { 'isort', 'black' },
   },
-}
+})
 vim.keymap.set('n', '<leader>cf', function()
-  require('conform').format { async = true, lsp_fallback = true }
+  require('conform').format({ async = true, lsp_fallback = true })
 end, { desc = 'Format code' })
 
 -- lspconfig
 require('mason').setup()
-require('mason-lspconfig').setup {
+require('mason-lspconfig').setup({
   ensure_installed = { 'lua_ls', 'ts_ls', 'eslint', 'html', 'cssls', 'emmet_ls', 'tailwindcss' },
-}
+})
 
-require('mason-lspconfig').setup_handlers {
+require('mason-lspconfig').setup_handlers({
   function(server_name) -- default handler (optional)
-    require('lspconfig')[server_name].setup {}
+    require('lspconfig')[server_name].setup({})
   end,
   ['lua_ls'] = function()
-    local lspconfig = require 'lspconfig'
-    lspconfig.lua_ls.setup {
+    local lspconfig = require('lspconfig')
+    lspconfig.lua_ls.setup({
       settings = {
         Lua = {
           diagnostics = {
@@ -403,10 +389,10 @@ require('mason-lspconfig').setup_handlers {
           },
         },
       },
-    }
+    })
   end,
   ['tailwindcss'] = function()
-    require('lspconfig').tailwindcss.setup {
+    require('lspconfig').tailwindcss.setup({
       settings = {
         tailwindCSS = {
           classAttributes = { 'class', 'className', 'style' },
@@ -415,13 +401,13 @@ require('mason-lspconfig').setup_handlers {
           },
         },
       },
-    }
+    })
   end,
-}
+})
 
-require('fidget').setup {}
+require('fidget').setup({})
 
-local lspconfig = require 'lspconfig'
+local lspconfig = require('lspconfig')
 
 -- Adds nvim-cmp's capabilities settings to
 -- lspconfig's default config
