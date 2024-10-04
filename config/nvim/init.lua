@@ -135,7 +135,6 @@ require('lazy').setup({
   { 'williamboman/mason-lspconfig.nvim' },
   { 'neovim/nvim-lspconfig' },
   { 'stevearc/conform.nvim' },
-  { 'j-hui/fidget.nvim' },
   { 'tpope/vim-sleuth' },
   { 'kdheepak/lazygit.nvim' },
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x' },
@@ -447,8 +446,6 @@ require('mason-lspconfig').setup_handlers({
     })
   end,
 })
-
-require('fidget').setup({})
 
 local lspconfig = require('lspconfig')
 
