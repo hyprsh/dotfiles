@@ -127,6 +127,7 @@ require('lazy').setup({
   { 'refractalize/oil-git-status.nvim' },
   { 'nvim-treesitter/nvim-treesitter' },
   { 'hrsh7th/nvim-cmp' },
+  { 'onsails/lspkind-nvim' },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },
   { 'hrsh7th/cmp-path' },
@@ -145,10 +146,23 @@ require('lazy').setup({
   { 'HakonHarnes/img-clip.nvim', event = 'VeryLazy' },
   { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'Avante' } },
   { 'yetone/avante.nvim', event = 'VeryLazy', lazy = false, version = false, build = 'make' },
+  { 'luckasRanarison/tailwind-tools.nvim', name = 'tailwind-tools', build = ':UpdateRemotePlugins' },
 })
 
 -- PLUGIN CONFIGURATION
 
+-- tailwind-tools
+require('tailwind-tools').setup({
+  document_colors = {
+    inline_symbol = '●',
+  },
+  extension = {
+    patterns = {
+      typescriptreact = { 'tw`([^`]*)', 'tw.style\\(([^)]*)\\)' },
+    },
+  },
+})
+vim.keymap.set('n', '<leader>ct', '<cmd>TailwindSortSync<cr>', { desc = 'Tailwind sort class' })
 -- avante
 require('avante').setup({
   provider = 'claude',
@@ -213,6 +227,12 @@ cmp.setup({
     { name = 'nvim_lsp' },
     -- { name = 'buffer' },
     { name = 'path' },
+  },
+  formatting = {
+    format = require('lspkind').cmp_format({
+      mode = 'symbol',
+      before = require('tailwind-tools.cmp').lspkind_format,
+    }),
   },
   mapping = cmp.mapping.preset.insert({
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
