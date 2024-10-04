@@ -296,6 +296,13 @@ vim.notify = require('mini.notify').make_notify({})
 
 local miniclue = require('mini.clue')
 miniclue.setup({
+  window = {
+    delay = 0,
+    config = {
+      width = '40',
+      border = '',
+    },
+  },
   triggers = {
     { mode = 'n', keys = '<Leader>' },
     { mode = 'x', keys = '<Leader>' },
