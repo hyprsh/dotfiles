@@ -384,12 +384,6 @@ vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = 'Sea
 vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { desc = 'Search in project' })
 vim.keymap.set('n', '<leader>ds', '<cmd>Telescope diagnostics<cr>', { desc = 'Search diagnostics' })
 vim.keymap.set('n', '<leader>fs', '<cmd>Telescope current_buffer_fuzzy_find<cr>', { desc = 'Buffer local search' })
-vim.keymap.set('n', '<leader>/', function()
-  require('telescope').builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown({ winblend = 10, previewer = false }))
-end, { desc = '[/] Fuzzily search in current buffer' })
-vim.keymap.set('n', '<leader>s/', function()
-  require('telescope').builtin.live_grep({ grep_open_files = true, prompt_title = 'Live Grep in Open Files' })
-end, { desc = '[S]earch [/] in Open Files' })
 
 -- format
 require('conform').setup({
