@@ -163,10 +163,14 @@ require('tailwind-tools').setup({
   },
 })
 vim.keymap.set('n', '<leader>ct', '<cmd>TailwindSortSync<cr>', { desc = 'Tailwind sort class' })
+
 -- avante
 require('avante').setup({
   provider = 'claude',
   auto_suggestions_provider = 'claude',
+  claude = {
+    api_key_name = 'cmd:bw get notes anthropic-api-key',
+  },
   behaviour = {
     auto_suggestions = false, -- Experimental stage
     auto_set_highlight_group = true,
