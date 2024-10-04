@@ -289,6 +289,18 @@ require('mini.diff').setup({
 -- See :help MiniNotify.config
 require('mini.notify').setup({
   lsp_progress = { enable = false },
+  content = {
+    format = function(notif)
+      return notif.msg
+    end,
+  },
+  window = {
+    config = {
+      border = '',
+    },
+    max_width_share = 0.382,
+    winblend = 100,
+  },
 })
 
 -- See :help MiniNotify.make_notify()
