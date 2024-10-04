@@ -68,27 +68,27 @@ config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
 
 -- keys
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1003 }
+config.leader = { key = "-", mods = "CTRL", timeout_milliseconds = 1003 }
 config.keys = {
-	{ key = "\\",         mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "|",          mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "%",          mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "-",          mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = '"',          mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "c",          mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-	{ key = "q",          mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
-	{ key = "f",          mods = "LEADER", action = act.TogglePaneZoomState },
-	{ key = "z",          mods = "LEADER", action = act.TogglePaneZoomState },
-	{ key = "h",          mods = "LEADER", action = act.AdjustPaneSize({ "Left", 5 }) },
-	{ key = "j",          mods = "LEADER", action = act.AdjustPaneSize({ "Down", 5 }) },
-	{ key = "k",          mods = "LEADER", action = act.AdjustPaneSize({ "Up", 5 }) },
-	{ key = "l",          mods = "LEADER", action = act.AdjustPaneSize({ "Right", 5 }) },
-	{ key = "LeftArrow",  mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "|", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "%", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = '"', mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "q", mods = "LEADER", action = act.CloseCurrentTab({ confirm = false }) },
+	{ key = "f", mods = "LEADER", action = act.TogglePaneZoomState },
+	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+	{ key = "h", mods = "LEADER", action = act.AdjustPaneSize({ "Left", 5 }) },
+	{ key = "j", mods = "LEADER", action = act.AdjustPaneSize({ "Down", 5 }) },
+	{ key = "k", mods = "LEADER", action = act.AdjustPaneSize({ "Up", 5 }) },
+	{ key = "l", mods = "LEADER", action = act.AdjustPaneSize({ "Right", 5 }) },
+	{ key = "LeftArrow", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
 	{ key = "RightArrow", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
-	{ key = "UpArrow",    mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-	{ key = "DownArrow",  mods = "LEADER", action = act.ActivatePaneDirection("Down") },
+	{ key = "UpArrow", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+	{ key = "DownArrow", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
 	-- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
-	{ key = "a",          mods = "LEADER", action = act.SendKey({ key = "a", mods = "CTRL" }) },
+	{ key = "a", mods = "LEADER", action = act.SendKey({ key = "a", mods = "CTRL" }) },
 	{
 		key = ",",
 		mods = "LEADER",
