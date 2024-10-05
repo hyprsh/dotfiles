@@ -27,17 +27,19 @@ config.adjust_window_size_when_changing_font_size = false
 -- set color_scheme
 -- config.colors = scheme_for_appearance(get_appearance())
 config.colors = {
-	foreground = "#c0c0c0", -- Light gray for text
-	background = "#1c1c1c", -- Dark background
-	cursor_bg = "#1bfd9c", -- Glow for the cursor
-	cursor_border = "#1bfd9c",
-	cursor_fg = "#1c1c1c", -- Cursor text
+	foreground = "#DEEEED",
+	background = "#0A0A0A",
 
-	selection_bg = "#585858",
-	selection_fg = "#c0c0c0",
+	cursor_bg = "#DEEEED",
+	cursor_border = "#DEEEED",
+	cursor_fg = "#080808",
 
-	ansi = { "#1c1c1c", "#dea6a0", "#baffc9", "#d6efd8", "#81A1C1", "#1bfd9c", "#7fa1c3", "#c0c0c0" },
-	brights = { "#4C566A", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD", "#8FBCBB", "#ECEFF4" },
+	selection_fg = "none", -- Selection text color
+	selection_bg = "#7A7A7A", -- Selection background color
+
+	-- Normal colors
+	ansi = { "#080808", "#D70000", "#789978", "#ffAA88", "#7788AA", "#D7007D", "#708090", "#DEEEED" },
+	brights = { "#444444", "#D70000", "#789978", "#ffAA88", "#7788AA", "#D7007D", "#708090", "#DEEEED" },
 }
 
 -- font
@@ -54,7 +56,7 @@ config.hide_tab_bar_if_only_one_tab = true
 
 -- styling
 config.inactive_pane_hsb = { brightness = 0.95 }
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.98
 config.macos_window_background_blur = 0
 config.native_macos_fullscreen_mode = true
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
