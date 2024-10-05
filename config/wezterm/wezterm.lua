@@ -43,7 +43,10 @@ config.colors = {
 }
 
 -- font
-config.font = wezterm.font_with_fallback({ "Iosevka Nerd Font" })
+config.font = wezterm.font_with_fallback({
+	"JetBrainsMono Nerd Font",
+	-- "Iosevka Nerd Font"
+})
 config.font_size = 18.0
 config.line_height = 1.5
 
