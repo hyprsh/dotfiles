@@ -365,6 +365,8 @@ plugins.oil = {
     require('oil').setup({
       default_file_explorer = true,
       skip_confirm_for_simple_edits = true,
+      watch_for_changes = true,
+      show_hidden = true,
       win_options = {
         signcolumn = 'yes:2',
       },
@@ -399,13 +401,13 @@ plugins.telescope = {
     { 'natecraddock/telescope-zf-native.nvim' },
   },
   keys = {
-    { '<leader><space>', '<cmd>Telescope keymaps theme=dropdown<cr>', desc = 'Search keymaps' },
-    { '<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Search open files' },
     { '<leader>fh', '<cmd>Telescope oldfiles<cr>', desc = 'Search file history' },
     { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Search all files' },
     { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Search in project' },
     { '<leader>ds', '<cmd>Telescope diagnostics<cr>', desc = 'Search diagnostics' },
-    { '<leader>fs', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer local search' },
+    { '<leader><space>', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer local search' },
+    { '<leader>?', '<cmd>Telescope keymaps theme=dropdown<cr>', desc = 'Search keymaps' },
+    { '<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Search open files' },
   },
   config = function()
     require('telescope').setup({
