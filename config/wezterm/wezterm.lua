@@ -3,29 +3,13 @@ local act = wezterm.action
 
 local config = wezterm.config_builder()
 
--- automatic dark/light mode
-local function get_appearance()
-	if wezterm.gui then
-		return wezterm.gui.get_appearance()
-	end
-	return "Dark"
-end
-
-local function scheme_for_appearance(appearance)
-	if appearance:find("Dark") then
-		return theme.main.colors()
-	else
-		return theme.dawn.colors()
-	end
-end
-
 -- settings
+config.default_prog = { "/opt/homebrew/bin/tmux" }
 config.use_dead_keys = false
 config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
 
 -- set color_scheme
--- config.colors = scheme_for_appearance(get_appearance())
 config.colors = {
 	foreground = "#DEEEED",
 	background = "#0A0A0A",
