@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+ROOT="$(pwd)"
 SRC="$(pwd)/config"
 DST="$HOME/.config"
 
@@ -39,11 +40,11 @@ link brew
 
 # hyperkey
 rm $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
-cp $DOTFILES/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
+cp $SRC/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
 
 # scripts
 mkdir -p $HOME/.local/bin
-ln -sf scripts/t.sh $HOME/.local/bin/t
+ln -sf $ROOT/scripts/t.sh $HOME/.local/bin/t
 
 # install fonts
 cp fonts/* $HOME/Library/Fonts

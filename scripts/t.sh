@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 
-# Credit to ThePrimeagen
-
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    items=`find ~/Code -maxdepth 2 -mindepth 1 -type d`
-    items+=`echo -e "\n/tmp"`
-    selected=`echo "$items" | fzf`
+    selected=$(zoxide query -l | fzf)
 fi
 
-dirname=`basename $selected | sed 's/\./_/g'`
-
-tmux switch-client -t =$dirname
-if [[ $? -eq 0 ]]; then
+if [[ -z $selected ]]; then
     exit 0
 fi
 
-tmux new-session -c $selected -d -s $dirname && tmux switch-client -t $dirname || tmux new -c $selected -A -s $dirname
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name
