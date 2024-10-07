@@ -1,66 +1,44 @@
 {
   // basic config
-  "base_keymap": "VSCode", // Sets the default key bindings to VSCode style
-  "vim_mode": true, // Enables Vim keybindings
+  "base_keymap": "VSCode",
+  "vim_mode": true,
 
   // style
   "theme": {
-    "mode": "system", // Uses system preference for light/dark mode
-    "dark": "Rosé Pine", // Dark theme selection
-    "light": "Rosé Pine Dawn" // Light theme selection
+    "mode": "system",
+    "dark": "Monosami Dark",
+    "light": "Monosami Light"
   },
 
   // ui
-  "use_system_path_prompts": false, // Disables system path prompts
-  "cursor_blink": false, // Turns off cursor blinking
-  "current_line_highlight": "line", // Highlights the current line
-  "scrollbar": { "show": "never" }, // Hides the scrollbar
-  "vertical_scroll_margin": 8, // Sets vertical scroll margin to 8 lines
-  "indent_guides": {
-    "enabled": false // Disables indent guide lines
-  },
-  "tab_bar": {
-    "show": false, // Hides the tab bar
-    "show_nav_history_buttons": false // Hides navigation history buttons
-  },
+  "use_system_path_prompts": false,
+  "cursor_blink": false,
+  "current_line_highlight": "none",
+  "scrollbar": { "show": "never" },
+  "vertical_scroll_margin": 8,
+  "indent_guides": { "enabled": false },
+  "tab_bar": { "show": false },
   "toolbar": {
-    "breadcrumbs": true, // Shows breadcrumbs in toolbar
-    "quick_actions": false, // Hides quick actions in toolbar
-    "selections_menu": false // Hides selections menu in toolbar
+    "breadcrumbs": true,
+    "quick_actions": false,
+    "selections_menu": false
   },
   "gutter": {
-    "line_numbers": false, // Hides line numbers
-    "code_actions": false, // Disables code action indicators
-    "folds": false, // Disables code folding indicators
-    "runnables": false // Hides runnable code indicators
+    "line_numbers": false,
+    "code_actions": false,
+    "folds": false,
+    "runnables": false
   },
-  "git": {
-    "inline_blame": { "enabled": false } // Disables inline git blame
-  },
-  "relative_line_numbers": true, // Enables relative line numbering
-  "inlay_hints": { "enabled": false }, // Disables inlay hints
-  "project_panel": {
-    "button": true // Shows project panel button
-  },
-  "outline_panel": { "button": false }, // Hides outline panel button
-  "collaboration_panel": { "button": false }, // Hides collaboration panel button
-  "chat_panel": { "button": false }, // Hides chat panel button
-  "terminal": {
-    "button": false, // Hides terminal button
-    "toolbar": {
-      "title": false // Hides terminal toolbar title
-    }
-  },
+  "git": { "inline_blame": { "enabled": false } },
+  "relative_line_numbers": true,
+  "collaboration_panel": { "button": false },
+  "chat_panel": { "button": false },
+  "terminal": { "button": false, "toolbar": { "title": false } },
 
   // font
-  "buffer_font_size": 16, // Sets editor font size
-  "buffer_line_height": { "custom": 1.5 }, // Sets custom line height in editor
-  "buffer_font_family": "MonoLisa Nerd Font", // Sets primary editor font
-  "buffer_font_fallbacks": ["Zed Plex Mono"], // Sets fallback editor font
-
-  "ui_font_size": 16, // Sets UI font size
-  "ui_font_family": "MonoLisa Nerd Font", // Sets primary UI font
-  "ui_font_fallbacks": ["Zed Plex Mono"], // Sets fallback UI font
+  "buffer_font_size": 18, // Sets editor font size
+  "ui_font_size": 18, // Sets UI font size
+  "buffer_line_height": { "custom": 1.75 }, // Sets custom line height in editor
 
   // ai
   "features": {

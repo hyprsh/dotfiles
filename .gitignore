@@ -1,2 +1,4 @@
 *.pyc
-.aider*
+zed/prompts/
+zed/conversations/
+zed/embeddings/
