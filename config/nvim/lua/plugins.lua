@@ -3,6 +3,7 @@ local plugins = {}
 local lsp = {
   'lua_ls',
   'ts_ls',
+  'biome',
   'eslint',
   'tailwindcss',
   'html',
@@ -23,8 +24,8 @@ plugins.lackluster = {
         ['@function'] = { link = '@keyword' },
       },
     })
-    vim.cmd.colorscheme('lackluster')
-    -- vim.cmd.colorscheme('lackluster-hack')
+    -- vim.cmd.colorscheme('lackluster')
+    vim.cmd.colorscheme('lackluster-hack')
     -- vim.cmd.colorscheme('lackluster-mint')
   end,
 }
@@ -81,7 +82,6 @@ plugins.lsp = {
 
       require('mason').setup({})
       require('mason-lspconfig').setup({
-        -- Add language servers here
         ensure_installed = lsp,
         handlers = {
           function(server_name)
@@ -171,7 +171,7 @@ plugins.avante = {
     auto_suggestions_provider = 'claude',
     claude = {
       -- get api key from bitwarden, otherwise it reads $ANTHROPIC_API_KEY
-      api_key_name = 'cmd:bw get notes anthropic-api-key',
+      -- api_key_name = 'cmd:bw get notes anthropic-api-key',
     },
     behaviour = {
       auto_suggestions = false, -- Experimental stage
@@ -456,10 +456,10 @@ plugins.conform = {
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        typescript = { 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        javascript = { 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'eslint', 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
       },
     })
   end,
