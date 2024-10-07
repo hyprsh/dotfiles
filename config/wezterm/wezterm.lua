@@ -28,8 +28,8 @@ config.colors = {
 
 -- font
 config.font = wezterm.font_with_fallback({
-	"JetBrainsMono Nerd Font",
-	-- "Iosevka Nerd Font"
+	"IBM Plex Mono",
+	-- "Iosevka Nerd Font",
 })
 config.font_size = 18.0
 config.line_height = 1.5
@@ -57,8 +57,11 @@ config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
 
 -- keys
-config.leader = { key = "-", mods = "CTRL", timeout_milliseconds = 1003 }
+config.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1003 }
 config.keys = {
+	{ key = "=", mods = "CTRL", action = wezterm.action.IncreaseFontSize },
+	{ key = "-", mods = "CTRL", action = wezterm.action.DecreaseFontSize },
+	{ key = "0", mods = "CTRL", action = wezterm.action.ResetFontSize },
 	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "|", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "%", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
