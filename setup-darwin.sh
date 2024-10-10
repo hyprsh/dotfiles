@@ -13,7 +13,6 @@ link() {
 rm -r $HOME/iCloud
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
-link aerospace
 link bat
 bat cache --build
 link git
@@ -23,6 +22,9 @@ link alacritty
 link yt-dlp
 link zsh
 link kitty
+link yabai
+link skhd
+link wezterm
 
 # install brew if not installed
 if type brew &>/dev/null; then
