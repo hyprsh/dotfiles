@@ -65,11 +65,6 @@ alias lsa="eza --group-directories-first"
 alias rt="wezterm cli set-tab-title"
 alias a="aider --cache-prompts --dark-mode"
 
-# bun
-[ -s "/Users/nd/.bun/_bun" ] && source "/Users/nd/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # Java + Android
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 export ANDROID_HOME=$HOME/Library/Android/sdk
