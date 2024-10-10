@@ -6,12 +6,15 @@ cache-prompts: true
 vim: true
 auto-commits: false
 dirty-commits: false
+suggest-shell-commands: true
+yes-always: true # max ai controll :)
 read: CONVENTIONS.md
 
 # Color settings
-user-input-color: #e0def4
-tool-output-color: #e0def4
-tool-error-color: #eb6f92
-tool-warning-color: #f6c177
-assistant-output-color: #e0def4
-code-theme: nord-darker # pygments themes
+pretty: false
+user-input-color: #708090
+tool-output-color: #7a7a7a
+tool-error-color: #D70000
+tool-warning-color: #ffaa88
+assistant-output-color: #aaaaaa
+code-theme: friendly_grayscale # pygments themes
