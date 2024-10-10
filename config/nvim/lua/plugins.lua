@@ -153,6 +153,37 @@ plugins.lsp = {
   },
 }
 
+plugins.aider = {
+  {
+    'nekowasabi/aider.vim',
+    dependencies = 'vim-denops/denops.vim',
+    config = function()
+      vim.g.aider_command = 'aider --no-auto-commits'
+      vim.g.aider_buffer_open_type = 'floating'
+      vim.g.aider_floatwin_width = 100
+      vim.g.aider_floatwin_height = 20
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'AiderOpen',
+        callback = function(args)
+          vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { buffer = args.buf })
+          vim.keymap.set('n', '<Esc>', '<cmd>AiderHide<CR>', { buffer = args.buf })
+        end,
+      })
+      vim.api.nvim_set_keymap('n', '<leader>at', ':AiderRun<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>aa', ':AiderAddCurrentFile<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ar', ':AiderAddCurrentFileReadOnly<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>aw', ':AiderAddWeb<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ax', ':AiderExit<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ai', ':AiderAddIgnoreCurrentFile<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderOpenIgnore<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>aI', ':AiderPaste<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ah', ':AiderHide<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('v', '<leader>av', ':AiderVisualTextWithPrompt<CR>', { noremap = true, silent = true })
+    end,
+  },
+}
+
 plugins.lazygit = {
   'kdheepak/lazygit.nvim',
   cmd = 'LazyGit',
@@ -200,14 +231,48 @@ plugins.avante = {
         },
       },
     },
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      opts = {
-        file_types = { 'markdown', 'Avante' },
-      },
-      ft = { 'markdown', 'Avante' },
-    },
+    -- {
+    --   'MeanderingProgrammer/render-markdown.nvim',
+    --   opts = {
+    --     file_types = { 'markdown', 'Avante' },
+    --   },
+    --   ft = { 'markdown', 'Avante' },
+    -- },
   },
+}
+
+plugins.codecompanion = {
+  'olimorris/codecompanion.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-treesitter/nvim-treesitter',
+    'hrsh7th/nvim-cmp',
+    'nvim-telescope/telescope.nvim',
+    { 'stevearc/dressing.nvim', opts = {} },
+  },
+  config = function()
+    require('codecompanion').setup({
+      strategies = {
+        chat = {
+          adapter = 'anthropic',
+        },
+        inline = {
+          adapter = 'copilot',
+        },
+        agent = {
+          adapter = 'anthropic',
+        },
+      },
+    })
+    vim.api.nvim_set_keymap('n', '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('v', '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', '<Leader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true, desc = 'CodeCompanion' })
+    vim.api.nvim_set_keymap('v', '<Leader>a', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true, desc = 'CodeCompanion' })
+    vim.api.nvim_set_keymap('v', 'ga', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true })
+
+    -- Expand 'cc' into 'CodeCompanion' in the command line
+    vim.cmd([[cab cc CodeCompanion]])
+  end,
 }
 
 plugins.mini_ai = {
