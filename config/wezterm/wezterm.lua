@@ -27,10 +27,7 @@ config.colors = {
 }
 
 -- font
-config.font = wezterm.font_with_fallback({
-	"IBM Plex Mono",
-	-- "Iosevka Nerd Font",
-})
+config.font = wezterm.font("MonoLisa Script")
 config.font_size = 18.0
 config.line_height = 1.5
 
