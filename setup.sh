@@ -31,11 +31,12 @@ setup_system() {
 
 	# install system pkgs
 	rpm-ostree install --assumeyes \
-		alacritty \
+		wezterm \
 		gnome-tweaks \
 		ddcutil \
 		btrbk \
-		vim
+		neovim \
+		zsh
 
 	sudo mkdir -p /etc/btrbk
 	sudo tee /etc/btrbk/btrbk.conf <<-EOF
@@ -75,12 +76,15 @@ setup_system() {
 setup_dotfiles() {
 	rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 	rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
-	ln -s $SRC/alacritty $DST/alacritty
 	ln -s $SRC/bat $DST/bat
 	ln -s $SRC/btop $DST/btop
+	ln -s $SRC/git $DST/git
+	ln -s $SRC/lazygit $DST/lazygit
 	ln -s $SRC/nvim $DST/nvim
 	ln -s $SRC/tmux $DST/tmux
+	ln -s $SRC/wezterm $DST/wezterm
 	ln -s $SRC/yt-dlp $DST/yt-dlp
+	ln -s $SRC/zsh/zshrc $DST/.zshrc
 }
 
 setup_toolbox() {
@@ -103,7 +107,9 @@ setup_toolbox() {
 		fd-find \
 		procs \
 		fzf \
-		gh
+		gh \
+		lazygit \
+		zsh
 	toolbox run -c t sudo dnf install --assumeyes https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	toolbox run -c t sudo dnf groupupdate --assumeyes multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 }
