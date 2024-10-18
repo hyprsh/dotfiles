@@ -62,8 +62,12 @@ alias rmhosts="rm ~/.ssh/known_hosts"
 # alias bat="bat --style=numbers,changes --theme=base16"
 # alias cat="bat --style=plain --pager=never --theme=base16"
 alias lsa="eza --group-directories-first"
+alias ls="ls --color"
 alias rt="wezterm cli set-tab-title"
 alias a="aider --cache-prompts --dark-mode"
+
+# disable node warnings / "punycode is deprecated"
+export NODE_NO_WARNINGS=1
 
 # Java + Android
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
