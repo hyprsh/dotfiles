@@ -22,7 +22,6 @@ require('lazy').setup({
   plugins.lsp,
   plugins.lazygit,
   plugins.avante,
-  -- plugins.codecompanion,
   plugins.mini_ai,
   plugins.mini_comment,
   plugins.mini_surround,
