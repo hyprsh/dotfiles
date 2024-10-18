@@ -500,6 +500,8 @@ plugins.treesitter = {
 
 plugins.sleuth = { 'tpope/vim-sleuth' }
 
+plugins.nvimTsAutotag = { 'windwp/nvim-ts-autotag', opts = {} }
+
 plugins.conform = {
   'stevearc/conform.nvim',
   event = { 'BufWritePre' },
