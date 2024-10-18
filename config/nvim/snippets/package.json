@@ -1,0 +1,16 @@
+{
+	"name": "mySnippets",
+	"contributes": {
+		"snippets": [
+			{
+				"language": [
+					"typescript",
+					"typescriptreact",
+					"javascript",
+					"javascriptreact"
+				],
+				"path": "./obytes.json"
+			}
+		]
+	}
+}
