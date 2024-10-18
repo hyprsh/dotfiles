@@ -3,7 +3,6 @@ local plugins = {}
 local lsp = {
   'lua_ls',
   'ts_ls',
-  'biome',
   'eslint',
   'tailwindcss',
   'html',
@@ -521,10 +520,10 @@ plugins.conform = {
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        typescript = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        javascript = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'biome', 'eslint', 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'eslint', 'prettierd', 'prettier' },
+        typescriptreact = { 'eslint', 'prettierd', 'prettier' },
+        javascript = { 'eslint', 'prettierd', 'prettier' },
+        javascriptreact = { 'eslint', 'prettierd', 'prettier' },
       },
     })
   end,
