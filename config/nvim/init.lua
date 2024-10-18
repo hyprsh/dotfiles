@@ -19,6 +19,7 @@ local plugins = require('plugins')
 
 require('lazy').setup({
   plugins.lackluster,
+  plugins.nvimTsAutotag,
   plugins.lsp,
   plugins.lazygit,
   plugins.avante,
