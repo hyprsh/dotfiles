@@ -29,6 +29,12 @@ setup_silverblue() {
 	sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm-ostreed.conf
 	sudo systemctl enable rpm-ostreed-automatic.timer --now
 
+	# copr helper script
+	# https://github.com/boredsquirrel/copr-command
+	wget https://raw.githubusercontent.com/boredsquirrel/COPR-command/main/copr -P ~/.local/bin/ &&\
+	chmod +x ~/.local/bin/copr
+	copr enable wezfurlong/wezterm-nightly
+
 	# install system pkgs
 	rpm-ostree install --assumeyes \
 		wezterm \
