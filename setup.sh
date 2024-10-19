@@ -16,7 +16,7 @@ EXT_LIST=(
 	display-brightness-ddcutil@themightydeity.github.com
 )
 
-setup_system() {
+setup_silverblue() {
 	rpm-ostree upgrade
 	# sudo without pw
 	echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/wheel
@@ -73,6 +73,49 @@ setup_system() {
 	fc-cache
 }
 
+setup_workstation() {
+	# rpmfusion
+	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	sudo dnf config-manager --enable fedora-cisco-openh264
+	sudo dnf update @core
+
+	# sudo without pw
+	echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/wheel
+
+	# add flatpak remotes, update apps
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+	sudo flatpak update --appstream --assumeyes
+	sudo flatpak update --assumeyes
+
+	# apps
+	sudo dnf copr enable wezfurlong/wezterm-nightly
+	sudo dnf install wezterm gnome-tweaks ddcutil btrbk neovim zsh bat btop \
+			 ripgrep duf zoxide fd-find procs fzf gh lazygit
+
+	sudo mkdir -p /etc/btrbk
+	sudo tee /etc/btrbk/btrbk.conf <<-EOF
+	timestamp_format long
+	snapshot_create onchange
+	volume /
+	  snapshot_dir $HOME/.snapshots
+	  subvolume /home
+	    snapshot_preserve_min 3h
+	    snapshot_preserve 3d 1w 1m
+	EOF
+	mkdir $HOME/.snapshots
+
+	# ddcutil permissions for brightness control
+	echo 'SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{class}=="0x030000", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/60-ddcutil-i2c.rules
+	echo "i2c-dev" | sudo tee /etc/modules-load.d/i2c.conf
+
+	# install fonts
+	mkdir -p $HOME/.local/share/fonts
+	cp fonts/* $HOME/.local/share/fonts
+	fc-cache
+
+}
+
 setup_dotfiles() {
 	rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 	rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
@@ -98,18 +141,8 @@ setup_toolbox() {
 	defaultyes=True
 	EOF
 	toolbox run -c t sudo dnf install --assumeyes \
-		neovim \
-		bat \
-		btop \
-		ripgrep \
-		duf \
-		zoxide \
-		fd-find \
-		procs \
-		fzf \
-		gh \
-		lazygit \
-		zsh
+		neovim bat btop ripgrep duf zoxide fd-find procs \
+		fzf gh lazygit zsh
 	toolbox run -c t sudo dnf install --assumeyes https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	toolbox run -c t sudo dnf groupupdate --assumeyes multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 }
@@ -138,17 +171,26 @@ setup_gnome() {
 	setup_extensions
 
 	# dconf reset -f /
-	dconf load / < config/gnome.dconf
+	dconf load / < config/gnome/gnome.dconf
 	cp applications/* $HOME/.local/share/applications/
 }
 
-setup_gaming() {
+setup_gaming_silverblue() {
 	# add rpm fusion repos
 	rpm-ostree install --assumeyes --apply-live \
 		https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
 		https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	rpm-ostree update
 	rpm-ostree install --apply-live --assumeyes steam-devices
+	setup_gaming
+}
+
+setup_gaming_workstation() {
+	sudo dnf install --assumeyes steam-devices
+	setup_gaming
+}
+
+setup_gaming() {
 	flatpak install flathub --assumeyes --noninteractive \
 		com.valvesoftware.Steam \
 		com.valvesoftware.Steam.CompatibilityTool.Boxtron \
@@ -164,21 +206,32 @@ setup_gaming() {
 	echo "Setup gaming finished, now reboot."
 }
 
-setup_virtualization() {
+setup_virtualization_workstation() {
+	sudo dnf install --assumeyes virt-install virt-manager virt-viewer
+}
+
+setup_virtualization_silverblue() {
 	rpm-ostree install --assumeyes virt-install virt-manager virt-viewer
 }
 
-run_setup() {
+run_setup_workstation() {
 	echo "Setting up system..."
-	setup_system
-	echo "Setting up toolbox..."
-	setup_toolbox
-	echo "Setting up gnome..."
-	setup_gnome
+	setup_workstation
 	echo "Setting up dotfiles..."
 	setup_dotfiles
+	echo "Setup finished!"
+	echo ""
+	echo "now reboot your system!"
+	echo "run setup.sh help for additional setup procedures";
+}
 
-	# finish
+run_setup_silverblue() {
+	echo "Setting up system..."
+	setup_silverblue
+	echo "Setting up toolbox..."
+	setup_toolbox
+	echo "Setting up dotfiles..."
+	setup_dotfiles
 	echo "Setup finished!"
 	echo ""
 	echo "now reboot your system!"
@@ -186,10 +239,14 @@ run_setup() {
 }
 
 case "$1" in
-	system) run_setup;;
-	gaming) setup_gaming;;
-	virtualization) setup_virtualization;;
+	workstation) run_setup_workstation;;
+	silverblue) run_setup_silverblue;;
+	gnome) setup_gnome;;
 	backup) sudo systemctl enable --now btrbk.timer;;
-	*) echo "usage: setup.sh <system|virtualization|backup|gaming>";;
+	gaming_workstation) setup_gaming_workstation;;
+	gaming_silverblue) setup_gaming_silverblue;;
+	virtualization_workstation) setup_virtualization_workstation;;
+	virtualization_silverblue) setup_virtualization_silverblue;;
+	*) echo "usage: setup.sh <workstation|silverblue|gnome|backup|virtualization_{workstation|silverblue}|gaming_{workstation|silverblue}>";;
 esac
 
