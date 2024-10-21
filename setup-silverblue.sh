@@ -45,8 +45,8 @@ flatpak install flathub --assumeyes --noninteractive \
 toolbox create --assumeyes &>/dev/null
 toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh neovim procs ripgrep tealdeer \
-	tmux trash-cli yq jq ugrep zoxide
-toolbox run sudo dnf copr enable atim/lazygit --assumeyes &>/dev/null && sudo toolbox run dnf install --assumeyes lazygit
+	tmux trash-cli yq jq ugrep zoxide luarocks
+toolbox run sudo dnf copr enable atim/lazygit --assumeyes &>/dev/null && toolbox run sudo dnf install --assumeyes lazygit
 
 # install fonts
 mkdir -p $HOME/.local/share/fonts
@@ -73,10 +73,8 @@ install_extensions \
 	caffeine@patapon.info \
 	just-perfection-desktop@just-perfection \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
-	tilingshell@ferrarodomenico.com \
+	tactile@lundal.io \
 	Vitals@CoreCoding.com \
-gnome-extensions disable background-logo@fedorahosted.org
-
 echo "finished! now reboot your system"
 
 }
@@ -88,7 +86,6 @@ for i in "$@"; do
         jq -r '.extensions[] | select(.uuid=="'"${i}"'") | .shell_version_map | .["'"${GN_SHELL}"'"] | .pk')
     wget -qO "${i}.zip" "https://extensions.gnome.org/download-extension/${i}.shell-extension.zip?version_tag=$VERSION_TAG" &&
     gnome-extensions install --force "${i}.zip" &&
-    gnome-extensions enable "${i}" &&
     rm "${i}.zip"
 done
 }
