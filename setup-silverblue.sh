@@ -43,7 +43,7 @@ flatpak install flathub --assumeyes --noninteractive \
 toolbox create --assumeyes &&
 toolbox run -c t sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh lazygit neovim procs ripgrep tealdeer \
-	tmux trash-cli yq jq zoxide
+	tmux trash-cli yq jq ugrep zoxide
 
 # install fonts
 mkdir -p $HOME/.local/share/fonts
@@ -68,7 +68,9 @@ install_extensions \
 	blur-my-shell@aunetx \
 	caffeine@patapon.info \
 	just-perfection-desktop@just-perfection \
-	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
+	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
+	tilingshell@ferrarodomenico.com \
+	Vitals@CoreCoding.com \
 gnome-extensions disable background-logo@fedorahosted.org
 
 }
