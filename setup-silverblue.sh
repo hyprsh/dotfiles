@@ -9,7 +9,7 @@ setup_system() {
 sudo -v
 
 # update system
-rpm-ostree update && rpm-ostree upgrade
+sudo rpm-ostree update && sudo rpm-ostree upgrade
 
 # setup automatic updates
 # stage - download, unpack and finalize after manual reboot
@@ -17,18 +17,18 @@ sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm
 sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 # install system pkgs
-rpm-ostree install --assumeyes gnome-tweaks steam-devices podman-docker
+sudo rpm-ostree install --assumeyes gnome-tweaks steam-devices podman-docker
 
 # virtualization (disabled, use boxes instead)
 #rpm-ostree install --assumeyes virt-install virt-manager 
 
 # override silverblue default firefox, as we use flatpak for this
-rpm-ostree override remove firefox firefox-langpacks
+sudo rpm-ostree override remove firefox firefox-langpacks
 
 # add flatpak remotes, update apps
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 # sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak update --appstream --assumeyes
+sudo flatpak update --appstream --assumeyes
 
 # install flatpak pkgs
 flatpak install flathub --assumeyes --noninteractive \
@@ -43,7 +43,7 @@ flatpak install flathub --assumeyes --noninteractive \
 
 # setup toolbox
 toolbox create --assumeyes &&
-toolbox run dnf install --assumeyes \
+toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh lazygit neovim procs ripgrep tealdeer \
 	tmux trash-cli yq jq ugrep zoxide
 
