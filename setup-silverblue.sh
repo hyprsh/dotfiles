@@ -42,11 +42,11 @@ flatpak install flathub --assumeyes --noninteractive \
 	com.github.marhkb.Pods
 
 # setup toolbox
-toolbox create --assumeyes &&
+toolbox create --assumeyes
 toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh neovim procs ripgrep tealdeer \
 	tmux trash-cli yq jq ugrep zoxide
-toolbox run sudo dnf copr enable atim/lazygit --assumeyes && sudo toolbox run dnf install --assumeyes lazygit
+toolbox run sudo dnf copr enable atim/lazygit --assumeyes &>/dev/null && sudo toolbox run dnf install --assumeyes lazygit
 
 # install fonts
 mkdir -p $HOME/.local/share/fonts
@@ -75,6 +75,8 @@ install_extensions \
 	tilingshell@ferrarodomenico.com \
 	Vitals@CoreCoding.com \
 gnome-extensions disable background-logo@fedorahosted.org
+
+echo "finished! now reboot your system"
 
 }
 
