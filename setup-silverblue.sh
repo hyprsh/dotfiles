@@ -6,6 +6,8 @@ DST="$HOME/.config"
 
 setup_system() {
 
+sudo -v
+
 # update system
 rpm-ostree update && rpm-ostree upgrade
 
@@ -25,7 +27,7 @@ rpm-ostree override remove firefox firefox-langpacks
 
 # add flatpak remotes, update apps
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+# sudo flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 flatpak update --appstream --assumeyes
 
 # install flatpak pkgs
@@ -41,7 +43,7 @@ flatpak install flathub --assumeyes --noninteractive \
 
 # setup toolbox
 toolbox create --assumeyes &&
-toolbox run -c t sudo dnf install --assumeyes \
+toolbox run dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh lazygit neovim procs ripgrep tealdeer \
 	tmux trash-cli yq jq ugrep zoxide
 
