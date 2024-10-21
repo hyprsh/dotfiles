@@ -1,15 +1,30 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/rose-pine-moon.toml"]
-
 [env]
 TERM = "xterm-256color"
 
 [window]
 padding = { x = 16, y = 14 }
 opacity = 0.98
-decorations = "Buttonless"
+blur = true
 
 [font]
 normal = { family = "MonoLisa Nerd Font", style="Regular"}
 size = 18
+offset = { x = 0, y = 1.2 }
+
+[colors.primary]
+background = '#0A0A0A'
+
+[colors.normal]
+# black is gray0
+black = '#080808'
+red = '#D70000'
+green = '#789978'
+yellow = '#ffAA88'
+blue = '#7788AA'
+magenta = '#D7007D'
+# cyan is set to lack
+cyan = '#708090' 
+# white is set to luster
+white = '#DEEEED'

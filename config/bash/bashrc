@@ -2,7 +2,7 @@
 
 # prompt
 export PS1="\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
-# [ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
+[ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
 export PS1="\[\e]0;\w\a\]$PS1"
 
 # source global definitions
@@ -54,40 +54,20 @@ alias decompress="tar -xzf"
 # cheat helper
 cheat() { curl cheat.sh/"$1"; }
 
-# env
-export EDITOR=nvim
-export PROMPT_DIRTRIM=2
-# export SYSTEMD_PAGER=
+# toolbox only
+if [ -n "$TOOLBOX_PATH" ]; then
+  #env
+  export EDITOR=nvim
+  export PROMPT_DIRTRIM=2
+  export SYSTEMD_PAGER=
 
-# aliases
-alias d='docker'
-alias g='t git'
-alias n='t nvim'
-alias bat='t bat'
-alias btop='t btop'
-alias duf='t duf'
-alias eza='t eza --group-directories-first'
-alias fd='t fd'
-alias fzf='t fzf'
-alias gh='t gh'
-alias lazygit='t lazygit'
-alias procs='t procs'
-alias rg='t rg'
-alias ug='t ug'
-alias tldr='t tldr'
-alias tmux='t tmux'
-alias trash='t trash'
-alias yq='t yq'
-alias z='t zoxide'
-alias nvim='t nvim'
-alias vim='t nvim'
-alias yt-dlp='t yt-dlp'
+  # aliases
+  alias g='git'
+  alias n='nvim'
+  alias l='eza --group-directories-first'
+  alias vim='nvim'
 
-# overwrites
-alias cd='t z'
-alias cdi='t zi'
-alias ls='t eza --group-directories-first'
-alias grep='t ug'
-alias egrep='t egrep'
-alias fgrep='t fgrep'
+  # overwrites
+  alias ls='eza --group-directories-first'
+fi
 

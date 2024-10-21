@@ -1,19 +1,19 @@
 [Desktop Entry]
 Type=Application
-TryExec=wezterm
-Exec=wezterm
-Icon=WezTerm
+TryExec=alacritty
+Exec=alacritty -e toolbox run tmux
+Icon=Alacritty
 Terminal=false
 Categories=System;TerminalEmulator;
 
-Name=WezTerm System
+Name=Alacritty
 GenericName=Terminal
 Comment=A fast, cross-platform, OpenGL terminal emulator
 StartupNotify=true
-StartupWMClass=WezTerm
+StartupWMClass=Alacritty
 Actions=New;
 X-Desktop-File-Install-Version=0.26
 
 [Desktop Action New]
-Name=New System Terminal
-Exec=wezterm
+Name=New Terminal
+Exec=alacritty

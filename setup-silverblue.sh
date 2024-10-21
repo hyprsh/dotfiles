@@ -17,7 +17,7 @@ sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm
 sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 # install system pkgs
-sudo rpm-ostree install --assumeyes --idempotent gnome-tweaks steam-devices
+sudo rpm-ostree install --assumeyes --idempotent alacritty gnome-tweaks steam-devices
 
 # virtualization (disabled, use boxes instead)
 #rpm-ostree install --assumeyes virt-install virt-manager 
@@ -42,7 +42,7 @@ flatpak install flathub --assumeyes --noninteractive \
 	com.github.marhkb.Pods
 
 # setup toolbox
-toolbox create --assumeyes
+toolbox create --assumeyes &>/dev/null
 toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh neovim procs ripgrep tealdeer \
 	tmux trash-cli yq jq ugrep zoxide
@@ -56,6 +56,7 @@ fc-cache
 # setup dotfiles
 rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
+ln -s $SRC/alacritty $DST/alacritty
 ln -s $SRC/git $DST/git
 ln -s $SRC/lazygit $DST/lazygit
 ln -s $SRC/nvim $DST/nvim
