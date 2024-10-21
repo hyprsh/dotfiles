@@ -17,7 +17,7 @@ sudo sed -i 's/#AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/g' /etc/rpm
 sudo systemctl enable rpm-ostreed-automatic.timer --now
 
 # install system pkgs
-sudo rpm-ostree install --assumeyes gnome-tweaks steam-devices
+sudo rpm-ostree install --assumeyes --idempotent gnome-tweaks steam-devices
 
 # virtualization (disabled, use boxes instead)
 #rpm-ostree install --assumeyes virt-install virt-manager 
