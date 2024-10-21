@@ -1,20 +1,16 @@
 # .bashrc
 
-# env
-export EDITOR=nvim
-export PROMPT_DIRTRIM=2
-
 # prompt
 export PS1="\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
 [ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
 export PS1="\[\e]0;\w\a\]$PS1"
 
-# Source global definitions
+# source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
+# user specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
@@ -36,31 +32,50 @@ export PATH
 shopt -s autocd cdspell direxpand dirspell globstar histappend histverify \
     nocaseglob no_empty_cmd_completion
 
-# History
+# history
 HISTCONTROL=ignoreboth:erasedups # Ignore and erase duplicates
-HISTIGNORE=?:??                  # Ignore one and two letter commands
 HISTFILESIZE=99999               # Max size of history file
 HISTSIZE=99999                   # Amount of history to preserve
 PROMPT_COMMAND="history -a; history -n"
 
-# alias
+# toolbox function
 t() {
     if [ -n "$1" ]; then
-        toolbox run -c t "$1"
+        toolbox run "$1"
     else
-        toolbox enter t
+        toolbox enter
     fi
 }
 
-# Compression
+# compress helper
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 alias decompress="tar -xzf"
 
-# toolbox only
-if [ -n "$TOOLBOX_PATH" ]; then
-    alias n='nvim'
-    alias vim='nvim'
-    alias g='git'
-    alias d='docker'
-fi
+# env
+export EDITOR=nvim
+export PROMPT_DIRTRIM=2
+# export SYSTEMD_PAGER=
+
+# aliases
+alias d='docker'
+alias g='t git'
+alias n='t nvim'
+alias bat='t bat'
+alias btop='t btop'
+alias duf='t duf'
+alias eza='t eza --group-directories-first'
+alias fd='t fd'
+alias fzf='t fzf'
+alias gh='t gh'
+alias lazygit='t lazygit'
+alias procs='t procs'
+alias rg='t rg'
+alias tldr='t tldr'
+alias tmux='t tmux'
+alias trash='t trash'
+alias yq='t yq'
+alias z='t zoxide'
+alias nvim='t nvim'
+alias vim='t nvim'
+alias yt-dlp='t yt-dlp'
 
