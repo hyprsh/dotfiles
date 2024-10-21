@@ -52,7 +52,7 @@ compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 alias decompress="tar -xzf"
 
 # cheat helper
-cheat() { curl cheat.sh/"$1" }
+cheat() { curl cheat.sh/"$1"; }
 
 # env
 export EDITOR=nvim
@@ -89,5 +89,5 @@ alias cdi='t zi'
 alias ls='t eza --group-directories-first'
 alias grep='t ug'
 alias egrep='t egrep'
-alias fgrep-'t fgrep'
+alias fgrep='t fgrep'
 
