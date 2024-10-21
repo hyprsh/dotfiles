@@ -23,7 +23,7 @@ sudo rpm-ostree install --assumeyes --idempotent gnome-tweaks steam-devices
 #rpm-ostree install --assumeyes virt-install virt-manager 
 
 # override silverblue default firefox, as we use flatpak for this
-sudo rpm-ostree override remove firefox firefox-langpacks
+sudo rpm-ostree override remove firefox firefox-langpacks || true
 
 # add flatpak remotes, update apps
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
