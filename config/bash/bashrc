@@ -2,7 +2,7 @@
 
 # prompt
 export PS1="\[\033[32m\]\w\[\033[97m\] >\[\033[0m\] "
-[ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
+# [ -z "$TOOLBOX_PATH" ] && export PS1="\033[0;31m! $PS1"
 export PS1="\[\e]0;\w\a\]$PS1"
 
 # source global definitions
