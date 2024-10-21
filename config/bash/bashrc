@@ -51,6 +51,9 @@ t() {
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 alias decompress="tar -xzf"
 
+# cheat helper
+cheat() { curl cheat.sh/"$1" }
+
 # env
 export EDITOR=nvim
 export PROMPT_DIRTRIM=2
