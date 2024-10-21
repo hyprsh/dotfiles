@@ -63,18 +63,21 @@ ln -s $SRC/nvim $DST/nvim
 ln -s $SRC/tmux $DST/tmux
 ln -s $SRC/yt-dlp $DST/yt-dlp
 	
-# setup gnome
-dconf load / < config/gnome/gnome.dconf
-cp applications/* $HOME/.local/share/applications/
 
-# setup gnome extensions
-install_extensions \
+
+# install gnome extensions
+install_extension \
 	blur-my-shell@aunetx \
 	caffeine@patapon.info \
 	just-perfection-desktop@just-perfection \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
 	tactile@lundal.io \
-	Vitals@CoreCoding.com \
+	Vitals@CoreCoding.com
+
+# setup gnome
+dconf load /org/gnome < config/gnome/gnome.dconf
+cp applications/* $HOME/.local/share/applications/
+
 echo "finished! now reboot your system"
 
 }
