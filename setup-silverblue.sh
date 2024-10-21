@@ -64,10 +64,10 @@ dconf load / < config/gnome/gnome.dconf
 cp applications/* $HOME/.local/share/applications/
 
 # setup gnome extensions
-install_extensions blur-my-shell@aunetx \
+install_extensions \
+	blur-my-shell@aunetx \
 	caffeine@patapon.info \
 	just-perfection-desktop@just-perfection \
-	rounded-window-corners@fxgn \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
 gnome-extensions disable background-logo@fedorahosted.org
 
