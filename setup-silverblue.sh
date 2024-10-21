@@ -46,8 +46,7 @@ toolbox create --assumeyes &&
 toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh neovim procs ripgrep tealdeer \
 	tmux trash-cli yq jq ugrep zoxide
-
-toolbox run sudo sudo dnf copr enable atim/lazygit -assumeyes && sudo dnf install --assumeyes lazygit
+toolbox run sudo dnf copr enable atim/lazygit -assumeyes && sudo dnf install --assumeyes lazygit
 
 # install fonts
 mkdir -p $HOME/.local/share/fonts
