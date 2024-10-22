@@ -66,6 +66,7 @@ if [ -n "$TOOLBOX_PATH" ]; then
   alias n='nvim'
   alias l='eza --group-directories-first'
   alias vim='nvim'
+  alias lg='lazygit'
 
   # overwrites
   alias ls='eza --group-directories-first'
