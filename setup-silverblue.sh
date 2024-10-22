@@ -72,7 +72,8 @@ install_extension \
 	just-perfection-desktop@just-perfection \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
 	tactile@lundal.io \
-	Vitals@CoreCoding.com
+	Vitals@CoreCoding.com \
+	BingWallpaper@ineffable-gmail.com
 
 # setup gnome
 dconf load /org/gnome/ < config/gnome/gnome.dconf
