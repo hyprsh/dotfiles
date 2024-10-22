@@ -10,8 +10,11 @@ blur = true
 
 [font]
 normal = { family = "MonoLisa Nerd Font", style="Regular"}
-size = 18
+size = 14
 offset = { x = 0, y = 4 }
+
+[selection]
+save_to_clipboard = true
 
 [colors.primary]
 background = '#0A0A0A'
