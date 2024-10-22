@@ -75,7 +75,7 @@ install_extension \
 	Vitals@CoreCoding.com
 
 # setup gnome
-dconf load /org/gnome < config/gnome/gnome.dconf
+dconf load /org/gnome/ < config/gnome/gnome.dconf
 cp applications/* $HOME/.local/share/applications/
 
 echo "finished! now reboot your system"
