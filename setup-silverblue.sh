@@ -57,6 +57,7 @@ fc-cache
 rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
 ln -s $SRC/alacritty $DST/alacritty
+ln -s $SRC/containers $DST/containers
 ln -s $SRC/git $DST/git
 ln -s $SRC/lazygit $DST/lazygit
 ln -s $SRC/nvim $DST/nvim
