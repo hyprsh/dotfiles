@@ -56,19 +56,26 @@ cheat() { curl cheat.sh/"$1"; }
 
 # toolbox only
 if [ -n "$TOOLBOX_PATH" ]; then
+
+    if command -v zoxide &> /dev/null; then
+      eval "$(zoxide init bash)"
+    fi
+
   #env
-  export EDITOR=nvim
+  export EDITOR="nvim"
+  export SUDO_EDITOR="$EDITOR"
   export PROMPT_DIRTRIM=2
   export SYSTEMD_PAGER=
 
   # aliases
-  alias g='git'
-  alias n='nvim'
-  alias l='eza --group-directories-first'
-  alias vim='nvim'
-  alias lg='lazygit'
+  alias g="git"
+  alias n="nvim"
+  alias l="eza --group-directories-first"
+  alias vim="nvim"
+  alias lg="lazygit"
 
   # overwrites
-  alias ls='eza --group-directories-first'
+  alias ls="eza --group-directories-first"
+  alias cd="z"
 fi
 
