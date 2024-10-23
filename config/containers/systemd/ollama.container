@@ -29,5 +29,5 @@ AddDevice=/dev/dri
 AddDevice=/dev/kfd
 
 [Install]
-RequiredBy=multi-user.target
+WantedBy=default.target
 
