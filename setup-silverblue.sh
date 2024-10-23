@@ -33,6 +33,7 @@ sudo flatpak update --appstream --assumeyes
 # install flatpak pkgs
 flatpak install flathub --assumeyes --noninteractive \
 	org.mozilla.firefox \
+	io.github.zen_browser.zen \
 	org.gnome.World.PikaBackup \
 	com.valvesoftware.Steam \
 	net.lutris.Lutris \
@@ -73,8 +74,7 @@ install_extension \
 	just-perfection-desktop@just-perfection \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
 	tactile@lundal.io \
-	Vitals@CoreCoding.com \
-	BingWallpaper@ineffable-gmail.com
+	Vitals@CoreCoding.com
 
 # setup gnome
 dconf load /org/gnome/ < config/gnome/gnome.dconf
