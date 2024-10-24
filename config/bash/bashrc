@@ -77,5 +77,8 @@ if [ -n "$TOOLBOX_PATH" ]; then
   # overwrites
   alias ls="eza --group-directories-first"
   alias cd="z"
+
+  alias ollama="host-spawn podman exec ollama ollama"
+  alias podman="host-spawn podman"
 fi
 
