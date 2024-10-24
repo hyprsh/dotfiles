@@ -8,8 +8,7 @@ Image=ghcr.io/open-webui/open-webui:latest
 AutoUpdate=registry
 ContainerName=ollama-web
 Environment=OLLAMA_BASE_URL=http://ollama:11434
-#Environment=WEBUI_SECRET_KEY=abc123
-#Environment=WEBUI_AUTH=false
+Environment=WEBUI_URL=https://chat.hypr.sh
 Volume=open-webui:/app/backend/data
 PublishPort=8080:8080
 Network=ollama.network
