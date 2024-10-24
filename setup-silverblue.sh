@@ -46,7 +46,7 @@ flatpak install flathub --assumeyes --noninteractive \
 toolbox create --assumeyes &>/dev/null
 toolbox run sudo dnf install --assumeyes \
 	bat btop duf eza fd-find fzf gh neovim procs ripgrep tealdeer \
-	tmux trash-cli yq jq ugrep zoxide luarocks
+	tmux trash-cli yq jq ugrep zoxide luarocks host-spawn
 toolbox run sudo dnf copr enable atim/lazygit --assumeyes &>/dev/null && toolbox run sudo dnf install --assumeyes lazygit
 
 # install fonts
@@ -73,7 +73,7 @@ install_extension \
 	caffeine@patapon.info \
 	just-perfection-desktop@just-perfection \
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com \
-	tactile@lundal.io \
+	gTile@vibou \
 	Vitals@CoreCoding.com
 
 # setup gnome
