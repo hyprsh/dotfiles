@@ -19,6 +19,9 @@ sudo systemctl enable rpm-ostreed-automatic.timer --now
 # install system pkgs
 sudo rpm-ostree install --assumeyes --idempotent alacritty gnome-tweaks steam-devices
 
+# wezterm
+sudo rpm-ostree install --assumeyes https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora40.rpm
+
 # virtualization (disabled, use boxes instead)
 #rpm-ostree install --assumeyes virt-install virt-manager 
 
@@ -57,7 +60,7 @@ fc-cache
 # setup dotfiles
 rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
-ln -s $SRC/alacritty $DST/alacritty
+ln -s $SRC/wezterm $DST/wezterm
 ln -s $SRC/containers $DST/containers
 ln -s $SRC/git $DST/git
 ln -s $SRC/lazygit $DST/lazygit

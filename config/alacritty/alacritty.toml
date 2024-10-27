@@ -10,7 +10,7 @@ opacity = 0.96
 
 [font]
 normal = { family = "MonoLisa Script", style="Regular"}
-size = 14
+size = 12
 offset = { x = 0, y = 4 }
 
 [selection]
