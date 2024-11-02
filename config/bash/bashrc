@@ -78,6 +78,9 @@ if [ -n "$TOOLBOX_PATH" ]; then
   alias ls="eza --group-directories-first"
   alias cd="z"
 
+  # host-spawn
+  alias hs="host-spawn"
+  alias flatpak="host-spawn flatpak"
   alias ollama="host-spawn podman exec ollama ollama"
   alias podman="host-spawn podman"
 fi
