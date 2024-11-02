@@ -3,8 +3,11 @@ local act = wezterm.action
 
 local config = wezterm.config_builder()
 
+local is_linux = function() return wezterm.target_triple:find("linux") ~= nil end
+local is_darwin = function() return wezterm.target_triple:find("darwin") ~= nil end
+
 -- settings
--- config.default_prog = { "tmux" }
+config.default_prog = is_linux() and { "toolbox", "run", "tmux" } or { "/opt/homebrew/bin/tmux" }
 config.use_dead_keys = false
 config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
@@ -40,7 +43,7 @@ config.colors = {
 
 -- font
 config.font = wezterm.font("MonoLisa Script")
-config.font_size = 13.0
+config.font_size = is_linux() and 13.0 or 16.0
 config.line_height = 1.5
 
 -- tabbar
@@ -57,7 +60,7 @@ config.window_background_opacity = 0.95
 -- config.native_macos_fullscreen_mode = true
 -- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_decorations = "TITLE | RESIZE"
-config.enable_wayland = false -- https://github.com/wez/wezterm/issues/4962
+config.enable_wayland =  is_linux() and false -- https://github.com/wez/wezterm/issues/4962
 config.window_padding = {
 	left = "8px",
 	right = "8px",
