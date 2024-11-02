@@ -43,6 +43,7 @@ flatpak install flathub --assumeyes --noninteractive \
 	org.freedesktop.Platform.ffmpeg-full//24.08 \
 	com.github.tchx84.Flatseal \
 	org.gnome.Boxes \
+	com.discordapp.Discord \
 	com.github.marhkb.Pods
 
 # setup toolbox
