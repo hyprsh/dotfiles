@@ -57,6 +57,10 @@ mkdir -p $HOME/.local/share/fonts
 cp fonts/* $HOME/.local/share/fonts
 fc-cache
 
+# install scripts
+mkdir -p $HOME/.local/bin
+cp scripts/* $HOME/.local/bin
+
 # setup dotfiles
 rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
 rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
