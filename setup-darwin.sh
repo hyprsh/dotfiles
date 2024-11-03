@@ -4,52 +4,44 @@ ROOT="$(pwd)"
 SRC="$(pwd)/config"
 DST="$HOME/.config"
 
-link() {
-    rm -r $DST/"$1"
-    ln -s $SRC/"$1" $DST/"$1"
-}
-
 # links to iCloudDrive
 rm -r $HOME/iCloud
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
-link bat
-bat cache --build
-link git
-link nvim
-link tmux
-link alacritty
-link yt-dlp
-link zsh
-link kitty
-link yabai
-link skhd
-link wezterm
+rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
+rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
+rm -f $HOME/.zshrc && ln -s $SRC/zsh/zshrc $HOME/.zshrc # TODO:  migrate to bash
+ln -s $SRC/tmux $DST/tmux
+ln -s $SRC/wezterm $DST/wezterm
+ln -s $SRC/git $DST/git
+ln -s $SRC/nvim $DST/nvim
+ln -s $SRC/skhd $DST/skhd
 
-# install brew if not installed
+# install brew
 if type brew &>/dev/null; then
  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# aider
-rm $HOME/.aider.conf.yml
-cp $SRC/aider/aider.conf.yml $HOME/.aider.conf.yml
+# cli tools
+brew install bat btop eza fd fzf gh neovim procs ripgrep tealdeer \
+    tmux trash-cli yq jq zoxide lazygit ffmpeg skhd zf mas
 
-# brew
-rm $HOME/.Brewfile
-cp $SRC/brew/Brewfile $HOME/.Brewfile
-link brew
+# apps
+brew install --cask betterdisplay wezterm discord zen-browser steam
 
-# hyperkey
-rm $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
-cp $SRC/hyperkey/com.knollsoft.Hyperkey.plist $HOME/Library/Preferences/com.knollsoft.Hyperkey.plist
+# appstore apps
+mas install 1352778147 # bitwarden
+mas install 1592917505 # noir
+mas install 1429033973 # runcat
+mas install 1451685025 # wireguard
+
+# skhd
+brew install koekeishiya/formulae/skhd
+skhd --start-service
 
 # scripts
 mkdir -p $HOME/.local/bin
-ln -sf $ROOT/scripts/t.sh $HOME/.local/bin/t
+cp scripts/* $HOME/.local/bin
 
 # install fonts
 cp fonts/* $HOME/Library/Fonts
-
-# install software from bundlefile
-brew bundle --global --no-lock
