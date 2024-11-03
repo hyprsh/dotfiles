@@ -40,8 +40,8 @@ brew install koekeishiya/formulae/skhd
 skhd --start-service
 
 # scripts
-mkdir -p $HOME/.local/bin
-cp scripts/* $HOME/.local/bin
+# mkdir -p $HOME/.local/bin
+# cp scripts/* $HOME/.local/bin
 
 # install fonts
 cp fonts/* $HOME/Library/Fonts
