@@ -35,10 +35,6 @@ mas install 1592917505 # noir
 mas install 1429033973 # runcat
 mas install 1451685025 # wireguard
 
-# skhd
-brew install koekeishiya/formulae/skhd
-skhd --start-service
-
 # scripts
 # mkdir -p $HOME/.local/bin
 # cp scripts/* $HOME/.local/bin

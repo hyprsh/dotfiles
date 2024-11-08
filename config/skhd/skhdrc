@@ -1,9 +1,0 @@
-
-# A list of all built-in modifier and literal keywords can
-# be found at https://github.com/koekeishiya/skhd/issues/1
-
-# hotkeys
-alt - t : open -a wezterm
-alt - w : open -a "Mission Control"
-alt - s : open -a safari
-
