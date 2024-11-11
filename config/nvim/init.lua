@@ -11,20 +11,27 @@ vim.opt.incsearch = true
 vim.opt.mouse = 'a'
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.hlsearch = false
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.opt.hlsearch = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = 'yes'
 vim.opt.hidden = true
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = false
+vim.opt.undofile = true
 vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.laststatus = 3
 vim.opt.pumheight = 10
 vim.opt.scrolloff = 3
 vim.opt.sidescrolloff = 3
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.inccommand = 'split'
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.autoread = true
 
 -- Helpers
 local function change_colorscheme()
@@ -38,6 +45,7 @@ local function change_colorscheme()
 end
 
 -- Basic mappings
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
 vim.keymap.set('n', '<C-J>', '<C-W><C-J>')
 vim.keymap.set('n', '<C-K>', '<C-W><C-K>')
@@ -49,9 +57,9 @@ vim.keymap.set('n', 'tk', ':tabnext<CR>')
 vim.keymap.set('n', 'tn', ':tabnew<CR>')
 vim.keymap.set('n', 'to', ':tabo<CR>')
 vim.keymap.set('n', 'vs', ':vs<CR>')
-vim.keymap.set('n', '<leader>j', ':cnext<CR>', { silent = true })
-vim.keymap.set('n', '<leader>k', ':cprevious<CR>', { silent = true })
-vim.keymap.set('n', '<leader>o', ':tabonly<cr>:only<CR>', { silent = true })
+vim.keymap.set('n', '<leader>j', ':cnext<CR>', { silent = true, desc = 'next errror' })
+vim.keymap.set('n', '<leader>k', ':cprevious<CR>', { silent = true, desc = 'prev error' })
+vim.keymap.set('n', '<leader>o', ':tabonly<cr>:only<CR>', { silent = true, desc = 'close all other tabs' })
 
 -- file changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
@@ -172,15 +180,15 @@ require('lazy').setup({
       },
     },
     keys = {
-      { '<leader>z', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'File fuzzy find' },
-      { '<leader>d', '<cmd>Telescope diagnostics<cr>', desc = 'Show diagnostics' },
-      { '<leader>gb', '<cmd>Telescope git_branches<cr>', desc = 'Git branches' },
-      { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'Git commits' },
-      { '<leader>w', '<cmd>Telescope grep_string<cr>', desc = 'Grep string' },
-      { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'Find files' },
-      { '<leader>c', '<cmd>Telescope resume<cr>', desc = 'Resume search' },
-      { '<leader>s', '<cmd>Telescope live_grep<cr>', desc = 'Live grep' },
-      { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'Buffers' },
+      { '<leader>z', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'fuzzy find buffer' },
+      { '<leader>d', '<cmd>Telescope diagnostics<cr>', desc = 'show diagnostics' },
+      { '<leader>gb', '<cmd>Telescope git_branches<cr>', desc = 'git branches' },
+      { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'git commits' },
+      { '<leader>w', '<cmd>Telescope grep_string<cr>', desc = 'grep string' },
+      { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'find files' },
+      { '<leader>c', '<cmd>Telescope resume<cr>', desc = 'resume search' },
+      { '<leader>s', '<cmd>Telescope live_grep<cr>', desc = 'live grep' },
+      { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'buffers' },
     },
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
@@ -267,49 +275,63 @@ require('lazy').setup({
               return ']c'
             end
             vim.schedule(function()
-              gs.next_hunk()
+              gs.nav_hunk('next')
             end)
             return '<Ignore>'
-          end, { expr = true })
+          end, { expr = true, desc = 'next hunk' })
 
           map('n', '[c', function()
             if vim.wo.diff then
               return '[c'
             end
             vim.schedule(function()
-              gs.prev_hunk()
+              gs.nav_hunk('prev')
             end)
             return '<Ignore>'
-          end, { expr = true })
+          end, { expr = true, desc = 'prev hunk' })
 
           -- Actions
-          map('n', '<leader>hs', gs.stage_hunk)
-          map('n', '<leader>hr', gs.reset_hunk)
+          map('n', '<leader>hs', gs.stage_hunk, { desc = 'stage hunk' })
+          map('n', '<leader>hr', gs.reset_hunk, { desc = 'reset hunk' })
           map('v', '<leader>hs', function()
             gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end)
+          end, { desc = 'stage hunk' })
           map('v', '<leader>hr', function()
             gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end)
-          map('n', '<leader>hS', gs.stage_buffer)
-          map('n', '<leader>hu', gs.undo_stage_hunk)
-          map('n', '<leader>hR', gs.reset_buffer)
-          map('n', '<leader>hp', gs.preview_hunk)
+          end, { desc = 'reset hunk' })
+          map('n', '<leader>hS', gs.stage_buffer, { desc = 'stage buffer' })
+          map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'undo stage buffer' })
+          map('n', '<leader>hR', gs.reset_buffer, { desc = 'reset buffer' })
+          map('n', '<leader>hp', gs.preview_hunk, { desc = 'preview hunk' })
           map('n', '<leader>hb', function()
             gs.blame_line({ full = true })
-          end)
-          map('n', '<leader>tb', gs.toggle_current_line_blame)
-          map('n', '<leader>hd', gs.diffthis)
+          end, { desc = 'show blame line' })
+          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle blame' })
+          map('n', '<leader>hd', gs.diffthis, { desc = 'diff this' })
           map('n', '<leader>hD', function()
             gs.diffthis('~')
-          end)
-          map('n', '<leader>td', gs.toggle_deleted)
+          end, { desc = 'diff last commit' })
+          map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle deleted' })
 
           -- Text object
-          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select hunk' })
         end,
       })
     end,
+  },
+
+  -- show keymaps
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    opts = {
+      icons = { mappings = false },
+      spec = {
+        { '<leader>g', group = 'git' },
+        { '<leader>h', group = 'hunks' },
+        { '<leader>t', group = 'toggles' },
+      },
+    },
   },
 })
 
@@ -352,30 +374,22 @@ require('mason-lspconfig').setup({
   },
 })
 
--- require('mason-lspconfig').setup_handlers({
---   function(server_name)
---     require('lspconfig')[server_name].setup({
---       capabilities = capabilities,
---     })
---   end,
--- })
-
 -- Global LSP mappings
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = 'open diag' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'next diag' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'prev diag' })
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = 'open diag list' })
 
 -- More LSP mappings
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
     local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>.', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'go to definition' })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'show lsp hover' })
+    vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, { buffer = ev.buf, desc = 'rename symbol' })
+    vim.keymap.set({ 'n', 'v' }, '<space>.', vim.lsp.buf.code_action, { buffer = ev.buf, desc = 'code action' })
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = 'go to references' })
   end,
 })
 
