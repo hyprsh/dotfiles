@@ -1,49 +1,29 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
+local is_linux = function()
+	return wezterm.target_triple:find("linux") ~= nil
+end
+
+local is_darwin = function()
+	return wezterm.target_triple:find("darwin") ~= nil
+end
+
+local is_dark = function()
+	return wezterm.gui.get_appearance():find("Dark") ~= nil
+end
+
 local config = wezterm.config_builder()
-
-local is_linux = function() return wezterm.target_triple:find("linux") ~= nil end
-local is_darwin = function() return wezterm.target_triple:find("darwin") ~= nil end
-
 -- settings
-config.default_prog = is_linux() and { "toolbox", "run", "tmux" } or { "/opt/homebrew/bin/tmux" }
+config.default_prog = is_darwin() and { "/opt/homebrew/bin/tmux" } or { "toolbox", "run", "tmux" }
 config.use_dead_keys = false
 config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
-
--- set color_scheme
-config.colors = {
-	foreground = "#DEEEED",
-	background = "#0A0A0A",
-
-	cursor_bg = "#DEEEED",
-	cursor_border = "#DEEEED",
-	cursor_fg = "#080808",
-
-	selection_fg = "none", -- Selection text color
-	selection_bg = "#7A7A7A", -- Selection background color
-
-	 tab_bar = {
-    background = 'transparent',
-    active_tab = {
-      bg_color = 'transparent',
-      fg_color = '#708090',
-    },
-    inactive_tab = {
-      bg_color = 'transparent',
-      fg_color = '#7A7A7A',
-    },
-  },
-
-	-- Normal colors
-	ansi = { "#080808", "#D70000", "#789978", "#ffAA88", "#7788AA", "#D7007D", "#708090", "#DEEEED" },
-	brights = { "#444444", "#D70000", "#789978", "#ffAA88", "#7788AA", "#D7007D", "#708090", "#DEEEED" },
-}
+config.color_scheme = is_dark() and "zenbones_dark" or "zenbones_light"
 
 -- font
-config.font = wezterm.font("MonoLisa Script")
-config.font_size = is_linux() and 13.0 or 16.0
+config.font = wezterm.font("MonoLisa")
+config.font_size = is_linux() and 13.0 or 18.0
 config.line_height = 1.5
 
 -- tabbar
@@ -55,16 +35,14 @@ config.hide_tab_bar_if_only_one_tab = true
 
 -- styling
 config.inactive_pane_hsb = { brightness = 0.95 }
-config.window_background_opacity = 0.95
--- config.macos_window_background_blur = 0
--- config.native_macos_fullscreen_mode = true
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.window_decorations = "TITLE | RESIZE"
-config.enable_wayland =  is_linux() and false -- https://github.com/wez/wezterm/issues/4962
+-- config.window_background_opacity = 0.95
+-- config.macos_window_background_blur = 20
+config.window_decorations = is_linux() and "TITLE | RESIZE" or "INTEGRATED_BUTTONS|RESIZE"
+config.enable_wayland = is_linux() and false -- https://github.com/wez/wezterm/issues/4962
 config.window_padding = {
 	left = "8px",
 	right = "8px",
-	top = "8px",
+	top = is_linux() and "8px" or "48px",
 	bottom = "1px",
 }
 config.window_close_confirmation = "NeverPrompt"
