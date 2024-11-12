@@ -14,6 +14,9 @@ export EDITOR="nvim"
 export PROMPT_DIRTRIM=2
 export NODE_NO_WARNINGS=1 # disable node warnings / "punycode is deprecated"
 
+# PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 # completion
 autoload -Uz compinit
 unsetopt menu_complete   # do not autoselect the first completion entry
@@ -25,9 +28,6 @@ autoload -U +X bashcompinit && bashcompinit
 # zstyle ':completion:*' use-cache yes
 # zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
 compinit
-
-# PATH
-export PATH="$HOME/.local/bin:$PATH"
 
 # prompt
 parse_git_branch() {
@@ -52,6 +52,26 @@ alias lg="lazygit"
 alias g="git"
 alias gl="git log --oneline --graph --decorate --all"
 alias rmhosts="rm ~/.ssh/known_hosts"
-alias lsa="eza --group-directories-first"
+alias l="eza --group-directories-first"
 alias ls="ls --color"
+
+# functions
+compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+decompress() { tar -xzf "${1%/}" }
+cheat() { curl cht.sh/"$(sed 's/ /+/g' <<< "$@")"; }
+cheatq() { curl cht.sh/"$(sed 's/ /+/g' <<< "$@")?Q"; }
+yt() {
+    # compatible with ios
+    yt-dlp --merge-output-format mp4 \
+        --format-sort res:720,fps,vcodec:h264,acodec:m4a \
+        --embed-thumbnail \
+        --add-metadata \
+        --embed-metadata \
+        --embed-chapters \
+        --windows-filenames \
+        --abort-on-error \
+        --output "%(title)+.100s - %(id)s.%(ext)s"
+}
+
+
 
