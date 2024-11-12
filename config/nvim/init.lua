@@ -44,6 +44,14 @@ local function change_colorscheme()
   end
 end
 
+local function toggle_darkmode()
+  if vim.opt.background:get() == 'dark' then
+    vim.opt.background = 'light'
+  else
+    vim.opt.background = 'dark'
+  end
+end
+
 -- Basic mappings
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
@@ -60,6 +68,7 @@ vim.keymap.set('n', 'vs', ':vs<CR>')
 vim.keymap.set('n', '<leader>j', ':cnext<CR>', { silent = true, desc = 'next errror' })
 vim.keymap.set('n', '<leader>k', ':cprevious<CR>', { silent = true, desc = 'prev error' })
 vim.keymap.set('n', '<leader>o', ':tabonly<cr>:only<CR>', { silent = true, desc = 'close all other tabs' })
+vim.keymap.set('n', '<leader>tc', toggle_darkmode, { silent = true, desc = 'toggle darkmode' })
 
 -- file changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
@@ -339,6 +348,7 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VeryLazy',
     opts = {
+      delay = 500,
       icons = { mappings = false },
       spec = {
         { '<leader>g', group = 'git' },
@@ -398,7 +408,6 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = 'open diag l
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
-    local opts = { buffer = ev.buf }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'go to definition' })
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'show lsp hover' })
     vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, { buffer = ev.buf, desc = 'rename symbol' })
@@ -420,11 +429,11 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm({
+    ['<C-y>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ['<C-n>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -433,7 +442,7 @@ cmp.setup({
         fallback()
       end
     end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    ['<C-p>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
