@@ -26,7 +26,6 @@ brew install btop eza fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit 
 brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
 
 # appstore apps
-mas install 1352778147 # bitwarden
 mas install 1592917505 # noir
 mas install 1429033973 # runcat
 mas install 1451685025 # wireguard
