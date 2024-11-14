@@ -126,7 +126,45 @@ require('lazy').setup({
   { 'JoosepAlviste/nvim-ts-context-commentstring', event = 'VeryLazy' },
 
   -- Code assistant
-  -- { 'robitx/gp.nvim', opts = {} },
+  {
+    'robitx/gp.nvim',
+    opts = {
+      providers = {
+        copilot = {
+          endpoint = 'https://api.githubcopilot.com/chat/completions',
+          secret = {
+            'bash',
+            '-c',
+            "cat ~/.config/github-copilot/hosts.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+          },
+        },
+      },
+    },
+    keys = {
+      { '<leader>pa', '<cmd>GpAppend<cr>', mode = { 'n', 'v' }, desc = 'copilot append' },
+      { '<leader>pr', '<cmd>GpAppend<cr>', mode = { 'n', 'v' }, desc = 'copilot rewrite' },
+      { '<leader>pt', '<cmd>GpChatToggle<cr>', mode = { 'n', 'v' }, desc = 'copilot toggle' },
+    },
+  },
+
+  -- Copilot cmp completion
+  {
+    'zbirenbaum/copilot-cmp',
+    event = 'InsertEnter',
+    config = function()
+      require('copilot_cmp').setup()
+    end,
+    dependencies = {
+      'zbirenbaum/copilot.lua',
+      cmd = 'Copilot',
+      config = function()
+        require('copilot').setup({
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        })
+      end,
+    },
+  },
 
   -- statusline
   {
@@ -352,6 +390,7 @@ require('lazy').setup({
       icons = { mappings = false },
       spec = {
         { '<leader>g', group = 'git' },
+        { '<leader>p', group = 'copilot' },
         { '<leader>h', group = 'hunks' },
         { '<leader>t', group = 'toggles' },
       },
@@ -453,10 +492,11 @@ cmp.setup({
     end, { 'i', 's' }),
   }),
   sources = {
-    { name = 'nvim_lsp', max_item_count = 5 },
-    { name = 'buffer', max_item_count = 5 },
-    { name = 'path', max_item_count = 3 },
-    { name = 'luasnip', max_item_count = 3 },
+    { name = 'luasnip', max_item_count = 3, priority = 500 },
+    { name = 'nvim_lsp', max_item_count = 5, priority = 400 },
+    { name = 'copilot', max_item_count = 1, priority = 300 },
+    { name = 'buffer', max_item_count = 5, priority = 200 },
+    { name = 'path', max_item_count = 3, priority = 100 },
   },
   formatting = {
     format = function(_, vim_item)
