@@ -26,7 +26,7 @@ brew install bat btop eza fd fzf gh neovim procs ripgrep tealdeer \
     tmux trash-cli yq jq zoxide lazygit ffmpeg mas
 
 # apps
-brew install --cask betterdisplay wezterm discord steam
+brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
 
 # appstore apps
 mas install 1352778147 # bitwarden

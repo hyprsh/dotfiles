@@ -22,7 +22,7 @@ config.adjust_window_size_when_changing_font_size = false
 config.color_scheme = is_dark() and "zenbones_dark" or "zenbones_light"
 
 -- font
-config.font = wezterm.font("MonoLisa")
+config.font = wezterm.font("Iosevka Term Extended")
 config.font_size = is_linux() and 13.0 or 18.0
 config.line_height = 1.5
 
