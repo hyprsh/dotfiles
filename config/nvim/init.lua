@@ -45,7 +45,7 @@ local function change_colorscheme()
 end
 
 local function toggle_darkmode()
-  if vim.opt.background:get() == 'dark' then
+  if vim.o.background == 'dark' then
     vim.opt.background = 'light'
   else
     vim.opt.background = 'dark'
@@ -108,7 +108,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Setup lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({ 'git', 'clone', '--filter=blob:none', 'https://github.com/folke/lazy.nvim.git', '--branch=stable', lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -247,7 +247,6 @@ require('lazy').setup({
       { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'git commits' },
       { '<leader>w', '<cmd>Telescope grep_string<cr>', desc = 'grep string' },
       { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'find files' },
-      -- { '<leader>c', '<cmd>Telescope resume<cr>', desc = 'resume search' },
       { '<leader>s', '<cmd>Telescope live_grep<cr>', desc = 'live grep' },
       { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'buffers' },
     },
