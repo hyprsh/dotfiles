@@ -55,7 +55,9 @@ toolbox run sudo dnf copr enable atim/lazygit --assumeyes &>/dev/null && toolbox
 
 # install fonts
 mkdir -p $HOME/.local/share/fonts
-cp fonts/* $HOME/.local/share/fonts
+curl -L https://github.com/be5invis/Iosevka/releases/download/v32.0.1/SuperTTC-Iosevka-32.0.1.zip -o /tmp/iosevka.zip
+unzip iosevka.zip -d $HOME/.local/share/fonts
+rm /tmp/iosevka.zip
 fc-cache
 
 # install scripts

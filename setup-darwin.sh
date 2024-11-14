@@ -39,4 +39,4 @@ mas install 1451685025 # wireguard
 # cp scripts/* $HOME/.local/bin
 
 # install fonts
-cp fonts/* $HOME/Library/Fonts
+# cp fonts/* $HOME/Library/Fonts
