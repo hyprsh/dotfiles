@@ -125,29 +125,29 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', lazy = false },
   { 'JoosepAlviste/nvim-ts-context-commentstring', event = 'VeryLazy' },
 
-  -- Code assistant
+  -- code assistant
   {
-    'robitx/gp.nvim',
-    opts = {
-      providers = {
-        copilot = {
-          endpoint = 'https://api.githubcopilot.com/chat/completions',
-          secret = {
-            'bash',
-            '-c',
-            "cat ~/.config/github-copilot/hosts.json | sed -e 's/.*oauth_token...//;s/\".*//'",
-          },
-        },
-      },
+    'CopilotC-Nvim/CopilotChat.nvim',
+    branch = 'canary',
+    dependencies = {
+      { 'zbirenbaum/copilot.lua' },
     },
+    build = 'make tiktoken',
+    opts = {},
     keys = {
-      { '<leader>pa', '<cmd>GpAppend<cr>', mode = { 'n', 'v' }, desc = 'copilot append' },
-      { '<leader>pr', '<cmd>GpAppend<cr>', mode = { 'n', 'v' }, desc = 'copilot rewrite' },
-      { '<leader>pt', '<cmd>GpChatToggle<cr>', mode = { 'n', 'v' }, desc = 'copilot toggle' },
+      { '<leader>ct', '<cmd>CopilotChatToggle<cr>', mode = { 'n', 'v' }, desc = 'toggle chat' },
+      { '<leader>ce', '<cmd>CopilotChatExplain<cr>', mode = { 'n', 'v' }, desc = 'explain selection' },
+      { '<leader>cr', '<cmd>CopilotChatReview<cr>', mode = { 'n', 'v' }, desc = 'review selection' },
+      { '<leader>cf', '<cmd>CopilotChatFix<cr>', mode = { 'n', 'v' }, desc = 'fix selection' },
+      { '<leader>cd', '<cmd>CopilotChatDoc<cr>', mode = { 'n', 'v' }, desc = 'add documentation' },
+      { '<leader>cg', '<cmd>CopilotChatFixDiagnostic<cr>', mode = { 'n', 'v' }, desc = 'fix diagnostic' },
+      { '<leader>cm', '<cmd>CopilotChatCommit<cr>', mode = { 'n', 'v' }, desc = 'write commit message' },
+      { '<leader>cs', '<cmd>CopilotChatCommitStaged<cr>', mode = { 'n', 'v' }, desc = 'write staged commit message' },
+      { '<leader>ct', '<cmd>CopilotChatTest<cr>', mode = { 'n', 'v' }, desc = 'write test case' },
     },
   },
 
-  -- Copilot cmp completion
+  -- copilot completion
   {
     'zbirenbaum/copilot-cmp',
     event = 'InsertEnter',
@@ -247,7 +247,7 @@ require('lazy').setup({
       { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'git commits' },
       { '<leader>w', '<cmd>Telescope grep_string<cr>', desc = 'grep string' },
       { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'find files' },
-      { '<leader>c', '<cmd>Telescope resume<cr>', desc = 'resume search' },
+      -- { '<leader>c', '<cmd>Telescope resume<cr>', desc = 'resume search' },
       { '<leader>s', '<cmd>Telescope live_grep<cr>', desc = 'live grep' },
       { '<leader>b', '<cmd>Telescope buffers<cr>', desc = 'buffers' },
     },
@@ -390,7 +390,7 @@ require('lazy').setup({
       icons = { mappings = false },
       spec = {
         { '<leader>g', group = 'git' },
-        { '<leader>p', group = 'copilot' },
+        { '<leader>c', group = 'copilot' },
         { '<leader>h', group = 'hunks' },
         { '<leader>t', group = 'toggles' },
       },
