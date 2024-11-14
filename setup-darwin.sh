@@ -4,12 +4,10 @@ ROOT="$(pwd)"
 SRC="$(pwd)/config"
 DST="$HOME/.config"
 
-# links to iCloudDrive
-rm -r $HOME/iCloud
+# link icloud
 ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
-# rm -f $HOME/.bashrc && ln -s $SRC/bash/bashrc $HOME/.bashrc
-# rm -f $HOME/.inputrc && ln -s $SRC/bash/inputrc $HOME/.inputrc
+# link configs
 rm -f $HOME/.zshrc && ln -s $SRC/zsh/zshrc $HOME/.zshrc
 ln -s $SRC/tmux $DST/tmux
 ln -s $SRC/wezterm $DST/wezterm
@@ -21,11 +19,10 @@ if type brew &>/dev/null; then
  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# cli tools
-brew install bat btop eza fd fzf gh neovim procs ripgrep tealdeer \
-    tmux trash-cli yq jq zoxide lazygit ffmpeg mas
+# formulas
+brew install btop eza fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit ffmpeg mas yt-dlp
 
-# apps
+# casks
 brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
 
 # appstore apps
@@ -33,10 +30,3 @@ mas install 1352778147 # bitwarden
 mas install 1592917505 # noir
 mas install 1429033973 # runcat
 mas install 1451685025 # wireguard
-
-# scripts
-# mkdir -p $HOME/.local/bin
-# cp scripts/* $HOME/.local/bin
-
-# install fonts
-# cp fonts/* $HOME/Library/Fonts
