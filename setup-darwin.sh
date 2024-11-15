@@ -9,6 +9,7 @@ ln -s "$HOME/Library/Mobile Documents/com~apple~CloudDocs" "$HOME/iCloud"
 
 # link configs
 rm -f $HOME/.zshrc && ln -s $SRC/zsh/zshrc $HOME/.zshrc
+rm -f $HOME/.gitconfig && ln -s $SRC/git/gitconfig $HOME/.gitconfig
 ln -s $SRC/tmux $DST/tmux
 ln -s $SRC/wezterm $DST/wezterm
 ln -s $SRC/git $DST/git
@@ -20,7 +21,7 @@ if type brew &>/dev/null; then
 fi
 
 # formulas
-brew install btop eza fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit ffmpeg mas yt-dlp
+brew install btop fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit ffmpeg mas yt-dlp git-credential-manager
 
 # casks
 brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
