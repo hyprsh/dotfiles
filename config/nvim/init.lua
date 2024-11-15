@@ -325,7 +325,7 @@ require('lazy').setup({
       'LazyGitFilterCurrentFile',
     },
     keys = {
-      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'toggle' },
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
       { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'filter' },
       { '<leader>gc', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'filter current' },
     },
