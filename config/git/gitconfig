@@ -8,3 +8,11 @@
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[alias]
+        st = status -sb
+        ll = log --oneline
+        last = log -1 HEAD --stat
+        cm = commit -m
+[help]
+        autocorrect = 20
+

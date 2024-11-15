@@ -50,10 +50,8 @@ alias vim="nvim"
 alias n="nvim"
 alias lg="lazygit"
 alias g="git"
-alias gl="git log --oneline --graph --decorate --all"
-alias gs="git status"
-alias rmhosts="rm ~/.ssh/known_hosts"
-alias l="eza --group-directories-first"
+alias lt="ls -lt"
+alias ll="ls -lah"
 alias ls="ls --color"
 
 # functions
