@@ -1,6 +1,3 @@
--- my basic vim setup
--- https://github.com/albingroen/quick.nvim
-
 -- Basic settings
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
