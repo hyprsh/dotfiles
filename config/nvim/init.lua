@@ -136,7 +136,7 @@ require('lazy').setup({
     build = 'make tiktoken',
     opts = {},
     keys = {
-      { '<leader>at', '<cmd>CopilotChatToggle<cr>', mode = { 'n', 'v' }, desc = 'toggle chat' },
+      { '<leader>aa', '<cmd>CopilotChatToggle<cr>', mode = { 'n', 'v' }, desc = 'toggle chat' },
       { '<leader>ae', '<cmd>CopilotChatExplain<cr>', mode = { 'n', 'v' }, desc = 'explain selection' },
       { '<leader>ar', '<cmd>CopilotChatReview<cr>', mode = { 'n', 'v' }, desc = 'review selection' },
       { '<leader>af', '<cmd>CopilotChatFix<cr>', mode = { 'n', 'v' }, desc = 'fix selection' },
