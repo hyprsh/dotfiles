@@ -31,6 +31,7 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.inccommand = 'split'
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.showmode = false
 vim.opt.autoread = true
 
 -- Helpers
@@ -65,10 +66,10 @@ vim.keymap.set('n', 'tk', ':tabnext<CR>')
 vim.keymap.set('n', 'tn', ':tabnew<CR>')
 vim.keymap.set('n', 'to', ':tabo<CR>')
 vim.keymap.set('n', 'vs', ':vs<CR>')
-vim.keymap.set('n', '<leader>j', ':cnext<CR>', { silent = true, desc = 'next errror' })
-vim.keymap.set('n', '<leader>k', ':cprevious<CR>', { silent = true, desc = 'prev error' })
-vim.keymap.set('n', '<leader>o', ':tabonly<cr>:only<CR>', { silent = true, desc = 'close all other tabs' })
-vim.keymap.set('n', '<leader>tc', toggle_darkmode, { silent = true, desc = 'toggle darkmode' })
+vim.keymap.set('n', '<leader>dj', ':cnext<CR>', { silent = true, desc = 'next errror' })
+vim.keymap.set('n', '<leader>dk', ':cprevious<CR>', { silent = true, desc = 'prev error' })
+vim.keymap.set('n', '<leader>tc', toggle_darkmode, { silent = true, desc = 'darkmode' })
+vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
 
 -- file changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
@@ -135,15 +136,15 @@ require('lazy').setup({
     build = 'make tiktoken',
     opts = {},
     keys = {
-      { '<leader>ct', '<cmd>CopilotChatToggle<cr>', mode = { 'n', 'v' }, desc = 'toggle chat' },
-      { '<leader>ce', '<cmd>CopilotChatExplain<cr>', mode = { 'n', 'v' }, desc = 'explain selection' },
-      { '<leader>cr', '<cmd>CopilotChatReview<cr>', mode = { 'n', 'v' }, desc = 'review selection' },
-      { '<leader>cf', '<cmd>CopilotChatFix<cr>', mode = { 'n', 'v' }, desc = 'fix selection' },
-      { '<leader>cd', '<cmd>CopilotChatDoc<cr>', mode = { 'n', 'v' }, desc = 'add documentation' },
-      { '<leader>cg', '<cmd>CopilotChatFixDiagnostic<cr>', mode = { 'n', 'v' }, desc = 'fix diagnostic' },
-      { '<leader>cm', '<cmd>CopilotChatCommit<cr>', mode = { 'n', 'v' }, desc = 'write commit message' },
-      { '<leader>cs', '<cmd>CopilotChatCommitStaged<cr>', mode = { 'n', 'v' }, desc = 'write staged commit message' },
-      { '<leader>ct', '<cmd>CopilotChatTest<cr>', mode = { 'n', 'v' }, desc = 'write test case' },
+      { '<leader>at', '<cmd>CopilotChatToggle<cr>', mode = { 'n', 'v' }, desc = 'toggle chat' },
+      { '<leader>ae', '<cmd>CopilotChatExplain<cr>', mode = { 'n', 'v' }, desc = 'explain selection' },
+      { '<leader>ar', '<cmd>CopilotChatReview<cr>', mode = { 'n', 'v' }, desc = 'review selection' },
+      { '<leader>af', '<cmd>CopilotChatFix<cr>', mode = { 'n', 'v' }, desc = 'fix selection' },
+      { '<leader>ad', '<cmd>CopilotChatDoc<cr>', mode = { 'n', 'v' }, desc = 'add documentation' },
+      { '<leader>ag', '<cmd>CopilotChatFixDiagnostic<cr>', mode = { 'n', 'v' }, desc = 'fix diagnostic' },
+      { '<leader>am', '<cmd>CopilotChatCommit<cr>', mode = { 'n', 'v' }, desc = 'write commit message' },
+      { '<leader>as', '<cmd>CopilotChatCommitStaged<cr>', mode = { 'n', 'v' }, desc = 'write staged commit message' },
+      { '<leader>at', '<cmd>CopilotChatTest<cr>', mode = { 'n', 'v' }, desc = 'write test case' },
     },
   },
 
@@ -194,6 +195,7 @@ require('lazy').setup({
     end,
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+      { '\\', '<cmd>Oil<cr>', desc = 'Open parent directory' },
     },
   },
 
@@ -224,8 +226,6 @@ require('lazy').setup({
     event = 'VeryLazy',
     opts = {
       pickers = {
-        git_branches = { previewer = false, theme = 'ivy', show_remote_tracking_branches = false },
-        git_commits = { previewer = false, theme = 'ivy' },
         grep_string = { previewer = false, theme = 'ivy' },
         diagnostics = { previewer = false, theme = 'ivy' },
         find_files = { previewer = false, theme = 'ivy' },
@@ -242,9 +242,7 @@ require('lazy').setup({
     },
     keys = {
       { '<leader>z', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'fuzzy find buffer' },
-      { '<leader>d', '<cmd>Telescope diagnostics<cr>', desc = 'show diagnostics' },
-      { '<leader>gb', '<cmd>Telescope git_branches<cr>', desc = 'git branches' },
-      { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'git commits' },
+      { '<leader>e', '<cmd>Telescope diagnostics<cr>', desc = 'diagnostics' },
       { '<leader>w', '<cmd>Telescope grep_string<cr>', desc = 'grep string' },
       { '<leader>f', '<cmd>Telescope find_files<cr>', desc = 'find files' },
       { '<leader>s', '<cmd>Telescope live_grep<cr>', desc = 'live grep' },
@@ -315,69 +313,52 @@ require('lazy').setup({
     },
   },
 
-  -- Gitsigns
+  -- lazygit
   {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require('gitsigns').setup({
-        on_attach = function(bufnr)
-          local gs = package.loaded.gitsigns
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    keys = {
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'toggle' },
+      { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'filter' },
+      { '<leader>gc', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'filter current' },
+    },
+  },
 
-          local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-          end
-
-          -- Navigation
-          map('n', ']c', function()
-            if vim.wo.diff then
-              return ']c'
-            end
-            vim.schedule(function()
-              gs.nav_hunk('next')
-            end)
-            return '<Ignore>'
-          end, { expr = true, desc = 'next hunk' })
-
-          map('n', '[c', function()
-            if vim.wo.diff then
-              return '[c'
-            end
-            vim.schedule(function()
-              gs.nav_hunk('prev')
-            end)
-            return '<Ignore>'
-          end, { expr = true, desc = 'prev hunk' })
-
-          -- Actions
-          map('n', '<leader>hs', gs.stage_hunk, { desc = 'stage hunk' })
-          map('n', '<leader>hr', gs.reset_hunk, { desc = 'reset hunk' })
-          map('v', '<leader>hs', function()
-            gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end, { desc = 'stage hunk' })
-          map('v', '<leader>hr', function()
-            gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end, { desc = 'reset hunk' })
-          map('n', '<leader>hS', gs.stage_buffer, { desc = 'stage buffer' })
-          map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'undo stage buffer' })
-          map('n', '<leader>hR', gs.reset_buffer, { desc = 'reset buffer' })
-          map('n', '<leader>hp', gs.preview_hunk, { desc = 'preview hunk' })
-          map('n', '<leader>hb', function()
-            gs.blame_line({ full = true })
-          end, { desc = 'show blame line' })
-          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle blame' })
-          map('n', '<leader>hd', gs.diffthis, { desc = 'diff this' })
-          map('n', '<leader>hD', function()
-            gs.diffthis('~')
-          end, { desc = 'diff last commit' })
-          map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle deleted' })
-
-          -- Text object
-          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select hunk' })
+  -- git diff
+  {
+    'echasnovski/mini.diff',
+    event = 'VeryLazy',
+    version = false,
+    keys = {
+      {
+        '<leader>go',
+        function()
+          require('mini.diff').toggle_overlay(0)
         end,
-      })
-    end,
+        desc = 'diff overlay',
+      },
+      {
+        '<leader>tg',
+        function()
+          require('mini.diff').toggle()
+        end,
+        desc = 'toggle git diff',
+      },
+    },
+    opts = {
+      view = {
+        style = 'sign',
+        signs = { add = '▎', change = '▎', delete = '' },
+        -- signs = { add = '+', change = '~', delete = '-' },
+      },
+    },
   },
 
   -- show keymaps
@@ -389,9 +370,11 @@ require('lazy').setup({
       icons = { mappings = false },
       spec = {
         { '<leader>g', group = 'git' },
-        { '<leader>c', group = 'copilot' },
-        { '<leader>h', group = 'hunks' },
+        { '<leader>c', group = 'code' },
+        { '<leader>a', group = 'assistant' },
+        { '<leader>d', group = 'diagnostics' },
         { '<leader>t', group = 'toggles' },
+        { '<leader>f', group = 'files' },
       },
     },
   },
@@ -437,10 +420,10 @@ require('mason-lspconfig').setup({
 })
 
 -- Global LSP mappings
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = 'open diag' })
+vim.keymap.set('n', '<space>de', vim.diagnostic.open_float, { desc = 'open diag' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'next diag' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'prev diag' })
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = 'open diag list' })
+vim.keymap.set('n', '<space>dl', vim.diagnostic.setloclist, { desc = 'open diag list' })
 
 -- More LSP mappings
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -448,8 +431,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'go to definition' })
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'show lsp hover' })
-    vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, { buffer = ev.buf, desc = 'rename symbol' })
-    vim.keymap.set({ 'n', 'v' }, '<space>.', vim.lsp.buf.code_action, { buffer = ev.buf, desc = 'code action' })
+    vim.keymap.set('n', '<space>cr', vim.lsp.buf.rename, { buffer = ev.buf, desc = 'rename symbol' })
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = 'code action' })
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = 'go to references' })
   end,
 })
