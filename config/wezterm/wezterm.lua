@@ -40,8 +40,8 @@ config.inactive_pane_hsb = { brightness = 0.95 }
 config.window_decorations = is_linux() and "TITLE | RESIZE" or "INTEGRATED_BUTTONS|RESIZE"
 config.enable_wayland = is_linux() and false -- https://github.com/wez/wezterm/issues/4962
 config.window_padding = {
-	left = "8px",
-	right = "8px",
+	left = "16px",
+	right = "16px",
 	top = is_linux() and "8px" or "48px",
 	bottom = "1px",
 }
