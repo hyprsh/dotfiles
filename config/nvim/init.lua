@@ -1,3 +1,5 @@
+-- add autocmd to check if darkmode or not
+
 -- Basic settings
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -63,12 +65,10 @@ vim.keymap.set('n', 'tk', '<cmd>tabnext<CR>')
 vim.keymap.set('n', 'tn', '<cmd>tabnew<CR>')
 vim.keymap.set('n', 'to', '<cmd>tabo<CR>')
 vim.keymap.set('n', 'vs', '<cmd>vs<CR>')
-vim.keymap.set('n', '<leader>dj', '<cmd>cnext<CR>', { silent = true, desc = 'next errror' })
-vim.keymap.set('n', '<leader>dk', '<cmd>cprevious<CR>', { silent = true, desc = 'prev error' })
 vim.keymap.set('n', '<leader>tc', toggle_darkmode, { silent = true, desc = 'darkmode' })
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
 
--- file changed on disk
+-- File changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   command = 'checktime',
 })
@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd('FileChangedShellPost', {
   command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
 })
 
--- restore last cursor position
+-- Restore last cursor position
 vim.api.nvim_create_autocmd('BufRead', {
   desc = 'Restore last cursor position',
   callback = function(opts)
@@ -104,6 +104,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Open Telescope on start
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    if vim.fn.argv(0) == '' then
+      require('telescope.builtin').find_files()
+    end
+  end,
+})
+
 -- Setup lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -119,11 +128,7 @@ require('lazy').setup({
   -- Autoclose HTML-style tags
   'windwp/nvim-ts-autotag',
 
-  -- Easy commenting in normal & visual mode
-  { 'numToStr/Comment.nvim', lazy = false },
-  { 'JoosepAlviste/nvim-ts-context-commentstring', event = 'VeryLazy' },
-
-  -- code assistant
+  -- Code assistant
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'canary',
@@ -145,26 +150,20 @@ require('lazy').setup({
     },
   },
 
-  -- copilot completion
+  -- Copilot completion
   {
-    'zbirenbaum/copilot-cmp',
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
     event = 'InsertEnter',
     config = function()
-      require('copilot_cmp').setup()
+      require('copilot').setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
     end,
-    dependencies = {
-      'zbirenbaum/copilot.lua',
-      cmd = 'Copilot',
-      config = function()
-        require('copilot').setup({
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-        })
-      end,
-    },
   },
 
-  -- statusline
+  -- Statuline
   {
     'nvim-lualine/lualine.nvim',
     opts = {
@@ -203,18 +202,74 @@ require('lazy').setup({
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
     },
+    config = function()
+      require('mason').setup()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      require('mason-lspconfig').setup({
+        -- available lsp: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
+        ensure_installed = { 'lua_ls', 'emmet_language_server', 'eslint', 'ts_ls', 'tailwindcss' },
+        handlers = {
+          function(server_name)
+            require('lspconfig')[server_name].setup({
+              capabilities = capabilities,
+            })
+          end,
+          tailwindcss = function()
+            require('lspconfig').tailwindcss.setup({
+              settings = {
+                tailwindCSS = {
+                  classAttributes = { 'class', 'className', 'style' },
+                  experimental = { classRegex = { 'tw`([^`]*)', 'tw.style%(([^)]*)%)', "'([^']*)'" } },
+                },
+              },
+            })
+          end,
+        },
+      })
+      vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'open diag' })
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'next diag' })
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'prev diag' })
+      vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'open diag list' })
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()', { buffer = ev.buf, desc = 'go to definition' })
+          vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()', { buffer = ev.buf, desc = 'go to references' })
+          vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()', { buffer = ev.buf, desc = 'show lsp hover' })
+          vim.keymap.set({ 'n', 'v' }, '<space>cr', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = ev.buf, desc = 'rename symbol' })
+          vim.keymap.set({ 'n', 'v' }, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = ev.buf, desc = 'code action' })
+          vim.keymap.set({ 'n', 'v' }, '<space>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', { buffer = ev.buf, desc = 'format' })
+        end,
+      })
+    end,
   },
 
-  -- Autocompletion
+  -- Completion
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
+      { 'zbirenbaum/copilot-cmp', config = true },
     },
+    config = function()
+      local cmp = require('cmp')
+      cmp.setup({
+        sources = {
+          { name = 'nvim_lsp', max_item_count = 5, priority = 400 },
+          { name = 'copilot', max_item_count = 1, priority = 300 },
+          { name = 'buffer', max_item_count = 3, priority = 200 },
+          { name = 'path', max_item_count = 3, priority = 100 },
+        },
+        snippet = {
+          expand = function(args)
+            vim.snippet.expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({}),
+      })
+    end,
   },
 
   -- Fuzzy finder
@@ -276,13 +331,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Surround words with characters in normal mode
-  {
-    'kylechui/nvim-surround',
-    event = 'VeryLazy',
-    opts = {},
-  },
-
   -- For formatting code
   {
     'stevearc/conform.nvim',
@@ -298,15 +346,6 @@ require('lazy').setup({
         lua = { 'stylua' },
       },
       format_on_save = {},
-    },
-  },
-
-  -- Pair matching characters
-  {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    opts = {
-      disable_filetype = { 'TelescopePrompt', 'vim' },
     },
   },
 
@@ -334,31 +373,39 @@ require('lazy').setup({
     event = 'VeryLazy',
     version = false,
     keys = {
-      {
-        '<leader>go',
-        function()
-          require('mini.diff').toggle_overlay(0)
-        end,
-        desc = 'diff overlay',
-      },
-      {
-        '<leader>tg',
-        function()
-          require('mini.diff').toggle()
-        end,
-        desc = 'toggle git diff',
-      },
+      { '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', desc = 'diff overlay' },
+      { '<leader>tg', '<cmd>lua MiniDiff.toggle()<cr>', desc = 'toggle git diff' },
     },
     opts = {
       view = {
         style = 'sign',
         signs = { add = '▎', change = '▎', delete = '' },
-        -- signs = { add = '+', change = '~', delete = '-' },
       },
     },
   },
 
-  -- show keymaps
+  -- Autopairs
+  {
+    'echasnovski/mini.pairs',
+    version = false,
+    opts = {},
+  },
+
+  -- Add surround words
+  {
+    'echasnovski/mini.surround',
+    version = false,
+    opts = {},
+  },
+
+  -- Context aware comments
+  {
+    'echasnovski/mini.comment',
+    version = false,
+    opts = {},
+  },
+
+  -- Show keymaps
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
@@ -376,113 +423,3 @@ require('lazy').setup({
     },
   },
 })
-
--- Open Telescope on start
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    if vim.fn.argv(0) == '' then
-      require('telescope.builtin').find_files()
-    end
-  end,
-})
-
--- Set up Comment.nvim
-require('Comment').setup({
-  pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-})
-
--- Set up Mason and install set up language servers
-require('mason').setup()
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('mason-lspconfig').setup({
-  -- available linters: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
-  ensure_installed = { 'lua_ls', 'emmet_language_server', 'eslint', 'ts_ls', 'tailwindcss' },
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({
-        capabilities = capabilities,
-      })
-    end,
-    tailwindcss = function()
-      require('lspconfig').tailwindcss.setup({
-        settings = {
-          tailwindCSS = {
-            classAttributes = { 'class', 'className', 'style' },
-            experimental = { classRegex = { 'tw`([^`]*)', 'tw.style%(([^)]*)%)', "'([^']*)'" } },
-          },
-        },
-      })
-    end,
-  },
-})
-
--- Global LSP mappings
-vim.keymap.set('n', '<space>de', vim.diagnostic.open_float, { desc = 'open diag' })
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'next diag' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'prev diag' })
-vim.keymap.set('n', '<space>dl', vim.diagnostic.setloclist, { desc = 'open diag list' })
-
--- More LSP mappings
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = 'go to definition' })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = ev.buf, desc = 'show lsp hover' })
-    vim.keymap.set('n', '<space>cr', vim.lsp.buf.rename, { buffer = ev.buf, desc = 'rename symbol' })
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = 'code action' })
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = 'go to references' })
-  end,
-})
-
--- Set up nvim-cmp
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local luasnip = require('luasnip')
-local cmp = require('cmp')
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-y>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }),
-    ['<C-n>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<C-p>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }),
-  sources = {
-    { name = 'luasnip', max_item_count = 3, priority = 500 },
-    { name = 'nvim_lsp', max_item_count = 5, priority = 400 },
-    { name = 'copilot', max_item_count = 1, priority = 300 },
-    { name = 'buffer', max_item_count = 5, priority = 200 },
-    { name = 'path', max_item_count = 3, priority = 100 },
-  },
-  formatting = {
-    format = function(_, vim_item)
-      vim_item.abbr = string.sub(vim_item.abbr, 1, 20)
-      return vim_item
-    end,
-  },
-})
-
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
