@@ -8,8 +8,8 @@ vim.opt.cursorline = true
 vim.opt.ignorecase = true
 vim.opt.incsearch = true
 vim.opt.mouse = 'a'
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 vim.opt.hlsearch = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = 'yes'
@@ -75,6 +75,13 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
 vim.api.nvim_create_autocmd('FileChangedShellPost', {
   pattern = '*',
   command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+})
+
+-- Auto switch to darkmode on focus gain
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  callback = function()
+    change_colorscheme()
+  end,
 })
 
 -- Restore last cursor position
@@ -163,7 +170,7 @@ require('lazy').setup({
     end,
   },
 
-  -- Statuline
+  -- Statusline
   {
     'nvim-lualine/lualine.nvim',
     opts = {
@@ -418,7 +425,6 @@ require('lazy').setup({
         { '<leader>a', group = 'assistant' },
         { '<leader>d', group = 'diagnostics' },
         { '<leader>t', group = 'toggles' },
-        { '<leader>f', group = 'files' },
       },
     },
   },
