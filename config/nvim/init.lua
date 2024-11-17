@@ -121,9 +121,6 @@ require('lazy').setup({
   -- Automatic indentation
   'tpope/vim-sleuth',
 
-  -- Autoclose HTML-style tags
-  'windwp/nvim-ts-autotag',
-
   -- Code assistant
   {
     'CopilotC-Nvim/CopilotChat.nvim',
@@ -226,6 +223,7 @@ require('lazy').setup({
       vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'next diag' })
       vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'prev diag' })
       vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'open diag list' })
+      vim.keymap.set('n', '<leader>cm', '<cmd>Mason<cr>', { desc = 'mason' })
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
@@ -247,12 +245,14 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      { 'zbirenbaum/copilot-cmp', config = true },
+      { 'zbirenbaum/copilot-cmp', opts = {} },
+      { 'garymjr/nvim-snippets', opts = { friendly_snippets = true }, dependencies = { 'rafamadriz/friendly-snippets' } },
     },
     config = function()
       local cmp = require('cmp')
       cmp.setup({
         sources = {
+          { name = 'snippets', max_item_count = 5, priority = 500 },
           { name = 'nvim_lsp', max_item_count = 5, priority = 400 },
           { name = 'copilot', max_item_count = 1, priority = 300 },
           { name = 'buffer', max_item_count = 3, priority = 200 },
@@ -303,24 +303,18 @@ require('lazy').setup({
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'windwp/nvim-ts-autotag',
+    },
     config = function()
       local configs = require('nvim-treesitter.configs')
-
       configs.setup({
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
         autotag = { enable = true, enable_close_on_slash = false },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<C-space>',
-            node_incremental = '<C-space>',
-            scope_incremental = false,
-            node_decremental = '<bs>',
-          },
-        },
+        incremental_selection = { enable = true },
         textobjects = {
           move = {
             enable = true,
@@ -352,6 +346,12 @@ require('lazy').setup({
   {
     'stevearc/conform.nvim',
     opts = {
+      default_format_opts = {
+        timeout_ms = 3000,
+        async = false,
+        quiet = false,
+        lsp_format = 'fallback',
+      },
       formatters_by_ft = {
         javascriptreact = { 'prettierd' },
         typescriptreact = { 'prettierd' },
@@ -361,6 +361,7 @@ require('lazy').setup({
         json = { 'prettierd' },
         css = { 'prettierd' },
         lua = { 'stylua' },
+        sh = { 'shfmt' },
       },
       format_on_save = {},
     },
@@ -370,13 +371,6 @@ require('lazy').setup({
   {
     'kdheepak/lazygit.nvim',
     lazy = true,
-    cmd = {
-      'LazyGit',
-      'LazyGitConfig',
-      'LazyGitCurrentFile',
-      'LazyGitFilter',
-      'LazyGitFilterCurrentFile',
-    },
     keys = {
       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
       { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'filter' },
@@ -405,20 +399,26 @@ require('lazy').setup({
   {
     'echasnovski/mini.pairs',
     version = false,
-    opts = {},
+    opts = {
+      modes = { insert = true, command = true, terminal = false },
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      skip_ts = { 'string' },
+      skip_unbalanced = true,
+      markdown = true,
+    },
   },
 
-  -- Add surround words
+  -- better text objects
   {
-    'echasnovski/mini.surround',
-    version = false,
-    opts = {},
+    'echasnovski/mini.ai',
+    event = 'VeryLazy',
+    opts = { n_lines = 500 },
   },
 
   -- Context aware comments
   {
-    'echasnovski/mini.comment',
-    version = false,
+    'folke/ts-comments.nvim',
+    event = 'VeryLazy',
     opts = {},
   },
 
