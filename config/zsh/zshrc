@@ -72,5 +72,3 @@ yt() {
         --output "%(title)+.100s - %(id)s.%(ext)s"
 }
 
-
-
