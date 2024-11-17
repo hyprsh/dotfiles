@@ -331,10 +331,12 @@ require('lazy').setup({
     'mcchrish/zenbones.nvim',
     lazy = false,
     priority = 1000,
+    dependencies = 'rktjmp/lush.nvim',
     config = function()
       change_colorscheme()
-      vim.g.zenbones_compat = true
-      vim.cmd('colorscheme zenbones')
+      vim.g.zenbones_transparent_background = true
+      vim.g.zenwritten_transparent_background = true
+      vim.cmd('colorscheme zenwritten')
     end,
   },
 
