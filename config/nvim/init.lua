@@ -1,5 +1,3 @@
--- add autocmd to check if darkmode or not
-
 -- Basic settings
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -44,14 +42,6 @@ local function change_colorscheme()
   end
 end
 
-local function toggle_darkmode()
-  if vim.o.background == 'dark' then
-    vim.opt.background = 'light'
-  else
-    vim.opt.background = 'dark'
-  end
-end
-
 -- Basic mappings
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
@@ -65,7 +55,6 @@ vim.keymap.set('n', 'tk', '<cmd>tabnext<CR>')
 vim.keymap.set('n', 'tn', '<cmd>tabnew<CR>')
 vim.keymap.set('n', 'to', '<cmd>tabo<CR>')
 vim.keymap.set('n', 'vs', '<cmd>vs<CR>')
-vim.keymap.set('n', '<leader>tc', toggle_darkmode, { silent = true, desc = 'darkmode' })
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
 
 -- File changed on disk
