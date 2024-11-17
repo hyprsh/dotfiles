@@ -16,8 +16,8 @@ ln -s $SRC/git $DST/git
 ln -s $SRC/nvim $DST/nvim
 
 # install brew
-if type brew &>/dev/null; then
- NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if type brew 2>&1 >/dev/null; then
+	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # formulas
