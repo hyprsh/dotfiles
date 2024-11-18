@@ -31,17 +31,6 @@ vim.opt.splitbelow = true
 vim.opt.showmode = false
 vim.opt.autoread = true
 
--- Helpers
-local function change_colorscheme()
-  local m = vim.fn.system('defaults read -g AppleInterfaceStyle')
-  m = m:gsub('%s+', '') -- trim whitespace
-  if m == 'Dark' then
-    vim.o.background = 'dark'
-  else
-    vim.o.background = 'light'
-  end
-end
-
 -- Basic mappings
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<C-H>', '<C-W><C-H>')
@@ -56,6 +45,7 @@ vim.keymap.set('n', 'tn', '<cmd>tabnew<CR>')
 vim.keymap.set('n', 'to', '<cmd>tabo<CR>')
 vim.keymap.set('n', 'vs', '<cmd>vs<CR>')
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
+vim.keymap.set('n', '<leader>tc', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
 
 -- File changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
@@ -66,10 +56,20 @@ vim.api.nvim_create_autocmd('FileChangedShellPost', {
   command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
 })
 
+-- Set background based on system preference
+local function set_background()
+  local m = vim.fn.system('defaults read -g AppleInterfaceStyle'):gsub('%s+', '')
+  if m == 'Dark' then
+    vim.o.background = 'dark'
+  else
+    vim.o.background = 'light'
+  end
+end
+
 -- Auto switch to darkmode on focus gain
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   callback = function()
-    change_colorscheme()
+    set_background()
   end,
 })
 
@@ -335,7 +335,7 @@ require('lazy').setup({
     priority = 1000,
     dependencies = 'rktjmp/lush.nvim',
     config = function()
-      change_colorscheme()
+      set_background()
       vim.g.zenbones_transparent_background = true
       vim.g.zenwritten_transparent_background = true
       vim.cmd('colorscheme zenwritten')
