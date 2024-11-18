@@ -45,7 +45,6 @@ vim.keymap.set('n', 'tn', '<cmd>tabnew<CR>')
 vim.keymap.set('n', 'to', '<cmd>tabo<CR>')
 vim.keymap.set('n', 'vs', '<cmd>vs<CR>')
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
-vim.keymap.set('n', '<leader>tc', '<cmd>set relativenumber!<cr><cmd>set number!<cr>', { silent = true, desc = 'line numbers' })
 
 -- File changed on disk
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
