@@ -309,7 +309,7 @@ require('lazy').setup({
     build = ':TSUpdate',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      'windwp/nvim-ts-autotag',
+      { 'windwp/nvim-ts-autotag', opts = {} },
     },
     config = function()
       local configs = require('nvim-treesitter.configs')
@@ -317,8 +317,15 @@ require('lazy').setup({
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
-        autotag = { enable = true, enable_close_on_slash = false },
-        incremental_selection = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<C-space>',
+            node_incremental = '<C-space>',
+            scope_incremental = false,
+            node_decremental = '<bs>',
+          },
+        },
         textobjects = {
           move = {
             enable = true,
