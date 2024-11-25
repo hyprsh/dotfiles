@@ -263,6 +263,11 @@ require('lazy').setup({
           end,
         },
         mapping = cmp.mapping.preset.insert({}),
+        formatting = {
+          format = function(entry, item)
+            return require('nvim-highlight-colors').format(entry, item)
+          end,
+        },
       })
     end,
   },
@@ -412,6 +417,8 @@ require('lazy').setup({
     'echasnovski/mini.ai',
     event = 'VeryLazy',
     opts = { n_lines = 500 },
+    'brenoprata10/nvim-highlight-colors',
+    opts = { render = 'background' }, -- 'background', 'foreground', 'virtual'
   },
 
   -- Context aware comments
