@@ -412,14 +412,18 @@ require('lazy').setup({
     },
   },
 
-  -- better text objects
+  -- Highlight colors
   {
-    'echasnovski/mini.ai',
-    event = 'VeryLazy',
-    opts = { n_lines = 500 },
     'brenoprata10/nvim-highlight-colors',
     opts = { render = 'background' }, -- 'background', 'foreground', 'virtual'
   },
+
+  -- better text objects
+  -- {
+  --   'echasnovski/mini.ai',
+  --   event = 'VeryLazy',
+  --   opts = { n_lines = 500 },
+  -- },
 
   -- Context aware comments
   {
