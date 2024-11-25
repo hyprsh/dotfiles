@@ -15,12 +15,13 @@ end
 
 -- settings
 local config = wezterm.config_builder()
+config.max_fps = 200
 config.default_prog = is_darwin() and { "/opt/homebrew/bin/tmux" } or { "toolbox", "run", "tmux" }
 config.use_dead_keys = false
 config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
--- config.color_scheme = is_dark() and "zenbones_dark" or "zenbones_light"
-config.color_scheme = is_dark() and "zenwritten_dark" or "zenwritten_light"
+config.color_scheme = is_dark() and "zenbones_dark" or "zenbones_light"
+-- config.color_scheme = is_dark() and "zenwritten_dark" or "zenwritten_light"
 
 -- font
 config.font = wezterm.font("Iosevka Term Extended")
