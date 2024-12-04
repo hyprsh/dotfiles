@@ -378,15 +378,15 @@ require('lazy').setup({
     },
   },
 
-  -- neogit
+  -- lazygit
   {
-    'NeogitOrg/neogit',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-      'nvim-telescope/telescope.nvim',
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    keys = {
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
+      { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'filter' },
+      { '<leader>gc', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'filter current' },
     },
-    config = true,
   },
 
   -- git diff
