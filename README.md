@@ -1,20 +1,11 @@
 # my dotfiles
 
-my dotfiles for macOS and fedora silverblue
+my mac os x dotfiles
 
-### darwin
+## setup
 
 ```bash
 git clone https://github.com/hyprsh/dotfiles $HOME/.dotfiles && cd $HOME/.dotfiles
-./setup-darwin.sh
-reboot
-```
-
-### fedora silverblue
-
-```bash
-# TODO: switch to usershell to zsh
-git clone https://github.com/hyprsh/dotfiles $HOME/.dotfiles && cd $HOME/.dotfiles
-./setup-silverblue.sh
+./setup.sh
 reboot
 ```
