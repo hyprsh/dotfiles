@@ -21,7 +21,7 @@ if type brew 2>&1 >/dev/null; then
 fi
 
 # formulas
-brew install btop fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit ffmpeg mas yt-dlp git-credential-manager
+brew install btop fd fzf gh neovim ripgrep tmux trash-cli jq zoxide lazygit ffmpeg mas yt-dlp git-credential-manager asdf
 
 # casks
 brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
