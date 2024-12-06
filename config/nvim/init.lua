@@ -392,6 +392,14 @@ require('lazy').setup({
     opts = {
       flutter_lookup_cmd = 'asdf where flutter',
     },
+    keys = {
+      { '<leader>cfr', '<cmd>FlutterRun<cr>', desc = 'flutter run' },
+      { '<leader>cfq', '<cmd>FlutterQuit<cr>', desc = 'flutter quit' },
+      { '<leader>cfo', '<cmd>FlutterOutlineToggle<cr>', desc = 'flutter outline' },
+      { '<leader>cfd', '<cmd>FlutterDevTools<cr>', desc = 'flutter devtools' },
+      { '<leader>cfx', '<cmd>FlutterRestart<cr>', desc = 'flutter restart' },
+      { '<leader>cfh', '<cmd>FlutterRestart<cr>', desc = 'flutter reload' },
+    },
   },
 
   -- lazygit
