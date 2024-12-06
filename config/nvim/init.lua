@@ -30,6 +30,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.showmode = false
 vim.opt.autoread = true
+vim.wo.fillchars = 'eob: '
 
 -- Basic mappings
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -375,6 +376,19 @@ require('lazy').setup({
         sh = { 'shfmt' },
       },
       format_on_save = {},
+    },
+  },
+
+  -- flutter
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    opts = {
+      flutter_lookup_cmd = 'asdf where flutter',
     },
   },
 
