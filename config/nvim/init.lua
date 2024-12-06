@@ -230,9 +230,11 @@ require('lazy').setup({
           vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { buffer = ev.buf, desc = 'go to definition' })
           vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', { buffer = ev.buf, desc = 'go to references' })
           vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { buffer = ev.buf, desc = 'show lsp hover' })
-          vim.keymap.set({ 'n', 'v' }, '<space>cr', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = ev.buf, desc = 'rename symbol' })
-          vim.keymap.set({ 'n', 'v' }, '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = ev.buf, desc = 'code action' })
-          vim.keymap.set({ 'n', 'v' }, '<space>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', { buffer = ev.buf, desc = 'format' })
+          vim.keymap.set({ 'n', 'v' }, '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = ev.buf, desc = 'rename symbol' })
+          vim.keymap.set({ 'n', 'v' }, '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = ev.buf, desc = 'code action' })
+          vim.keymap.set({ 'n', 'v' }, '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = ev.buf, desc = 'code action' })
+          vim.keymap.set({ 'x' }, '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', { buffer = ev.buf, desc = 'code action' })
+          vim.keymap.set({ 'n', 'v' }, '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', { buffer = ev.buf, desc = 'format' })
         end,
       })
     end,
