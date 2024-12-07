@@ -306,6 +306,15 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
 
+  -- fzf
+  -- {
+  --   'ibhagwan/fzf-lua',
+  --   config = function()
+  --     -- calling `setup` is optional for customization
+  --     require('fzf-lua').setup({})
+  --   end,
+  -- },
+
   -- Better syntax highlighting & much more
   {
     'nvim-treesitter/nvim-treesitter',

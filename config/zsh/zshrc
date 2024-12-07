@@ -39,6 +39,16 @@ PROMPT='%1d%{%F{green}%}$(parse_git_branch)%{%F{none}%} » '
 # zoxide
 eval "$(zoxide init zsh)"
 
+# fzf
+source <(fzf --zsh)
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fzf() {
+  local mode=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
+  local color=$([[ "$mode" == "Dark" ]] && echo "fg:#B4BDC3,bg:#1C1917,hl:#61ABDA,fg+:#B4BDC3,bg+:#1C1917,hl+:#61ABDA,info:#66A5AD,prompt:#B4BDC3,pointer:#61ABDA,marker:#8BAE68,spinner:#66A5AD,header:#B4BDC3" || echo "fg:#2C363C,bg:#F0EDEC,hl:#286486,fg+:#2C363C,bg+:#F0EDEC,hl+:#286486,info:#3B8992,prompt:#2C363C,pointer:#286486,marker:#4F6C31,spinner:#3B8992,header:#2C363C")
+  command fzf "$@" --color="$color" --marker=">" --pointer="◆" --separator="─"
+}
+
 # asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
