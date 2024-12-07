@@ -402,17 +402,6 @@ require('lazy').setup({
     },
   },
 
-  -- lazygit
-  {
-    'kdheepak/lazygit.nvim',
-    lazy = true,
-    keys = {
-      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
-      { '<leader>gf', '<cmd>LazyGitFilter<cr>', desc = 'filter' },
-      { '<leader>gc', '<cmd>LazyGitFilterCurrentFile<cr>', desc = 'filter current' },
-    },
-  },
-
   -- git diff
   {
     'echasnovski/mini.diff',
@@ -455,6 +444,73 @@ require('lazy').setup({
   --   event = 'VeryLazy',
   --   opts = { n_lines = 500 },
   -- },
+
+  -- snacks
+  {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      notifier = { enabled = true, timeout = 1500 },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
+    keys = {
+      {
+        '<leader>gf',
+        function()
+          Snacks.lazygit.log_file()
+        end,
+        desc = 'Lazygit Current File History',
+      },
+      {
+        '<leader>gg',
+        function()
+          Snacks.lazygit()
+        end,
+        desc = 'Lazygit',
+      },
+      {
+        '<leader>u',
+        function()
+          Snacks.notifier.hide()
+        end,
+        desc = 'dismiss notifications',
+      },
+      {
+        ']]',
+        function()
+          Snacks.words.jump(vim.v.count1)
+        end,
+        desc = 'Next Reference',
+        mode = { 'n', 't' },
+      },
+      {
+        '[[',
+        function()
+          Snacks.words.jump(-vim.v.count1)
+        end,
+        desc = 'Prev Reference',
+        mode = { 'n', 't' },
+      },
+      {
+        '<leader>gB',
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = 'Git Browse',
+      },
+      {
+        '<leader>gl',
+        function()
+          Snacks.lazygit.log()
+        end,
+        desc = 'Lazygit Log (cwd)',
+      },
+    },
+  },
 
   -- Context aware comments
   {
