@@ -12,6 +12,7 @@
   "nvim-treesitter": { "branch": "master", "commit": "0aaf146590f3edd1dfa64fbfa2ad1cdca65afa6f" },
   "oil.nvim": { "branch": "master", "commit": "9a59256c8e88b29d2150e99b5960b2f111e51f75" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
+  "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "2eca9ba22002184ac05eddbe47a7fe2d5a384dfc" },
   "which-key.nvim": { "branch": "main", "commit": "9b365a6428a9633e3eeb34dbef1b791511c54f70" },
   "zenbones.nvim": { "branch": "main", "commit": "88960c8aa3ad8aff0bcccdce7cd23629c7a3c510" }

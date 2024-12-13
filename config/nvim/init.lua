@@ -19,6 +19,8 @@ vim.opt.inccommand = 'split' -- Preview incremental substitute
 vim.opt.splitright = true -- Open vertical splits to the right
 vim.opt.splitbelow = true -- Open horizontal splits below
 vim.opt.showmode = false -- Hide mode display in the statusline
+vim.opt.signcolumn = 'yes' -- Always show the sign column
+vim.opt.undofile = true -- Enable persistent undo
 vim.wo.fillchars = 'eob: ' -- Remove tilde on empty lines
 
 -- keymaps
@@ -54,6 +56,7 @@ require('lazy').setup({
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'yorickpeterse/nvim-tree-pairs',
   'nvim-telescope/telescope.nvim',
+  'nvim-telescope/telescope-ui-select.nvim',
   'nvim-lua/plenary.nvim',
   'neovim/nvim-lspconfig',
   'williamboman/mason.nvim',
@@ -89,18 +92,21 @@ require('oil').setup({
 -- file picker
 require('telescope').setup({
   pickers = {
-    grep_string = { previewer = false, theme = 'ivy' },
-    diagnostics = { previewer = false, theme = 'ivy' },
-    find_files = { previewer = false, theme = 'ivy', hidden = true },
-    buffers = { previewer = false, theme = 'ivy' },
-    current_buffer_fuzzy_find = { theme = 'ivy' },
-    resume = { previewer = false, theme = 'ivy' },
-    live_grep = { theme = 'ivy' },
+    grep_string = { previewer = false, layout_config = { prompt_position = 'bottom' } },
+    diagnostics = { previewer = false, layout_config = { prompt_position = 'bottom' } },
+    find_files = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' }, hidden = true },
+    buffers = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
+    current_buffer_fuzzy_find = { theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
+    resume = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
+    live_grep = { theme = 'ivy', prompt_position = 'bottom' },
   },
-  defaults = {
-    layout_config = { prompt_position = 'bottom' },
+  extensions = {
+    ['ui-select'] = {
+      require('telescope.themes').get_ivy({ layout_config = { prompt_position = 'bottom' } }),
+    },
   },
 })
+require('telescope').load_extension('ui-select')
 
 -- show keybindings
 require('which-key').setup({
