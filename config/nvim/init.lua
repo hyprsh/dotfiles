@@ -1,12 +1,25 @@
 vim.g.mapleader = ' '
-vim.opt.relativenumber = true
-vim.opt.list = true
-vim.opt.scrolloff = 3
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.autoread = true
-vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
+vim.opt.cursorline = true -- Highlight the current line
+vim.opt.mouse = 'a' -- Enable mouse support
+vim.opt.number = true -- Disable absolute line numbers
+vim.opt.relativenumber = true -- Disable relative line numbers
+vim.opt.hidden = true -- Allow switching buffers without saving
+vim.opt.backup = false -- Disable backup files
+vim.opt.writebackup = false -- Disable write backup files
+vim.opt.swapfile = false -- Disable swap files
+vim.opt.list = true -- Show invisible characters
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- Customize invisible characters
+vim.opt.laststatus = 3 -- Use a global statusline
+vim.opt.pumheight = 10 -- Limit popup menu height
+vim.opt.scrolloff = 3 -- Minimum lines around the cursor vertically
+vim.opt.sidescrolloff = 3 -- Minimum columns around the cursor horizontally
+vim.opt.updatetime = 250 -- Reduce time for CursorHold events
+vim.opt.clipboard = 'unnamedplus' -- Use the system clipboard
+vim.opt.inccommand = 'split' -- Preview incremental substitute
+vim.opt.splitright = true -- Open vertical splits to the right
+vim.opt.splitbelow = true -- Open horizontal splits below
+vim.opt.showmode = false -- Hide mode display in the statusline
+vim.wo.fillchars = 'eob: ' -- Remove tilde on empty lines
 
 -- keymaps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -46,22 +59,16 @@ require('lazy').setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
   'stevearc/conform.nvim',
-  'tpope/vim-sleuth',
+  'nmac427/guess-indent.nvim',
   'folke/which-key.nvim',
   'kdheepak/lazygit.nvim',
-  -- 'MunifTanjim/nui.nvim',
-  -- 'm4xshen/hardtime.nvim',
 })
 
 -- colorscheme
 vim.g.zenbones_solid_float_border = true
 vim.cmd.colorscheme('zenbones')
 
--- basic setup
-require('mini.basics').setup({
-  mappings = { windows = true, move_with_alt = true },
-})
-
+require('guess-indent').setup({}) -- detect indentation
 require('tree-pairs').setup() -- % respects treesitter nodes
 require('mini.ai').setup() -- a/i textobjects
 require('mini.bracketed').setup() -- unimpaired bindings with TS
@@ -112,6 +119,11 @@ require('nvim-treesitter.configs').setup({
   indent = { enable = true, disable = { 'nix' } },
 })
 
+-- notifier
+require('mini.notify').setup({
+  window = { config = { border = 'rounded' } },
+})
+
 -- minimal statusline
 local statusline = require('mini.statusline')
 statusline.setup()
@@ -121,18 +133,6 @@ end
 statusline.section_fileinfo = function()
   return nil
 end
-
--- highlight patterns
-local hipatterns = require('mini.hipatterns')
-hipatterns.setup({
-  highlighters = {
-    fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-    hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
-    todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-    note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
-    hex_color = hipatterns.gen_highlighter.hex_color(),
-  },
-})
 
 -- lsp
 require('mason').setup()
