@@ -68,7 +68,7 @@ require('lazy').setup({
 })
 
 -- colorscheme
-vim.g.zenbones_solid_float_border = true
+vim.g.zenbones = { solid_float_border = true }
 vim.cmd.colorscheme('zenbones')
 
 require('guess-indent').setup({}) -- detect indentation
@@ -92,21 +92,21 @@ require('oil').setup({
 -- file picker
 require('telescope').setup({
   pickers = {
-    grep_string = { previewer = false, layout_config = { prompt_position = 'bottom' } },
-    diagnostics = { previewer = false, layout_config = { prompt_position = 'bottom' } },
-    find_files = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' }, hidden = true },
-    buffers = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
-    current_buffer_fuzzy_find = { theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
-    resume = { previewer = false, theme = 'ivy', layout_config = { prompt_position = 'bottom' } },
-    live_grep = { theme = 'ivy', prompt_position = 'bottom' },
+    grep_string = { previewer = false },
+    diagnostics = { previewer = false },
+    find_files = { previewer = false, hidden = true },
+    buffers = { previewer = false },
+    resume = { previewer = false, theme = 'ivy' },
   },
-  extensions = {
-    ['ui-select'] = {
-      require('telescope.themes').get_ivy({ layout_config = { prompt_position = 'bottom' } }),
-    },
-  },
+  defaults = require('telescope.themes').get_ivy({
+    layout_config = { height = 0.4, prompt_position = 'bottom' },
+    borderchars = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
+    results_title = false,
+    sorting_strategy = 'descending',
+  }),
 })
 require('telescope').load_extension('ui-select')
+vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#1e222a' })
 
 -- show keybindings
 require('which-key').setup({
