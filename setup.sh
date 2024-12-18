@@ -30,3 +30,6 @@ brew install --cask betterdisplay wezterm font-iosevka bettertouchtool
 mas install 1592917505 # noir
 mas install 1429033973 # runcat
 mas install 1451685025 # wireguard
+
+# nix
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
