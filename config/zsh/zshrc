@@ -77,5 +77,6 @@ yt() {
         --windows-filenames \
         --abort-on-error \
         --output "%(title)+.100s - %(id)s.%(ext)s"
+        "${1}"
 }
 
