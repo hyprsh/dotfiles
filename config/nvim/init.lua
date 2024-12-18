@@ -1,4 +1,5 @@
 vim.g.mapleader = ' '
+vim.opt.wrap = false -- Dont wrap text
 vim.opt.cursorline = true -- Highlight the current line
 vim.opt.mouse = 'a' -- Enable mouse support
 vim.opt.number = true -- Disable absolute line numbers
@@ -22,17 +23,17 @@ vim.opt.showmode = false -- Hide mode display in the statusline
 vim.opt.signcolumn = 'yes' -- Always show the sign column
 vim.opt.undofile = true -- Enable persistent undo
 vim.wo.fillchars = 'eob: ' -- Remove tilde on empty lines
+vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]] -- use ripgrep for grep
+vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' } -- config grep
 
 -- keymaps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>b', '<cmd>Telescope buffers<cr>', { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>d', '<cmd>Telescope diagnostics<cr>', { desc = 'Diagnostics' })
-vim.keymap.set('n', '<leader>f', '<cmd>Telescope find_files<cr>', { desc = 'Find files' })
-vim.keymap.set('n', '<leader>s', '<cmd>Telescope live_grep<cr>', { desc = 'Live grep' })
-vim.keymap.set('n', '<leader>w', '<cmd>Telescope grep_string<cr>', { desc = 'Grep string' })
-vim.keymap.set('n', '<leader>z', '<cmd>Telescope current_buffer_fuzzy_find<cr>', { desc = 'Find buffer' })
+vim.keymap.set('n', '<leader>b', '<cmd>FzfLua buffers<cr>', { desc = 'Buffers' })
+vim.keymap.set('n', '<leader>d', '<cmd>FzfLua diagnostics_document<cr>', { desc = 'Diagnostics' })
+vim.keymap.set('n', '<leader>f', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader>o', '<cmd>FzfLua oldfiles<cr>', { desc = 'Old files' })
+vim.keymap.set('n', '<leader>s', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Live grep' })
 vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Git' })
-vim.keymap.set('n', '<leader>o', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 
 -- Setup lazy.nvim
@@ -55,15 +56,12 @@ require('lazy').setup({
   { 'echasnovski/mini.nvim', version = false },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'yorickpeterse/nvim-tree-pairs',
-  'nvim-telescope/telescope.nvim',
-  'nvim-telescope/telescope-ui-select.nvim',
-  'nvim-lua/plenary.nvim',
   'neovim/nvim-lspconfig',
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
   'stevearc/conform.nvim',
   'nmac427/guess-indent.nvim',
-  'folke/which-key.nvim',
+  'ibhagwan/fzf-lua',
   'kdheepak/lazygit.nvim',
 })
 
@@ -81,6 +79,50 @@ require('mini.pairs').setup() -- pair brackets
 require('mini.surround').setup() -- surrounding
 require('mini.splitjoin').setup() -- gS to split or join arguments
 
+-- show keybinds
+local miniclue = require('mini.clue')
+miniclue.setup({
+  window = {
+    config = { border = 'none' },
+    delay = 200,
+  },
+  triggers = {
+    { mode = 'n', keys = '<Leader>' },
+    { mode = 'x', keys = '<Leader>' },
+    { mode = 'i', keys = '<C-x>' },
+    { mode = 'n', keys = 'g' },
+    { mode = 'x', keys = 'g' },
+    { mode = 'n', keys = "'" },
+    { mode = 'n', keys = '`' },
+    { mode = 'x', keys = "'" },
+    { mode = 'x', keys = '`' },
+    { mode = 'n', keys = '"' },
+    { mode = 'x', keys = '"' },
+    { mode = 'i', keys = '<C-r>' },
+    { mode = 'c', keys = '<C-r>' },
+    { mode = 'n', keys = '<C-w>' },
+    { mode = 'n', keys = 'z' },
+    { mode = 'n', keys = ']' },
+    { mode = 'n', keys = '[' },
+  },
+  clues = {
+    { mode = 'n', keys = '<Leader>c', desc = '+Code' },
+    miniclue.gen_clues.builtin_completion(),
+    miniclue.gen_clues.g(),
+    miniclue.gen_clues.marks(),
+    miniclue.gen_clues.registers(),
+    miniclue.gen_clues.windows(),
+    miniclue.gen_clues.z(),
+  },
+})
+vim.api.nvim_set_hl(0, 'MiniClueBorder', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueDescGroup', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueDescSingle', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueNextKey', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueNextKeyWithPostkeys', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueSeparator', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'MiniClueTitle', { link = 'NormalFloat' })
+
 -- file explorer
 require('oil').setup({
   view_options = { show_hidden = true },
@@ -90,32 +132,26 @@ require('oil').setup({
 })
 
 -- file picker
-require('telescope').setup({
-  pickers = {
-    grep_string = { previewer = false },
-    diagnostics = { previewer = false },
-    find_files = { previewer = false, hidden = true },
-    buffers = { previewer = false },
-    resume = { previewer = false, theme = 'ivy' },
+require('fzf-lua').setup({
+  'boderless',
+  winopts = {
+    row = 1,
+    height = 0.5,
+    width = 1,
+    border = false,
+    preview = { title = false, scrollbar = false },
   },
-  defaults = require('telescope.themes').get_ivy({
-    layout_config = { height = 0.4, prompt_position = 'bottom' },
-    borderchars = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
-    results_title = false,
-    sorting_strategy = 'descending',
-  }),
-})
-require('telescope').load_extension('ui-select')
-vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#1e222a' })
-
--- show keybindings
-require('which-key').setup({
-  preset = 'modern',
-  icons = { mappings = false, separator = '', group = '', ellipsis = '…' },
-  show_help = false,
-  show_keys = false,
-  win = { title = false, width = 0.6, padding = { 0, 0 } },
-  spec = { { '<leader>c', group = 'Code' } },
+  files = { actions = false, previewer = false, cwd_prompt = false },
+  oldfiles = { previewer = false },
+  fzf_colors = {
+    ['gutter'] = '-1',
+    ['pointer'] = '-1',
+    ['prompt'] = '-1',
+    ['fg+'] = { 'fg', 'Normal' },
+    ['bg+'] = { 'bg', 'CursorLine' },
+    ['hl+'] = { 'fg', 'Comment' },
+    ['hl'] = { 'fg', 'Comment' },
+  },
 })
 
 -- treesitter
@@ -127,7 +163,7 @@ require('nvim-treesitter.configs').setup({
 
 -- notifier
 require('mini.notify').setup({
-  window = { config = { border = 'rounded' } },
+  window = { config = { border = 'none' } },
 })
 
 -- minimal statusline
@@ -179,11 +215,11 @@ require('conform').setup({
   format_on_save = {},
 })
 
--- Open Telescope on start
+-- Open FzfLua on start
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     if #vim.fn.argv() == 0 then
-      require('telescope.builtin').find_files()
+      require('fzf-lua').files()
     end
   end,
 })
