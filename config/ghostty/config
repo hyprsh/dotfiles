@@ -1,0 +1,11 @@
+theme = dark:zenbones_dark,light:zenbones_light
+font-family = "Iosevka Term Extended"
+font-size = 18
+macos-titlebar-style = native
+macos-titlebar-proxy-icon = hidden
+macos-secure-input-indication = false
+window-padding-balance = true
+quick-terminal-animation-duration = 0.1
+keybind = global:ctrl+space=toggle_quick_terminal
+initial-command = sh -c '/opt/homebrew/bin/tmux attach-session -t default || /opt/homebrew/bin/tmux new-session -s default'
+command = sh -c '/opt/homebrew/bin/tmux new-session'
