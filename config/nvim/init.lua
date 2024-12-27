@@ -22,9 +22,11 @@ vim.opt.splitbelow = true -- Open horizontal splits below
 vim.opt.showmode = false -- Hide mode display in the statusline
 vim.opt.signcolumn = 'yes' -- Always show the sign column
 vim.opt.undofile = true -- Enable persistent undo
-vim.wo.fillchars = 'eob: ' -- Remove tilde on empty lines
+vim.opt.fillchars = 'eob: ' -- Remove tilde on empty lines
 vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]] -- use ripgrep for grep
 vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' } -- config grep
+vim.opt.title = true
+vim.opt.titlestring = "%t%( %M%)%( (%{expand('%:~:.:h')})%)%( %a%)" -- set title
 
 -- keymaps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -33,8 +35,47 @@ vim.keymap.set('n', '<leader>d', '<cmd>FzfLua diagnostics_document<cr>', { desc 
 vim.keymap.set('n', '<leader>f', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
 vim.keymap.set('n', '<leader>o', '<cmd>FzfLua oldfiles<cr>', { desc = 'Old files' })
 vim.keymap.set('n', '<leader>s', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Live grep' })
-vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Git' })
+vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
+vim.keymap.set('n', '<leader>gt', '<cmd>lua MiniDiff.toggle()<cr>', { desc = 'Toggle git diff' })
 vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
+
+-- Open FzfLua on start
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    if #vim.fn.argv() == 0 then
+      require('fzf-lua').files()
+    end
+  end,
+})
+
+-- restore cursor position
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local l = vim.fn.line
+    if l('\'"') > 0 and l('\'"') <= l('$') then
+      vim.cmd('normal! g`"')
+    end
+  end,
+})
+
+-- Highlight when yanking (copying) text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
+  end,
+})
+
+-- Auto switch to darkmode on focus gain
+local function setBackground()
+  local m = vim.fn.system('defaults read -g AppleInterfaceStyle'):gsub('%s+', '')
+  vim.o.background = (m == 'Dark') and 'dark' or 'light'
+end
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+  callback = function()
+    setBackground()
+  end,
+})
 
 -- Setup lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -63,11 +104,13 @@ require('lazy').setup({
   'nmac427/guess-indent.nvim',
   'ibhagwan/fzf-lua',
   'kdheepak/lazygit.nvim',
+  'nvim-lualine/lualine.nvim',
 })
 
 -- colorscheme
 vim.g.zenbones = { solid_float_border = true }
 vim.cmd.colorscheme('zenbones')
+setBackground()
 
 require('guess-indent').setup({}) -- detect indentation
 require('tree-pairs').setup() -- % respects treesitter nodes
@@ -106,7 +149,8 @@ miniclue.setup({
     { mode = 'n', keys = '[' },
   },
   clues = {
-    { mode = 'n', keys = '<Leader>c', desc = '+Code' },
+    { mode = 'n', keys = '<Leader>c', desc = 'Code' },
+    { mode = 'n', keys = '<Leader>g', desc = 'Git' },
     miniclue.gen_clues.builtin_completion(),
     miniclue.gen_clues.g(),
     miniclue.gen_clues.marks(),
@@ -166,15 +210,25 @@ require('mini.notify').setup({
   window = { config = { border = 'none' } },
 })
 
--- minimal statusline
-local statusline = require('mini.statusline')
-statusline.setup()
-statusline.section_location = function()
-  return '%2l:%-2v'
-end
-statusline.section_fileinfo = function()
-  return nil
-end
+-- diff view
+require('mini.diff').setup({
+  view = {
+    style = 'sign',
+    -- signs = { add = '▎', change = '▎', delete = '' },
+    signs = { add = '+', change = '~', delete = '_' },
+  },
+})
+
+-- statusline
+require('lualine').setup({
+  options = {
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+  },
+  sections = {
+    lualine_x = {},
+  },
+})
 
 -- lsp
 require('mason').setup()
@@ -213,38 +267,4 @@ require('conform').setup({
     nix = { 'alejandra' },
   },
   format_on_save = {},
-})
-
--- Open FzfLua on start
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    if #vim.fn.argv() == 0 then
-      require('fzf-lua').files()
-    end
-  end,
-})
-
--- restore cursor position
-vim.api.nvim_create_autocmd('BufReadPost', {
-  callback = function()
-    local l = vim.fn.line
-    if l('\'"') > 0 and l('\'"') <= l('$') then
-      vim.cmd('normal! g`"')
-    end
-  end,
-})
-
--- Highlight when yanking (copying) text
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
-  end,
-})
-
--- Auto switch to darkmode on focus gain
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
-  callback = function()
-    local m = vim.fn.system('defaults read -g AppleInterfaceStyle'):gsub('%s+', '')
-    vim.o.background = (m == 'Dark') and 'dark' or 'light'
-  end,
 })
