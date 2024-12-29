@@ -105,10 +105,11 @@ require('lazy').setup({
   'ibhagwan/fzf-lua',
   'kdheepak/lazygit.nvim',
   'nvim-lualine/lualine.nvim',
+  'rafamadriz/friendly-snippets',
 })
 
 -- colorscheme
-vim.g.zenbones = { solid_float_border = true }
+vim.g.zenbones = { solid_float_border = true, transparent_background = true }
 vim.cmd.colorscheme('zenbones')
 setBackground()
 
@@ -121,6 +122,15 @@ require('mini.completion').setup() -- autocompletions
 require('mini.pairs').setup() -- pair brackets
 require('mini.surround').setup() -- surrounding
 require('mini.splitjoin').setup() -- gS to split or join arguments
+
+-- snippets
+local gen_loader = require('mini.snippets').gen_loader
+require('mini.snippets').setup({
+  snippets = {
+    -- gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+    gen_loader.from_lang(),
+  },
+})
 
 -- show keybinds
 local miniclue = require('mini.clue')
