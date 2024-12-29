@@ -13,10 +13,10 @@ config.use_dead_keys = false
 config.scrollback_lines = 5000
 config.adjust_window_size_when_changing_font_size = false
 config.color_scheme = is_dark() and "zenbones_dark" or "zenbones_light"
--- config.color_scheme = is_dark() and "zenwritten_dark" or "zenwritten_light"
 
 -- font
-config.font = wezterm.font("Iosevka Term Extended")
+-- config.font = wezterm.font("Iosevka Term Extended")
+config.font = wezterm.font("JetBrains Mono")
 config.font_size = 18.0
 config.line_height = 1.5
 
@@ -29,8 +29,8 @@ config.hide_tab_bar_if_only_one_tab = true
 
 -- styling
 -- config.inactive_pane_hsb = { brightness = 0.95 }
--- config.window_background_opacity = 0.99
--- config.macos_window_background_blur = 999999
+config.window_background_opacity = 0.95
+config.macos_window_background_blur = 20
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = { left = "16px", right = "16px", top = "48px", bottom = "1px" }
 config.window_close_confirmation = "NeverPrompt"
