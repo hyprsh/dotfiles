@@ -1,0 +1,151 @@
+# delete defaults `defaults delete com.amethyst.Amethyst.plist`
+
+layouts:
+  - tall
+  - fullscreen
+
+mod1:
+  - option
+
+mod2:
+  - option
+  - shift
+
+cycle-layout:
+  mod: mod1
+  key: ';'
+
+focus-ccw:
+  mod: mod1
+  key: j
+
+focus-cw:
+  mod: mod1
+  key: k
+
+focus-main:
+  mod: mod1
+  key: m
+
+focus-screen-cw:
+  mod: mod1
+  key: p
+
+swap-screen-cw:
+  mod: mod2
+  key: l
+
+swap-ccw:
+  mod: mod2
+  key: j
+
+swap-cw:
+  mod: mod2
+  key: k
+
+swap-main:
+  mod: mod1
+  key: enter
+
+throw-space-1:
+   mod: mod2
+   key: 1
+
+throw-space-2:
+   mod: mod2
+   key: 2
+
+throw-space-3:
+   mod: mod2
+   key: 3
+
+throw-space-4:
+   mod: mod2
+   key: 4
+
+throw-space-5:
+   mod: mod2
+   key: 5
+
+throw-space-6:
+   mod: mod2
+   key: 6
+
+throw-space-7:
+   mod: mod2
+   key: 7
+
+throw-space-8:
+   mod: mod2
+   key: 8
+
+throw-space-9:
+   mod: mod2
+   key: 9
+
+throw-space-0:
+   mod: mod2
+   key: 0
+
+toggle-float:
+  mod: mod1
+  key: f
+
+reevaluate-windows:
+  mod: mod1
+  key: z
+
+relaunch-amethyst:
+  mod: mod2
+  key: z
+
+shrink-main:
+  mod: mod1
+  key: h
+
+expand-main:
+  mod: mod1
+  key: l
+
+increase-main:
+  mod: mod1
+  key: ','
+
+decrease-main:
+  mod: mod1
+  key: '.'
+
+window-margins: true
+window-margin-size: 8
+
+
+window-max-count: 0
+
+window-minimum-height: 0
+window-minimum-width: 0
+
+hide-menu-bar-icon: false
+focus-follows-mouse: false
+mouse-swaps-windows: true
+mouse-resizes-windows: true
+enables-layout-hud-on-space-change: false
+use-canary-build: true
+
+floating-is-blacklist: true
+floating:
+  - com.apple.systempreferences
+  - com.apple.ActivityMonitor
+  - com.apple.calculator
+  - com.apple.iCal
+  - com.apple.mail
+  - com.apple.MobileSMS
+  - com.apple.Photos
+  - com.apple.TV
+  - com.apple.Music
+  - com.apple.reminders
+  - com.apple.Notes
+  - com.apple.weather
+  - com.apple.clock
+  - id: "ghostty"
+    window-titles:
+      - "Settings"
