@@ -49,9 +49,6 @@ fzf() {
   command fzf "$@" --color="$color" --marker=">" --pointer="◆" --separator="─"
 }
 
-# asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
 # alias
 alias vim="nvim"
 alias n="nvim"
@@ -62,7 +59,8 @@ alias ll="ls -lah"
 alias ls="ls --color"
 
 # functions
-cpterminfo() { infocmp -x | ssh ${1} -- tic -x -}
+ns() { nvim oil-ssh://${1}/ }
+copyterminfo() { infocmp -x | ssh ${1} -- tic -x -}
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 decompress() { tar -xzf "${1%/}" }
 cheat() { curl cht.sh/"$(sed 's/ /+/g' <<< "$@")"; }
@@ -77,7 +75,14 @@ yt() {
         --embed-chapters \
         --windows-filenames \
         --abort-on-error \
-        --output "%(title)+.100s - %(id)s.%(ext)s"
+        --output "%(title)+.10s - %(id)s.%(ext)s" \
         "${1}"
 }
 
+
+# bun completions
+[ -s "/Users/nd/.bun/_bun" ] && source "/Users/nd/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
