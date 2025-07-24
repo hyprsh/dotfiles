@@ -1,7 +1,7 @@
 vim.g.mapleader     = ' '
 vim.o.undofile      = true
 vim.o.clipboard     = "unnamedplus"
-vim.o.laststatus    = 0
+vim.o.laststatus    = 3
 vim.opt.expandtab   = true
 vim.opt.shiftwidth  = 4
 vim.opt.softtabstop = -1
@@ -11,7 +11,7 @@ vim.opt.scrolloff   = 3 -- Minimum lines around the cursor vertically
 vim.opt.list        = true -- Show invisible characters
 vim.opt.listchars   = { tab = '» ', trail = '·', nbsp = '␣' } -- Customize invisible characters
 vim.opt.inccommand  = 'split' -- Preview incremental substitute
--- vim.opt.showmode    = false
+vim.opt.showmode    = false
 -- vim.opt.wrap = false -- Dont wrap text
 -- vim.opt.cursorline = true -- Highlight the current line
 -- vim.opt.number = false -- Disable absolute line numbers
@@ -33,6 +33,7 @@ vim.keymap.set('n', '<leader>o', '<cmd>FzfLua oldfiles<cr>', { desc = 'Old files
 vim.keymap.set('n', '<leader>s', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Live grep' })
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Lazygit' })
 vim.keymap.set('n', '<leader>gt', '<cmd>lua MiniDiff.toggle()<cr>', { desc = 'Toggle git diff' })
+vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay()<cr>', { desc = 'Toggle git diff overlay' })
 vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 
 -- Open FzfLua on start
@@ -94,30 +95,21 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Install plugins
 require('lazy').setup({
-    {
-        "mason-org/mason-lspconfig.nvim",
-        opts = {},
-        dependencies = {
-            { "mason-org/mason.nvim", opts = {} },
-            "neovim/nvim-lspconfig",
-        },
-    },
     { 'projekt0n/github-nvim-theme',     lazy = false },
-    { 'mcchrish/zenbones.nvim',          lazy = false },
-    { 'rktjmp/lush.nvim',                lazy = false },
     { 'stevearc/oil.nvim',               lazy = false },
     { 'echasnovski/mini.nvim',           version = false },
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    { 'saghen/blink.cmp',                dependencies = { 'rafamadriz/friendly-snippets' }, version = '1.*' },
+    { 'saghen/blink.cmp',                version = '1.*' },
+    "mason-org/mason-lspconfig.nvim",
+    "mason-org/mason.nvim",
+    'neovim/nvim-lspconfig',
     'stevearc/conform.nvim',
     'ibhagwan/fzf-lua',
     'kdheepak/lazygit.nvim',
-    'nvim-lualine/lualine.nvim',
     'rafamadriz/friendly-snippets',
 })
 
 -- colorscheme
-vim.g.zenbones = { solid_float_border = true, transparent_background = true }
 require('github-theme').setup({ options = { transparent = true } })
 vim.cmd.colorscheme('github_dark_default')
 setBackground()
@@ -214,29 +206,18 @@ require('mini.notify').setup({
     window = { config = { border = 'none' } },
 })
 
--- indents
-require('mini.indentscope').setup()
-
 -- diff view
-require('mini.diff').setup({
-    view = {
-        style = 'sign',
-        signs = { add = '▎', change = '▎', delete = '' },
-        -- signs = { add = '+', change = '~', delete = '_' },
-    },
-})
+require('mini.diff').setup({})
+-- require('mini.diff').setup({
+--     view = {
+--         style = 'sign',
+--         -- signs = { add = '▎', change = '▎', delete = '' },
+--         signs = { add = '+', change = '~', delete = '_' },
+--     },
+-- })
 
 -- statusline
 require('mini.statusline').setup()
--- require('lualine').setup({
---     options = {
---         component_separators = { left = '', right = '' },
---         section_separators = { left = '', right = '' },
---     },
---     sections = {
---         lualine_x = {},
---     },
--- })
 
 -- lsp
 require('mason').setup()
