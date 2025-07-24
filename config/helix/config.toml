@@ -1,16 +1,10 @@
-theme = "base16_transparent"
-
 [editor]
-line-number = "relative"
-#true-color = true
-#undercurl = true
-color-modes = true
+scroll-lines = 1
+gutters = [ "diff"] #["diagnostics", "spacer", "line-numbers", "spacer", "diff"]
 end-of-line-diagnostics = "hint"
 
 [editor.inline-diagnostics]
 cursor-line = "warning" # show warnings and errors on the cursorline inline
-[editor.whitespace]
-#render = "all"
 
 [editor.cursor-shape]
 insert = "bar"
