@@ -213,7 +213,6 @@ require('conform').setup({
         css = { 'prettierd' },
         lua = { 'stylua' },
         sh = { 'shfmt' },
-        nix = { 'alejandra' },
     },
     format_on_save = {},
 })
