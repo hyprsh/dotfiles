@@ -1,16 +1,12 @@
-#theme = dark:zenbones_dark,light:zenbones_light
-theme = dark:GitHub-Dark-Default,light:GitHub-Light-Default
+theme = dark:GitHub Dark Default,light:GitHub Light Default
 font-size = 18
 adjust-cell-height = 19
 window-padding-balance = true
 background-opacity = 0.95
 background-blur-radius = 20
 unfocused-split-opacity = 1
-# macos-titlebar-style = native
 macos-titlebar-proxy-icon = hidden
 macos-secure-input-indication = false
 confirm-close-surface = false
 copy-on-select = true
 quick-terminal-animation-duration = 0.1
-# initial-command = /opt/homebrew/bin/tmux new -As 0
-# keybind = global:ctrl+space=toggle_quick_terminal
