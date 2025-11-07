@@ -17,8 +17,8 @@ vim.opt.showmode    = false
 -- vim.opt.number = false -- Disable absolute line numbers
 -- vim.opt.pumheight = 10 -- Limit popup menu height
 -- vim.opt.updatetime = 250 -- Reduce time for CursorHold events
--- vim.opt.splitright = true -- Open vertical splits to the right
--- vim.opt.splitbelow = true -- Open horizontal splits below
+vim.opt.splitright  = true -- Open vertical splits to the right
+vim.opt.splitbelow  = true -- Open horizontal splits below
 -- vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]] -- use ripgrep for grep
 -- vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' } -- config grep
 vim.opt.title       = true
@@ -81,33 +81,27 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
     end,
 })
 
--- Setup lazy.nvim
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
----@diagnostic disable-next-line: undefined-field
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-    local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
-    if vim.v.shell_error ~= 0 then
-        error('Error cloning lazy.nvim:\n' .. out)
-    end
+-- Install plugins with Neovim's native package manager (0.12+)
+if not vim.pack then
+    error('vim.pack is unavailable. Please use Neovim 0.12 or newer.')
 end
-vim.opt.rtp:prepend(lazypath)
 
--- Install plugins
-require('lazy').setup({
-    { 'projekt0n/github-nvim-theme',     lazy = false },
-    { 'stevearc/oil.nvim',               lazy = false },
-    { 'echasnovski/mini.nvim',           version = false },
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    { 'saghen/blink.cmp',                version = '1.*' },
-    "mason-org/mason-lspconfig.nvim",
-    "mason-org/mason.nvim",
+local pack_specs = {
+    'projekt0n/github-nvim-theme',
+    'stevearc/oil.nvim',
+    'echasnovski/mini.nvim',
+    'nvim-treesitter/nvim-treesitter',
+    { src = 'saghen/blink.cmp', version = vim.version.range('1.*') },
+    'mason-org/mason.nvim',
+    'mason-org/mason-lspconfig.nvim',
     'neovim/nvim-lspconfig',
     'stevearc/conform.nvim',
     'ibhagwan/fzf-lua',
     'kdheepak/lazygit.nvim',
     'rafamadriz/friendly-snippets',
-})
+}
+
+vim.pack.add(pack_specs, { confirm = false })
 
 -- colorscheme
 require('github-theme').setup({ options = { transparent = true } })
@@ -186,13 +180,6 @@ miniclue.setup({
         miniclue.gen_clues.z(),
     },
 })
-vim.api.nvim_set_hl(0, 'MiniClueBorder', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueDescGroup', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueDescSingle', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueNextKey', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueNextKeyWithPostkeys', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueSeparator', { link = 'NormalFloat' })
-vim.api.nvim_set_hl(0, 'MiniClueTitle', { link = 'NormalFloat' })
 
 -- treesitter
 require('nvim-treesitter.configs').setup({
@@ -207,14 +194,7 @@ require('mini.notify').setup({
 })
 
 -- diff view
-require('mini.diff').setup({})
--- require('mini.diff').setup({
---     view = {
---         style = 'sign',
---         -- signs = { add = '▎', change = '▎', delete = '' },
---         signs = { add = '+', change = '~', delete = '_' },
---     },
--- })
+require('mini.diff').setup()
 
 -- statusline
 require('mini.statusline').setup()
@@ -222,30 +202,6 @@ require('mini.statusline').setup()
 -- lsp
 require('mason').setup()
 require('mason-lspconfig').setup()
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(event)
-        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { buffer = event.buf, desc = 'Show info' })
-        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>',
-            { buffer = event.buf, desc = 'Go to definition' })
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',
-            { buffer = event.buf, desc = 'Go to declaration' })
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>',
-            { buffer = event.buf, desc = 'Go to implenetation' })
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>',
-            { buffer = event.buf, desc = 'Go to type definition' })
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>',
-            { buffer = event.buf, desc = 'Go to references' })
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>',
-            { buffer = event.buf, desc = 'Go to signature help' })
-        vim.keymap.set('n', '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<cr>',
-            { buffer = event.buf, desc = 'Rename symbol' })
-        vim.keymap.set({ 'n', 'x' }, '<leader>cf', '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
-            { buffer = event.buf, desc = 'Format code' })
-        vim.keymap.set('n', '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<cr>',
-            { buffer = event.buf, desc = 'Code actions' })
-    end,
-})
 
 -- text formatting
 require('conform').setup({
